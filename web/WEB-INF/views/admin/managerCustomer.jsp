@@ -118,6 +118,68 @@
                     margin-top: 0;
                 }
             }
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+            /* Hide default HTML checkbox */
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            /* The slider */
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #757575; /* Gray color when off */
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #0e0c28; /* Darker blue color when on */
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3; /* Box shadow when focused */
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
         </style>
 
 
@@ -218,39 +280,8 @@
             <!-- ============================================================== -->
             <!-- left sidebar -->
             <!-- ============================================================== -->
-            <div class="nav-left-sidebar sidebar-dark">
-                <div class="menu-list">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav flex-column">
-                                <li class="nav-divider">
-                                    Menu
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link active" href="<c:url value="/admin/dashboard.vn"/>" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">Dashboard <span class="badge badge-success">6</span></a>
+            <%@include file="siderBar.jsp" %>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#" id="managerLink">Manager</a>
-                                    <!-- Submenu content initially hidden -->
-                                    <ul id="submenu" style="display: none;">
-                                        <li><a href="<c:url value="/admin/managerCustomer.vn"/>">Manage Customer</a></li>
-                                        <li><a href="<c:url value="/admin/managerStaff.vn"/>">Manager Staff</a></li>
-                                        <!-- Add more submenu items as needed -->
-                                    </ul>
-                                </li>
-
-
-
-
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            </div>
             <!-- ============================================================== -->
             <!-- end left sidebar -->
             <!-- ============================================================== -->
@@ -325,11 +356,12 @@
                                                                 <!-- Update Button -->
                                                                 <button class="update-btn" onclick="openPopup()">Update</button>
 
-                                                                <!-- Delete Button -->
-                                                                <button class="delete-btn" onclick="openDeletePopup()">Delete</button>
-
-
-                                                            </td>                                                       
+                                                                <!-- Delete Switch -->
+                                                                <label class="switch">
+                                                                    <input type="checkbox">
+                                                                    <span class="slider round"></span>
+                                                                </label>
+                                                            </td>                                              
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>
@@ -554,25 +586,18 @@
                     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
                     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
                     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-                    <script>
-                                    $(document).ready(function () {
-                                        $("#managerLink").click(function (e) {
-                                            e.preventDefault();
-                                            $("#submenu").toggle(); // Toggle the visibility of the submenu
-                                        });
-                                    });
-                    </script>
+
 
                     <script>
-                        // Function to open the popup
-                        function openPopup() {
-                            document.getElementById("updatePopup").style.display = "block";
-                        }
+                                    // Function to open the popup
+                                    function openPopup() {
+                                        document.getElementById("updatePopup").style.display = "block";
+                                    }
 
-                        // Function to close the popup
-                        function closePopup() {
-                            document.getElementById("updatePopup").style.display = "none";
-                        }
+                                    // Function to close the popup
+                                    function closePopup() {
+                                        document.getElementById("updatePopup").style.display = "none";
+                                    }
                     </script>
 
                     <script>

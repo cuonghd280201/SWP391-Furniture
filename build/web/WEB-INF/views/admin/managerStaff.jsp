@@ -23,7 +23,164 @@
         <link href="<c:url value="/assets/vendor/fonts/flag-icon-css/flag-icon.min.css"/>" rel="stylesheet" type="text/css"/>
 
 
+        <style>
+            /* Popup styling */
+            .popup {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: white;
+                padding: 20px;
+                border: 1px solid #ccc;
+                z-index: 1000;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 80%;
+                height: 80%;
+                max-width: 3000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều rộng tối đa */
+                max-height: 4000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều cao tối đa */
+            }
 
+
+
+            .popup-content {
+                position: relative;
+            }
+
+            .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+                font-size: 20px;
+                color: #555; /* You can customize the color */
+            }
+
+            input[type=text], select, textarea{
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                resize: vertical;
+            }
+
+            /* Style the label to display next to the inputs */
+            label {
+                padding: 12px 12px 12px 0;
+                display: inline-block;
+            }
+
+            /* Style the submit button */
+            input[type=submit] {
+                background-color: #04AA6D;
+                color: white;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                float: right;
+            }
+
+            /* Style the container */
+            .container {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px;
+            }
+
+            /* Floating column for labels: 25% width */
+            .col-25 {
+                float: left;
+                width: 25%;
+                margin-top: 6px;
+            }
+
+            /* Floating column for inputs: 75% width */
+            .col-75 {
+                float: left;
+                width: 75%;
+                margin-top: 6px;
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+            /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+            @media screen and (max-width: 600px) {
+                .col-25, .col-75, input[type=submit] {
+                    width: 100%;
+                    margin-top: 0;
+                }
+            }
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+            /* Hide default HTML checkbox */
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            /* The slider */
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #757575; /* Gray color when off */
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #0e0c28; /* Darker blue color when on */
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3; /* Box shadow when focused */
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+        </style>
 
 
 
@@ -122,39 +279,8 @@
             <!-- ============================================================== -->
             <!-- left sidebar -->
             <!-- ============================================================== -->
-            <div class="nav-left-sidebar sidebar-dark">
-                <div class="menu-list">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav flex-column">
-                                <li class="nav-divider">
-                                    Menu
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link active" href="<c:url value="/admin/dashboard.vn"/>" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">Dashboard <span class="badge badge-success">6</span></a>
+            <%@include file="siderBar.jsp" %>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#" id="managerLink">Manager</a>
-                                    <!-- Submenu content initially hidden -->
-                                    <ul id="submenu" style="display: none;">
-                                        <li><a href="<c:url value="/admin/managerCustomer.vn"/>">Manage Customer</a></li>
-                                        <li><a href="<c:url value="/admin/managerStaff.vn"/>">Manager Staff</a></li>
-                                        <!-- Add more submenu items as needed -->
-                                    </ul>
-                                </li>
-
-
-
-
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            </div>
             <!-- ============================================================== -->
             <!-- end left sidebar -->
             <!-- ============================================================== -->
@@ -170,6 +296,7 @@
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="page-header">
+
                                     <h2 class="pageheader-title">Manager</h2>
                                     <div class="page-breadcrumb">
                                         <nav aria-label="breadcrumb">
@@ -191,8 +318,13 @@
 
                             <!-- recent orders  -->
                             <!-- ============================================================== -->
+                            
                             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <div class="card">
+                                    <div class="mb-3">
+                                        <button class="create-btn" onclick="openCreatePopup()">Create</button>
+                                    </div>
+
                                     <h5 class="card-header">Manage Customer</h5>
                                     <div class="card-body p-0">
                                         <div class="table-responsive">
@@ -223,12 +355,14 @@
                                                             <td>${user.image}</td>
                                                             <td>
                                                                 <!-- Update Button -->
-                                                                <button class="update-btn"  onclick="updateUser(${user.userId})">Update</button>
+                                                                <button class="update-btn" onclick="openPopup()">Update</button>
 
                                                                 <!-- Delete Button -->
-                                                                <button class="delete-btn" onclick="deleteUser(${user.userId})">Delete</button>
-                                                            </td>                                                       </tr>
-                                                        </c:forEach>
+                                                                <label class="switch">
+                                                                    <input type="checkbox">
+                                                                    <span class="slider round"></span>
+                                                                </label>                                                            </td>                                                       </tr>
+                                                            </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -238,6 +372,189 @@
 
 
                         </div>
+
+                        <div id="deletePopup" class="popup">
+                            <div class="popup-content">
+                                <!-- Content of your popup goes here -->
+                                <h2>Delete User</h2>
+                                <p>Bạn có chắc chắn muốn xóa hay không?</p>
+
+                                <div class="confirmation-buttons">
+                                    <button class="update-btn" onclick="confirmDelete()">Yes</button>
+                                    <button class="delete-btn" onclick="closePopup()">No</button>
+                                </div>
+
+                                <span class="close-btn" onclick="closeDeletePopup()">X</span>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div id="updatePopup" class="popup">
+                            <div class="popup-content">
+                                <!-- Content of your popup goes here -->
+                                <h2>Update User</h2>
+                                <div class="container">
+                                    <form action="action_page.php">
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">First Name</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input first name..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">Last Name</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input last name..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">Email</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input email..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">Password</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input password..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="lname">Phone Number</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="lname" name="lastname" placeholder="Input phone number..">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="lname">Date Of Birth</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="date" id="dob" name="dob">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="country">Gender</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <select id="country" name="country">
+                                                    <option value="australia">Female</option>
+                                                    <option value="canada">Male</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <input type="submit" value="Submit">
+                                        </div>
+                                    </form>
+                                </div>
+                                <span class="close-btn" onclick="closePopup()">X</span>
+
+                            </div>
+                        </div>
+
+
+                        <div id="createPopup" class="popup">
+                            <div class="popup-content">
+                                <!-- Content of your popup goes here -->
+                                <h2>Create</h2>
+                                <div class="container">
+                                    <form action="action_page.php">
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">First Name</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input first name..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">Last Name</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input last name..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">Email</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input email..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">Password</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input password..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="lname">Phone Number</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="lname" name="lastname" placeholder="Input phone number..">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="lname">Date Of Birth</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="date" id="dob" name="dob">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="country">Gender</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <select id="country" name="country">
+                                                    <option value="australia">Female</option>
+                                                    <option value="canada">Male</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <input type="submit" value="Submit">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Add form elements or other content as needed -->
+                                <span class="close-btn" onclick="closeCreatePopup()">X</span>
+                            </div>
+                        </div>
+
+
+
+
 
 
 
@@ -277,14 +594,44 @@
                     <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
                     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
                     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
                     <script>
-                                        $(document).ready(function () {
-                                            $("#managerLink").click(function (e) {
-                                                e.preventDefault();
-                                                $("#submenu").toggle(); // Toggle the visibility of the submenu
-                                            });
-                                        });
+                                    // Function to open the popup
+                                    function openPopup() {
+                                        document.getElementById("updatePopup").style.display = "block";
+                                    }
+
+                                    // Function to close the popup
+                                    function closePopup() {
+                                        document.getElementById("updatePopup").style.display = "none";
+                                    }
                     </script>
+
+                    <script>
+                        // Function to open the popup
+                        function openCreatePopup() {
+                            document.getElementById("createPopup").style.display = "block";
+                        }
+
+                        // Function to close the popup
+                        function closeCreatePopup() {
+                            document.getElementById("createPopup").style.display = "none";
+                        }
+                    </script>
+
+
+                    <script>
+                        // Function to open the popup
+                        function openDeletePopup() {
+                            document.getElementById("deletePopup").style.display = "block";
+                        }
+
+                        // Function to close the popup
+                        function closeDeletePopup() {
+                            document.getElementById("deletePopup").style.display = "none";
+                        }
+                    </script>
+
                     </body>
 
                     </html>
