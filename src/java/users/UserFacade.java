@@ -210,5 +210,26 @@ public class UserFacade {
     }
     return numberOfUsers;
 }
+     public boolean addUser(User u){
+         String query = "insert into tblUser (firstName, lastName, email, password, phoneNumber, dataOfBirth) values (?,?,?,?,?,?)";
+         try (Connection con = DBUtils.getConnection();
+              PreparedStatement stm = con.prepareStatement(query)){
+              
+                stm.setString(1, u.getFirstName());
+                stm.setString(2, u.getLastName());
+                stm.setString(3, u.getEmail());
+                stm.setString(4, u.getPassword());
+                stm.setString(5, u.getPhoneNumber());
+                stm.setString(6, u.getDataOfBirth());
+                
+                int affectedRows = stm.executeUpdate();
+                
+                return affectedRows>0;
+                
+         }catch (SQLException ex) {
+            Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return false;  // Return false if there's an exception.
+        }
+     }
 
 }

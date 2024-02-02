@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/CK10/SWP391-Furniture/web/WEB-INF/views/admin/dashboard.jsp</file>
             <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/StaffController.java</file>
             <file>file:/C:/CK10/SWP391-Furniture/web/WEB-INF/views/user/login.jsp</file>
@@ -13,6 +14,20 @@
             <file>file:/C:/CK10/SWP391-Furniture/web/WEB-INF/views/admin/managerStaff.jsp</file>
             <file>file:/C:/CK10/SWP391-Furniture/web/WEB-INF/views/home/index.jsp</file>
             <file>file:/C:/CK10/SWP391-Furniture/web/WEB-INF/views/staff/siderBar.jsp</file>
+=======
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/users/UserFacade.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/UserController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/property-agent.html</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/WEB-INF/views/home/index.jsp</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/AdminController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/HomeController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/FrontControllers.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/property-list.html</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/index.jsp</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/property-type.html</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/users/User.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/utils/DBUtils.java</file>
+>>>>>>> d6ecfd248d328b8404bed7f2537f303ea8eda23a
         </group>
     </open-files>
 </project-private>
