@@ -132,9 +132,91 @@
         <!-- main wrapper -->
         <!-- ============================================================== -->
         <div class="dashboard-main-wrapper">
+
             <!-- ============================================================== -->
             <!-- navbar -->
             <!-- ============================================================== -->
+            <div class="dashboard-header">
+                <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                    <a class="navbar-brand" href="index.html">Concept</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto navbar-right-top">
+                            <li class="nav-item">
+                                <div id="custom-search" class="top-search-bar">
+                                    <input class="form-control" type="text" placeholder="Search..">
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown notification">
+                                <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                                <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
+                                    <li>
+                                        <div class="notification-title"> Notification</div>
+                                        <div class="notification-list">
+                                            <div class="list-group">
+                                                <a href="#" class="list-group-item list-group-item-action active">
+                                                    <div class="notification-info">
+                                                        <div class="notification-list-user-img"><img src="assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                        <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
+                                                            <div class="notification-date">2 min ago</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item list-group-item-action">
+                                                    <div class="notification-info">
+                                                        <div class="notification-list-user-img"><img src="assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                        <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
+                                                            <div class="notification-date">2 days ago</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item list-group-item-action">
+                                                    <div class="notification-info">
+                                                        <div class="notification-list-user-img"><img src="assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                        <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
+                                                            <div class="notification-date">2 min ago</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item list-group-item-action">
+                                                    <div class="notification-info">
+                                                        <div class="notification-list-user-img"><img src="assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                        <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
+                                                            <div class="notification-date">2 min ago</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="list-footer"> <a href="#">View all notifications</a></div>
+                                    </li>
+                                </ul>
+                            </li>
+                           
+                            <li class="nav-item dropdown nav-user">
+                                <c:url var="avatarImageUrl" value="/assets/images/avatar-1.jpg" />
+
+                                <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="${avatarImageUrl}" alt="" class="user-avatar-md rounded-circle">
+                                </a>                           
+                                <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                                    <div class="nav-user-info">
+                                        <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
+                                        <span class="status"></span><span class="ml-2">Available</span>
+                                    </div>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
 
             <!-- ============================================================== -->
             <!-- end navbar -->
@@ -142,10 +224,14 @@
             <!-- ============================================================== -->
             <!-- left sidebar -->
             <!-- ============================================================== -->
-            <div class="nav-left-sidebar sidebar-dark">
+            <div class="nav-left-sidebar sidebar-dark" id="sidebar">
+                <button class="btn btn-primary" id="sidebarToggleBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="menu-list">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -164,8 +250,10 @@
 
                                 <!-- Manager Menu -->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#" id="managerLink">Manager</a>
-                                    <ul id="submenu" style="display: none;">
+                                    <a class="nav-link" href="#" id="managerLink" data-toggle="collapse" data-target="#submenu" aria-expanded="false" aria-controls="submenu">
+                                        <i class="fas fa-fw fa-cogs"></i> Manager 
+                                    </a>
+                                    <ul id="submenu" class="collapse">
                                         <li><a href="<c:url value="/admin/managerCustomer.vn"/>">Manage Customer</a></li>
                                         <li><a href="<c:url value="/admin/managerStaff.vn"/>">Manager Staff</a></li>
                                         <!-- ... Other submenu items ... -->
@@ -175,7 +263,9 @@
                         </div>
                     </nav>
                 </div>
+
             </div>
+
             <!-- ============================================================== -->
             <!-- end left sidebar -->
             <!-- ============================================================== -->
@@ -242,6 +332,17 @@
                         } else {
                             clickedItem.addClass('active');
                         }
+                    });
+                });
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    // Toggle sidebar when the button is clicked
+                    $('#sidebarToggleBtn').click(function () {
+                        console.log('Button clicked'); // Check if this is logged
+                        $('#sidebar').toggleClass('show');
+                        console.log('Sidebar toggled'); // Check if this is logged
                     });
                 });
             </script>

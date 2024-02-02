@@ -124,6 +124,8 @@
                                 <a  href="<c:url value="/user/login.vn"/>" class="btn btn-primary px-3 d-none d-lg-flex">Login</a>
                             </c:if>
                             <a style="display: ${sessionScope.acc.firstName == "admin"?"block":"none"}" href="<c:url value="/admin/dashboard.vn"/>"><i class="fa-solid fa-user-lock"></i> Admin</a>
+                           <a style="display: ${sessionScope.acc.firstName == "staff"?"block":"none"}" href="<c:url value="/staff/managerInquiry.vn"/>"><i class="fa-solid fa-user-lock"></i> Staff</a>
+
                         </div>
                     </div>
                 </nav>
