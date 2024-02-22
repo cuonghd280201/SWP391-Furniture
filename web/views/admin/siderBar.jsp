@@ -196,7 +196,7 @@
                                     </li>
                                 </ul>
                             </li>
-                           
+
                             <li class="nav-item dropdown nav-user">
                                 <c:url var="avatarImageUrl" value="/assets/images/avatar-1.jpg" />
 
@@ -240,22 +240,25 @@
                                 <!-- ... Other menu items ... -->
 
                                 <!-- Dashboard Menu -->
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="<c:url value="/admin/dashboard.vn"/>"
-                                       data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
-                                        <i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span>
-                                    </a>
-                                    <!-- ... Submenu content ... -->
-                                </li>
 
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" id="managerLink" data-toggle="collapse" data-target="#submenu" aria-expanded="false" aria-controls="submenu">
+                                        <i class="fa fa-fw fa-user-circle"></i> Home 
+                                    </a>
+                                    <ul id="submenu" class="collapse">
+                                        <li><a href="MainController?btnAction=CountUser">Dashboard</a></li>
+                                        <!-- ... Other submenu items ... -->
+                                    </ul>
+                                </li>
                                 <!-- Manager Menu -->
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" id="managerLink" data-toggle="collapse" data-target="#submenu" aria-expanded="false" aria-controls="submenu">
                                         <i class="fas fa-fw fa-cogs"></i> Manager 
                                     </a>
                                     <ul id="submenu" class="collapse">
-                                        <li><a href="<c:url value="/admin/managerCustomer.vn"/>">Manage Customer</a></li>
-                                        <li><a href="<c:url value="/admin/managerStaff.vn"/>">Manager Staff</a></li>
+                                        <li><a href="MainController?btnAction=ListCustomer">Manage Customer</a></li>
+                                        <li><a href="MainController?btnAction=ListStaff">Manager Staff</a></li>
                                         <!-- ... Other submenu items ... -->
                                     </ul>
                                 </li>
