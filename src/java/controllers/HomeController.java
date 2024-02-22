@@ -1,45 +1,40 @@
+// HomeController.java
 package controllers;
 
-import projects.Project;
-import projects.ProjectFacade;
-
+import java.io.IOException;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
+import projects.Project;
+import projects.ProjectFacade;
 
-@WebServlet(name = "HomeController", urlPatterns = {"/home"})
+@WebServlet(name = "HomeController", urlPatterns = {"/HomeController"})
 public class HomeController extends HttpServlet {
 
-     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    private final String HOME_PAGE_USER = "index.jsp";
+    private final String ERROR_PAGE = "error.jsp";
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action = String.valueOf(request.getAttribute("action"));
-        String controller = String.valueOf(request.getAttribute("controller"));
-        switch (action) {
-            case "index":
-                listProjects(request, response);
-                break;
-            default:
-               request.setAttribute("controller", "error");
-                request.setAttribute("action", "index");
-                request.setAttribute("message", "error");
-        }
-                request.getRequestDispatcher(config.Config.LAYOUT).forward(request, response);
-
-    }
-
-     protected void listProjects(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        try {
             ProjectFacade projectFacade = new ProjectFacade();
             List<Project> projects = projectFacade.selectAllProjects();
             request.setAttribute("listProjects", projects);
+        } catch (Exception e) {
+            request.setAttribute("errorMessage", "Error retrieving projects: " + e.getMessage());
+            RequestDispatcher errorDispatcher = request.getRequestDispatcher(ERROR_PAGE);
+            errorDispatcher.forward(request, response);
+            return;
+        }
+        RequestDispatcher rd = request.getRequestDispatcher(HOME_PAGE_USER);
+        rd.forward(request, response);
     }
 
-    // Other methods as needed
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,6 +49,6 @@ public class HomeController extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Home Controller Servlet";
     }
 }

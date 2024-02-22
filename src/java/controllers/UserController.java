@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import users.User;
-import users.UserFacade;
+import users.UserDTO;
+import users.UserDAO;
 
 /**
  *
@@ -58,8 +58,8 @@ public class UserController extends HttpServlet {
         String password = request.getParameter("password");
         String total = request.getParameter("total");
         String result;
-        UserFacade uf = new UserFacade();
-        User u = uf.checkLogin(email, password);
+        UserDAO uf = new UserDAO();
+        UserDTO u = uf.checkLogin(email, password);
         if (u == null) {
             result = "Login failed! username or password is incorrect";
             request.setAttribute("result", result);
@@ -90,11 +90,11 @@ public class UserController extends HttpServlet {
             request.setAttribute("result", "Passwords do not match!");
             request.getRequestDispatcher("/user/login.vn").forward(request, response);
         } else {
-            UserFacade uf = new UserFacade();
+            UserDAO uf = new UserDAO();
 
-            User u = uf.checkAccountExist(email);
+            UserDTO u = uf.checkAccountExist(email);
             if (u == null) {
-                u = new User();
+                u = new UserDTO();
                 u.setUserId(randomId);
                 u.setEmail(email);
                 u.setPassword(password);

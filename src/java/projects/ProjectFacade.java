@@ -16,7 +16,7 @@ public class ProjectFacade {
         List<Project> projects = new ArrayList<>();
         String query = "SELECT * FROM Project";
         
-        try (Connection connection = DBUtils.getConnection();
+        try (Connection connection = DBUtils.makeConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 

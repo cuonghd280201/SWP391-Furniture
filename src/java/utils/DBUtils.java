@@ -7,26 +7,27 @@ package utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  *
  * @author Admin
  */
 public class DBUtils {
-    public static Connection getConnection() {
-    Connection con = null;
-    String url = "jdbc:sqlserver://localhost;databaseName=Furniture;user=sa;password=1234567890";
-//    String url = "jdbc:sqlserver://localhost;databaseName=Furniture;user=sa;password=12345";
-
-    try {
-        // Loading the driver
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        // Creating a connection
-        con = DriverManager.getConnection(url);
-    } catch (Exception ex) {
-        ex.printStackTrace();
+    
+      public static Connection makeConnection(){
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=Furniture";
+            Connection con = DriverManager.getConnection(url,"sa","12345");
+            return con;
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return null;
     }
-    return con;
-}
+    
 
 }
