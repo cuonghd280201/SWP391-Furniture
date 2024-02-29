@@ -19,6 +19,9 @@ public class MainController extends HttpServlet {
     private final String COUNT_USER_CONTROLLER = "CountUserController";
     private final String SIGUP_CONTROLLER = "SigUpController";
     private final String LIST_STAFF_CONTROLLER = "ListStaffController";
+    
+    private final String PROJECT_DETAILS_CONTROLLER = "ProjectDetailsController";
+    private final String VIEW_PROJECT_INTERIOR_CONTROLLER = "ProjectInteriorController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -49,6 +52,12 @@ public class MainController extends HttpServlet {
 
                 case "SignUp":
                     url = SIGUP_CONTROLLER;
+                    break;
+                case "Show":
+                    url = PROJECT_DETAILS_CONTROLLER;
+                    break;
+                case "ViewProject":
+                    url = VIEW_PROJECT_INTERIOR_CONTROLLER;
                     break;
                 default:
                     break;

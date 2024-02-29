@@ -3,30 +3,28 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/users/User.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/StaffController.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/ScaleDAO.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/Construction.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/projects/Project.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/FrontControllers.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/LoginController.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/UserController.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/users/UserFacade.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/ConstructionDAO.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/InquiryDAO.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/HomeController.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/web/views/admin/managerCustomer_1.jsp</file>
-            <file>file:/C:/CK10/SWP391-Furniture/web/views/admin/dashboard_1.jsp</file>
-            <file>file:/C:/CK10/SWP391-Furniture/web/views/home/index_1.jsp</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/AdminController.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/PriceRange.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/web/views/admin/siderBar_1.jsp</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/PriceRangeDAO.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/Inquiry.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/Scale.java</file>
-            <file>file:/C:/CK10/SWP391-Furniture/web/views/admin/managerStaff_1.jsp</file>
-            <file>file:/C:/CK10/SWP391-Furniture/web/views/staff/siderBar.jsp</file>
-            <file>file:/C:/CK10/SWP391-Furniture/web/views/staff/managerInquiry.jsp</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/ListCustomerController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/HomeController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/ProjectInteriorController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/property-list.html</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/MainController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/SigUpController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/inquiry/Inquiry.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/inquiry/ConstructionDAO.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/views/staff/siderBar.jsp</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/project-list.jsp</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/projectInteriorDetails.jsp</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/views/staff/managerInquiry.jsp</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/views/admin/managerStaff.jsp</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/UserController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/inquiry/Scale.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/ListStaffController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/web/index.jsp</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/CountUserController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/projectDetails/ProjectDetailsDTO.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/controllers/ProjectDetailsController.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/inquiry/PriceRange.java</file>
+            <file>file:/C:/FPTU/Sem%20Extra%20II/SWP391-Furniture/src/java/utils/DBUtils.java</file>
         </group>
     </open-files>
 </project-private>
