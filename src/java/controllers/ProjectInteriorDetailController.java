@@ -21,28 +21,28 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cdkhu
  */
-@WebServlet(name = "ProjectInteriorController", urlPatterns = {"/ProjectInteriorController"})
-public class ProjectInteriorController extends HttpServlet {
+@WebServlet(name = "ProjectInteriorDetailController", urlPatterns = {"/ProjectInteriorDetailController"})
+public class ProjectInteriorDetailController extends HttpServlet {
 
-    private final String PROJECT_INTERIOR_PAGE = "project-detail.jsp";
+    private final String PROJECT_INTERIOR_DETAILS_PAGE = "project-detail.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-//            String url = "MainController?btnAction=Show";
-            String url = PROJECT_INTERIOR_PAGE;
+            String url = PROJECT_INTERIOR_DETAILS_PAGE;
             try{
                 int projectID = Integer.parseInt(request.getParameter("projectID"));
                 InteriorDetailsDAO dao = new InteriorDetailsDAO();
                 List<InteriorDetailsDTO> list = dao.listInteriorDetailsByProjectID(projectID);
-                request.setAttribute("INTERIOR_BY_PROJECT", list);
-                url = PROJECT_INTERIOR_PAGE;
+                request.setAttribute("INTERIOR_BY_PROJECTID", list);
+                url = PROJECT_INTERIOR_DETAILS_PAGE;
             }catch(Exception e){
                 
             }finally{
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
+                out.close();
             }
         }
     }

@@ -218,6 +218,10 @@
                                             <!--<small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
                                         </div>
                                     </div>
+<!--                                            <form action="MainController" method="POST">
+                                                <input type="submit" value="ViewProject" name="btnAction"/>
+                                                <input type="hidden" name="projectID" value="<%= dto.getProjectID()%>"/>
+                                            </form>-->
                                 </div>
                                 <%
                                     }

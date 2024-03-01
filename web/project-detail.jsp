@@ -21,7 +21,7 @@
 
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
 
         <!-- Icon Font Stylesheet -->
@@ -98,7 +98,7 @@
                             <ol class="breadcrumb text-uppercase">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <!--<li class="breadcrumb-item text-body active" aria-current="page">Property List</li>-->
+                                <li class="breadcrumb-item text-body active" aria-current="page">Property List</li>
                             </ol>
                         </nav>
                     </div>
@@ -167,26 +167,26 @@
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane fade show p-0 active">
                             <div class="row g-4">
-                                <%                                    
+                                <%
                                     double totalMoney = 0;
                                     List<InteriorDetailsDTO> list = (List<InteriorDetailsDTO>) request.getAttribute("INTERIOR_BY_PROJECTID");
                                     if (list != null && !list.isEmpty()) {
                                 %>
-                                <table border="1">
-                                    <thead>
+                                <table class="table">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th>No</th>
-                                            <th>Interior Name</th>
-                                            <th>Image</th>
-                                            <th>Description</th>
-                                            <th>Create At</th>
-                                            <th>Update At</th>
-                                            <th>Material Name</th>
-                                            <th>Size</th>
-                                            <th>Mass</th>
-                                            <th>Unit</th>
-                                            <th>Unit Price</th>
-                                            <th>Money</th>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Interior Name</th>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Create At</th>
+                                            <th scope="col">Update At</th>
+                                            <th scope="col">Material Name</th>
+                                            <th scope="col">Size</th>
+                                            <th scope="col">Mass</th>
+                                            <th scope="col">Unit</th>
+                                            <th scope="col">Unit Price</th>
+                                            <th scope="col">Money</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -202,7 +202,7 @@
                                                 <%= dto.getInteriorName()%>
                                             </td>
                                             <td>
-                                                <img src="<%= dto.getImage()%>">
+                                                <img src="<%= dto.getImage()%>" class="img-thumbnail">
                                             </td>
                                             <td>
                                                 <%= dto.getDescription()%>
@@ -239,10 +239,18 @@
                                         <%
                                             }
                                         %>
+                                        <tr>
+                                            <td colspan="5">
+                                                Total: 
+                                            </td>
+                                            <td colspan="6">
+                                                <%= totalMoney%>
+                                            </td>
+                                            Total: 
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <h2>Total: <%= totalMoney%></h2>
-
                                 <div class="col-12 text-center">
                                     <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
                                 </div>
@@ -252,12 +260,12 @@
                 </div>
             </div>
             <%
-            } else {
+                }else{
             %>
             <h1>this project did not have interior yet!</h1>
             <%
                     }
-                }
+                
             %>
             <!-- Property List End -->
 

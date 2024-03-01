@@ -1,4 +1,8 @@
-
+<%-- 
+    Document   : testt2
+    Created on : Mar 1, 2024, 7:06:21 AM
+    Author     : cdkhu
+--%>
 
 <%@page import="interriorDetails.InteriorDetailsDTO"%>
 <%@page import="java.util.List"%>
@@ -10,10 +14,11 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <h1>List Interior of A Project!</h1>
         <%
             double totalMoney = 0;
             List<InteriorDetailsDTO> list = (List<InteriorDetailsDTO>) request.getAttribute("INTERIOR_BY_PROJECTID");
-            if (list != null && !list.isEmpty()) {
+            if (list != null && !list.isEmpty()){
         %>
         <table border="1">
             <thead>
@@ -84,20 +89,15 @@
                 <%
                     }
                 %>
+            <h2>total: <%= totalMoney%></h2>
+            <%
+            }else{
+            %>
+            <h1>this project did not have interior yet!</h1>
+            <%
+            }
+            %>
             </tbody>
         </table>
-        <h2>Total: <%= totalMoney%></h2>
-
-<!--        <div class="col-12 text-center">
-            <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
-        </div>-->
-
-        <%
-        } else {
-        %>
-        <h1>this project did not have interior yet!</h1>
-        <%
-                }
-        %>
     </body>
 </html>
