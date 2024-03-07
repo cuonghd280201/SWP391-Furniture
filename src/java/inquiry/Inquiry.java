@@ -9,27 +9,30 @@ package inquiry;
  *
  * @author Admin
  */
+import java.util.Date;
+
 public class Inquiry {
+
     public int inquiryID;
     public int projectID;
-    public String userID;
-    public int status;
-    public String createAt;
-    public String updateAt;
+    public int userID;
+    public int statusInquiry;
+    public Date createAt; // Thay đổi kiểu dữ liệu của createAt
+    public Date updateAt; // Thay đổi kiểu dữ liệu của updateAt
     public String description;
     public int constructionID;
     public int scaleID;
     public int priceRangeID;
     public int projectTypeID;
+    public Construction construction;
+    public Scale scale;
+    public ProjectType projectType;
+    public PriceRange priceRange;
 
-    public Inquiry() {
-    }
-
-    public Inquiry(int inquiryID, int projectID, String userID, int status, String createAt, String updateAt, String description, int constructionID, int scaleID, int priceRangeID, int projectTypeID) {
-        this.inquiryID = inquiryID;
+    public Inquiry(int projectID, int userID, int statusInquiry, Date createAt, Date updateAt, String description, int constructionID, int scaleID, int priceRangeID, int projectTypeID, Construction construction, Scale scale, ProjectType projectType, PriceRange priceRange) {
         this.projectID = projectID;
         this.userID = userID;
-        this.status = status;
+        this.statusInquiry = statusInquiry;
         this.createAt = createAt;
         this.updateAt = updateAt;
         this.description = description;
@@ -37,6 +40,82 @@ public class Inquiry {
         this.scaleID = scaleID;
         this.priceRangeID = priceRangeID;
         this.projectTypeID = projectTypeID;
+        this.construction = construction;
+        this.scale = scale;
+        this.projectType = projectType;
+        this.priceRange = priceRange;
+    }
+    
+    
+
+    public Inquiry() {
+    }
+
+    public Inquiry(int userID, int constructionID, int scaleID, int priceRangeID, int projectTypeID, String description) {
+        this.userID = userID;
+        this.description = description;
+        this.constructionID = constructionID;
+        this.scaleID = scaleID;
+        this.priceRangeID = priceRangeID;
+        this.projectTypeID = projectTypeID;
+    }
+
+    public Inquiry(int inquiryID, int projectID, int userID, int statusInquiry, Date createAt, Date updateAt, String description, int constructionID, int scaleID, int priceRangeID, int projectTypeID, Construction construction, Scale scale, ProjectType projectType, PriceRange priceRange) {
+        this.inquiryID = inquiryID;
+        this.projectID = projectID;
+        this.userID = userID;
+        this.statusInquiry = statusInquiry;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+        this.description = description;
+        this.constructionID = constructionID;
+        this.scaleID = scaleID;
+        this.priceRangeID = priceRangeID;
+        this.projectTypeID = projectTypeID;
+        this.construction = construction;
+        this.scale = scale;
+        this.projectType = projectType;
+        this.priceRange = priceRange;
+    }
+
+    public Construction getConstruction() {
+        return construction;
+    }
+
+    public void setConstruction(Construction construction) {
+        this.construction = construction;
+    }
+
+    public Scale getScale() {
+        return scale;
+    }
+
+    public void setScale(Scale scale) {
+        this.scale = scale;
+    }
+
+    public int getStatusInquiry() {
+        return statusInquiry;
+    }
+
+    public void setStatusInquiry(int statusInquiry) {
+        this.statusInquiry = statusInquiry;
+    }
+
+    public ProjectType getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(ProjectType projectType) {
+        this.projectType = projectType;
+    }
+
+    public PriceRange getPriceRange() {
+        return priceRange;
+    }
+
+    public void setPriceRange(PriceRange priceRange) {
+        this.priceRange = priceRange;
     }
 
     public int getInquiryID() {
@@ -55,35 +134,27 @@ public class Inquiry {
         this.projectID = projectID;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getCreateAt() {
+    public Date getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(String createAt) {
+    public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
 
-    public String getUpdateAt() {
+    public Date getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(String updateAt) {
+    public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
     }
 
@@ -126,7 +197,4 @@ public class Inquiry {
     public void setProjectTypeID(int projectTypeID) {
         this.projectTypeID = projectTypeID;
     }
-    
-    
-    
 }

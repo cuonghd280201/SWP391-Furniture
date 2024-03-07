@@ -118,7 +118,7 @@
                     margin-top: 0;
                 }
             }
-
+            /* Style for the switch */
             .switch {
                 position: relative;
                 display: inline-block;
@@ -126,14 +126,14 @@
                 height: 34px;
             }
 
-            /* Hide default HTML checkbox */
+            /* Hide the default checkbox */
             .switch input {
                 opacity: 0;
                 width: 0;
                 height: 0;
             }
 
-            /* The slider */
+            /* Style the slider */
             .slider {
                 position: absolute;
                 cursor: pointer;
@@ -141,12 +141,18 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
-                background-color: #757575; /* Gray color when off */
+                background-color: #ccc;
                 -webkit-transition: .4s;
                 transition: .4s;
             }
 
-            .slider:before {
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            /* On state */
+            .slider.round:before {
                 position: absolute;
                 content: "";
                 height: 26px;
@@ -158,28 +164,16 @@
                 transition: .4s;
             }
 
-            input:checked + .slider {
-                background-color: #0e0c28; /* Darker blue color when on */
+            input:checked + .slider.round {
+                background-color: #2196F3;
             }
 
-            input:focus + .slider {
-                box-shadow: 0 0 1px #2196F3; /* Box shadow when focused */
-            }
-
-            input:checked + .slider:before {
+            input:checked + .slider.round:before {
                 -webkit-transform: translateX(26px);
                 -ms-transform: translateX(26px);
                 transform: translateX(26px);
             }
 
-            /* Rounded sliders */
-            .slider.round {
-                border-radius: 34px;
-            }
-
-            .slider.round:before {
-                border-radius: 50%;
-            }
         </style>
 
 
@@ -189,21 +183,24 @@
         <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
     </head>
 
-    <body>
-        <!-- ============================================================== -->
-        <!-- main wrapper -->
-        <!-- ============================================================== -->
-        <div class="dashboard-main-wrapper">
+    <c:import url="ListCustomerController"></c:import>
+
+
+        <body>
             <!-- ============================================================== -->
-            <!-- navbar -->
+            <!-- main wrapper -->
             <!-- ============================================================== -->
-          
-            <!-- ============================================================== -->
-            <!-- end navbar -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- left sidebar -->
-            <!-- ============================================================== -->
+            <div class="dashboard-main-wrapper">
+                <!-- ============================================================== -->
+                <!-- navbar -->
+                <!-- ============================================================== -->
+
+                <!-- ============================================================== -->
+                <!-- end navbar -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- left sidebar -->
+                <!-- ============================================================== -->
             <%@include file="siderBar.jsp" %>
 
             <!-- ============================================================== -->
@@ -225,7 +222,7 @@
                                     <div class="page-breadcrumb">
                                         <nav aria-label="breadcrumb">
                                             <ol class="breadcrumb">
-                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Manager</a></li>
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Manager Customer Account</a></li>
                                             </ol>
                                         </nav>
                                     </div>
@@ -266,7 +263,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <c:forEach var="user" items="${listUser}">
+                                                    <c:forEach var="user" items="${sessionScope.listUser}">
                                                         <tr>
                                                             <td>${user.userId}</td>
                                                             <td>${user.firstName}</td>
@@ -275,14 +272,15 @@
                                                             <td>${user.password}</td>
                                                             <td>${user.phoneNumber}</td>
                                                             <td>${user.dataOfBirth}</td>
-                                                            <td>${user.image}</td>
-                                                            <td>
+
+                                                            <td> <img src="${user.image}" class="rounded-circle media-img-auto"
+                                                                      style="width: 50px; height: 50px; margin-right: 10px"></td>                                                            <td>
                                                                 <!-- Update Button -->
                                                                 <button class="update-btn" onclick="openPopup()">Update</button>
 
                                                                 <!-- Delete Switch -->
                                                                 <label class="switch">
-                                                                    <input type="checkbox">
+                                                                    <input type="checkbox" ${user.isActived == 'true' ? 'checked' : ''}>
                                                                     <span class="slider round"></span>
                                                                 </label>
                                                             </td>                                              

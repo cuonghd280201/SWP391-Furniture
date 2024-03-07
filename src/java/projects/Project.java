@@ -1,47 +1,62 @@
+package projects;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projects;
+import images.ImageDTO;
 
 /**
  *
  * @author Admin
  */
 public class Project {
-    public String projectID;
+
+    public int projectID;
     public String projectName;
     public String scale;
     public String description;
-    public String image;
     public String createAt;
     public String updateAt;
     public String status;
     public float price;
     public String projectTypeID;
+    public ImageDTO imageDTO;
 
     public Project() {
     }
 
-    public Project(String projectID, String projectName, String scale, String description, String image, String createAt, String updateAt, String status, float price, String projectTypeID) {
+    public Project(int projectID, String projectName, String scale, String description, String createAt, String updateAt, String status, float price, String projectTypeID, ImageDTO imageDTO) {
         this.projectID = projectID;
         this.projectName = projectName;
         this.scale = scale;
         this.description = description;
-        this.image = image;
         this.createAt = createAt;
         this.updateAt = updateAt;
         this.status = status;
         this.price = price;
         this.projectTypeID = projectTypeID;
+        this.imageDTO = imageDTO;
     }
 
-    public String getProjectID() {
+    public Project(String projectName, String scale, String description, String createAt, String updateAt, String status, float price, String projectTypeID, ImageDTO imageDTO) {
+        this.projectName = projectName;
+        this.scale = scale;
+        this.description = description;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+        this.status = status;
+        this.price = price;
+        this.projectTypeID = projectTypeID;
+        this.imageDTO = imageDTO;
+    }
+
+    public int getProjectID() {
         return projectID;
     }
 
-    public void setProjectID(String projectID) {
+    public void setProjectID(int projectID) {
         this.projectID = projectID;
     }
 
@@ -67,14 +82,6 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getCreateAt() {
@@ -116,8 +123,13 @@ public class Project {
     public void setProjectTypeID(String projectTypeID) {
         this.projectTypeID = projectTypeID;
     }
-    
-    
-    
-    
+
+    public ImageDTO getImageDTO() {
+        return imageDTO;
+    }
+
+    public void setImageDTO(ImageDTO imageDTO) {
+        this.imageDTO = imageDTO;
+    }
+
 }
