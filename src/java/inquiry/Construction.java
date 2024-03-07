@@ -17,6 +17,17 @@ public class Construction {
     public Construction() {
     }
 
+    public Construction(int constructionID, String constructionName) {
+        this.constructionID = constructionID;
+        this.constructionName = constructionName;
+    }
+
+    public Construction(String constructionName, String constructionDescription) {
+        this.constructionName = constructionName;
+        this.constructionDescription = constructionDescription;
+    }
+
+    
     public Construction(int constructionID, String constructionName, String constructionDescription) {
         this.constructionID = constructionID;
         this.constructionName = constructionName;

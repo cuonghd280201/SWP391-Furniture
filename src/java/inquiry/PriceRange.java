@@ -14,6 +14,13 @@ public class PriceRange {
     public String priceRangeName;
     public String priceDescription;
 
+    public PriceRange(int priceRangeID, String priceRangeName) {
+        this.priceRangeID = priceRangeID;
+        this.priceRangeName = priceRangeName;
+    }
+    
+    
+
     public PriceRange() {
     }
 

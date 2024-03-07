@@ -1,3 +1,9 @@
+<%-- 
+    Document   : siderBarStaff
+    Created on : Mar 7, 2024, 12:27:06 AM
+    Author     : Admin
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -124,93 +130,95 @@
 
 
 
-        <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
+        <title>Furniture</title>
     </head>
 
-    <body>
-        <!-- ============================================================== -->
-        <!-- main wrapper -->
-        <!-- ============================================================== -->
-        <div class="dashboard-main-wrapper">
+    <c:import url="LoginController"></c:import>
 
+
+        <body>
             <!-- ============================================================== -->
-            <!-- navbar -->
+            <!-- main wrapper -->
             <!-- ============================================================== -->
-            <div class="dashboard-header">
-                <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                    <a class="navbar-brand" href="index.html">Concept</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto navbar-right-top">
-                            <li class="nav-item">
-                                <div id="custom-search" class="top-search-bar">
-                                    <input class="form-control" type="text" placeholder="Search..">
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown notification">
-                                <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
-                                <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
-                                    <li>
-                                        <div class="notification-title"> Notification</div>
-                                        <div class="notification-list">
-                                            <div class="list-group">
-                                                <a href="#" class="list-group-item list-group-item-action active">
-                                                    <div class="notification-info">
-                                                        <div class="notification-list-user-img"><img src="assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                        <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
-                                                            <div class="notification-date">2 min ago</div>
+            <div class="dashboard-main-wrapper">
+
+                <!-- ============================================================== -->
+                <!-- navbar -->
+                <!-- ============================================================== -->
+                <div class="dashboard-header">
+                    <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                        <a class="navbar-brand" href="dashboard.jsp">FURNITURE</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto navbar-right-top">
+                                <li class="nav-item">
+                                    <div id="custom-search" class="top-search-bar">
+                                        <input class="form-control" type="text" placeholder="Search..">
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown notification">
+                                    <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                                    <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
+                                        <li>
+                                            <div class="notification-title"> Notification</div>
+                                            <div class="notification-list">
+                                                <div class="list-group">
+                                                    <a href="#" class="list-group-item list-group-item-action active">
+                                                        <div class="notification-info">
+                                                            <div class="notification-list-user-img"><img src="assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                            <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
+                                                                <div class="notification-date">2 min ago</div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action">
-                                                    <div class="notification-info">
-                                                        <div class="notification-list-user-img"><img src="assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                        <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
-                                                            <div class="notification-date">2 days ago</div>
+                                                    </a>
+                                                    <a href="#" class="list-group-item list-group-item-action">
+                                                        <div class="notification-info">
+                                                            <div class="notification-list-user-img"><img src="assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                            <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
+                                                                <div class="notification-date">2 days ago</div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action">
-                                                    <div class="notification-info">
-                                                        <div class="notification-list-user-img"><img src="assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                        <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
-                                                            <div class="notification-date">2 min ago</div>
+                                                    </a>
+                                                    <a href="#" class="list-group-item list-group-item-action">
+                                                        <div class="notification-info">
+                                                            <div class="notification-list-user-img"><img src="assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                            <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
+                                                                <div class="notification-date">2 min ago</div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action">
-                                                    <div class="notification-info">
-                                                        <div class="notification-list-user-img"><img src="assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                        <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
-                                                            <div class="notification-date">2 min ago</div>
+                                                    </a>
+                                                    <a href="#" class="list-group-item list-group-item-action">
+                                                        <div class="notification-info">
+                                                            <div class="notification-list-user-img"><img src="assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                            <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
+                                                                <div class="notification-date">2 min ago</div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </a>
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="list-footer"> <a href="#">View all notifications</a></div>
-                                    </li>
-                                </ul>
-                            </li>
+                                        </li>
+                                        <li>
+                                            <div class="list-footer"> <a href="#">View all notifications</a></div>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                            <li class="nav-item dropdown nav-user">
-                                <c:url var="avatarImageUrl" value="/assets/images/avatar-1.jpg" />
+                                <li class="nav-item dropdown nav-user">
 
-                                <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="${avatarImageUrl}" alt="" class="user-avatar-md rounded-circle">
+                                    <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="${sessionScope.USER.image}" alt="" class="user-avatar-md rounded-circle">
                                 </a>                           
                                 <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
                                     <div class="nav-user-info">
-                                        <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
-                                        <span class="status"></span><span class="ml-2">Available</span>
+                                        <h5 class="mb-0 text-white nav-user-name">${sessionScope.USER.firstName}</h5>
+                                        <span class="status"></span><span class="ml-2">${sessionScope.USER.firstName}</span>
                                     </div>
                                     <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
                                     <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                    <a class="dropdown-item" href="logoutController"><i class="fas fa-power-off mr-2"></i>Logout</a>
                                 </div>
                             </li>
                         </ul>
@@ -242,26 +250,24 @@
                                 <!-- Dashboard Menu -->
 
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#" id="managerLink" data-toggle="collapse" data-target="#submenu" aria-expanded="false" aria-controls="submenu">
-                                        <i class="fa fa-fw fa-user-circle"></i> Home 
-                                    </a>
-                                    <ul id="submenu" class="collapse">
-                                        <li><a href="MainController?btnAction=CountUser">Dashboard</a></li>
-                                        <!-- ... Other submenu items ... -->
-                                    </ul>
+                                <li>
+                                    <a href="listInquiryStaff.jsp" class="nav-link" aria-expanded="false" aria-controls="submenu">
+                                        <i class="fas fa-fw fa-user"></i> List Inquiry
+                                    </a>               
                                 </li>
                                 <!-- Manager Menu -->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#" id="managerLink" data-toggle="collapse" data-target="#submenu" aria-expanded="false" aria-controls="submenu">
-                                        <i class="fas fa-fw fa-cogs"></i> Manager 
-                                    </a>
-                                    <ul id="submenu" class="collapse">
-                                        <li><a href="MainController?btnAction=ListCustomer">Manage Customer</a></li>
-                                        <li><a href="MainController?btnAction=ListStaff">Manager Staff</a></li>
-                                        <!-- ... Other submenu items ... -->
-                                    </ul>
+                                <li>
+                                    <a href="listInquiryS.jsp" class="nav-link" aria-expanded="false" aria-controls="submenu">
+                                        <i class="fas fa-fw fa-user"></i> List Inquiry
+                                    </a>               
                                 </li>
+
+                                <li>
+                                    <a href="listInquiryS.jsp" class="nav-link" aria-expanded="false" aria-controls="submenu">
+                                        <i class="fas fa-fw fa-user"></i> List Inquiry
+                                    </a>               
+                                </li>
+
                             </ul>
                         </div>
                     </nav>

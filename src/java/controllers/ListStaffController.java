@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import users.UserDAO;
 import users.UserDTO;
 
@@ -24,24 +25,23 @@ import users.UserDTO;
 @WebServlet(name = "ListStaffController", urlPatterns = {"/ListStaffController"})
 public class ListStaffController extends HttpServlet {
 
-    private final String LIST_STAFF_PAGE = "/views/admin/managerStaff.jsp";
     private final String ERROR_PAGE = "error.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            HttpSession session = request.getSession();
             UserDAO userFacade = new UserDAO();
             List<UserDTO> userList = userFacade.selectAllStaffs();
-        request.setAttribute("listStaff", userList);
+            session.setAttribute("listStaff", userList);
         } catch (Exception e) {
             request.setAttribute("errorMessage", "Error retrieving projects: " + e.getMessage());
             RequestDispatcher errorDispatcher = request.getRequestDispatcher(ERROR_PAGE);
             errorDispatcher.forward(request, response);
             return;
         }
-        RequestDispatcher rd = request.getRequestDispatcher(LIST_STAFF_PAGE);
-        rd.forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
