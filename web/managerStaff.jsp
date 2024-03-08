@@ -119,67 +119,6 @@
                 }
             }
 
-            .switch {
-                position: relative;
-                display: inline-block;
-                width: 60px;
-                height: 34px;
-            }
-
-            /* Hide default HTML checkbox */
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-
-            /* The slider */
-            .slider {
-                position: absolute;
-                cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #757575; /* Gray color when off */
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 26px;
-                width: 26px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            input:checked + .slider {
-                background-color: #0e0c28; /* Darker blue color when on */
-            }
-
-            input:focus + .slider {
-                box-shadow: 0 0 1px #2196F3; /* Box shadow when focused */
-            }
-
-            input:checked + .slider:before {
-                -webkit-transform: translateX(26px);
-                -ms-transform: translateX(26px);
-                transform: translateX(26px);
-            }
-
-            /* Rounded sliders */
-            .slider.round {
-                border-radius: 34px;
-            }
-
-            .slider.round:before {
-                border-radius: 50%;
-            }
         </style>
 
 
@@ -281,13 +220,13 @@
                                                                       style="width: 50px; height: 50px; margin-right: 10px"></td>                                                            <td>
                                                                 <!-- Update Button -->
                                                                 <button class="update-btn" onclick="openPopup()">Update</button>
-
-                                                                <!-- Delete Button -->
                                                                 <label class="switch">
-                                                                    <input type="checkbox">
-                                                                    <span class="slider round"></span>
-                                                                </label>                                                            </td>                                                       </tr>
-                                                            </c:forEach>
+                                                                    <input type="checkbox" id="toggle_${user.userId}" onclick="toggleSwitch('${user.userId}')">
+                                                                    <span class="slider"></span>
+                                                                </label>
+                                                            </td>                                                       
+                                                        </tr>
+                                                    </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -483,6 +422,74 @@
 
                         <!-- ============================================================== -->
                     </div>
+
+                    <style>
+                        /* The switch (checkbox input) */
+                        .switch {
+                            position: relative;
+                            display: inline-block;
+                            width: 60px;
+                            height: 34px;
+                        }
+
+                        /* Hide default HTML checkbox */
+                        .switch input {
+                            opacity: 0;
+                            width: 0;
+                            height: 0;
+                        }
+
+                        /* The slider */
+                        .slider {
+                            position: absolute;
+                            cursor: pointer;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            background-color: #ccc;
+                            -webkit-transition: .4s;
+                            transition: .4s;
+                            border-radius: 34px;
+                        }
+
+                        .slider:before {
+                            position: absolute;
+                            content: "";
+                            height: 26px;
+                            width: 26px;
+                            left: 4px;
+                            bottom: 4px;
+                            background-color: white;
+                            -webkit-transition: .4s;
+                            transition: .4s;
+                            border-radius: 50%;
+                        }
+
+                        input:checked + .slider {
+                            background-color: #2196F3;
+                        }
+
+                        input:focus + .slider {
+                            box-shadow: 0 0 1px #2196F3;
+                        }
+
+                        input:checked + .slider:before {
+                            -webkit-transform: translateX(26px);
+                            -ms-transform: translateX(26px);
+                            transform: translateX(26px);
+                        }
+
+                        /* Rounded sliders */
+                        .slider.round {
+                            border-radius: 34px;
+                        }
+
+                        .slider.round:before {
+                            border-radius: 50%;
+                        }
+                    </style>
+
                     <!-- ============================================================== -->
                     <!-- end main wrapper  -->
                     <!-- ============================================================== -->
@@ -510,15 +517,28 @@
                     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
                     <script>
-                                    // Function to open the popup
-                                    function openPopup() {
-                                        document.getElementById("updatePopup").style.display = "block";
+                                    function toggleSwitch(userId) {
+                                        var checkBox = document.getElementById("toggle_" + userId);
+                                        // Here you can add your logic to handle the toggle action, for example:
+                                        if (checkBox.checked) {
+                                            // Toggle is on
+                                            console.log("Toggle is ON for user ID: " + userId);
+                                        } else {
+                                            // Toggle is off
+                                            console.log("Toggle is OFF for user ID: " + userId);
+                                        }
                                     }
+                    </script>
+                    <script>
+                        // Function to open the popup
+                        function openPopup() {
+                            document.getElementById("updatePopup").style.display = "block";
+                        }
 
-                                    // Function to close the popup
-                                    function closePopup() {
-                                        document.getElementById("updatePopup").style.display = "none";
-                                    }
+                        // Function to close the popup
+                        function closePopup() {
+                            document.getElementById("updatePopup").style.display = "none";
+                        }
                     </script>
 
                     <script>
