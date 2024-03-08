@@ -1,11 +1,11 @@
 <%-- 
-    Document   : project-detail
-    Created on : Mar 1, 2024, 4:00:01 AM
+    Document   : searchInterior
+    Created on : Mar 8, 2024, 3:26:35 AM
     Author     : cdkhu
 --%>
 
-<%@page import="interriorDetails.InteriorDetailsDTO"%>
 <%@page import="java.util.List"%>
+<%@page import="interior.InteriorDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -66,7 +66,7 @@
                             <a href="MainController?btnAction=Home" class="nav-item nav-link">Home</a>
                             <a href="MainController?btnAction=CountUser" class="nav-item nav-link">About</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Project</a>
+                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Property</a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="MainController?btnAction=Show" class="dropdown-item active">Project List</a>
                                     <a href="property-type.html" class="dropdown-item">Project Type</a>
@@ -93,12 +93,12 @@
             <div class="container-fluid header bg-white p-0">
                 <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
                     <div class="col-md-6 p-5 mt-lg-5">
-                        <h1 class="display-5 animated fadeIn mb-4">Project Detail</h1> 
+                        <h1 class="display-5 animated fadeIn mb-4">Create Project</h1> 
                         <nav aria-label="breadcrumb animated fadeIn">
                             <ol class="breadcrumb text-uppercase">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-body active" aria-current="page">Project Detail</li>
+                                <li class="breadcrumb-item text-body active" aria-current="page">Create Project</li>
                             </ol>
                         </nav>
                     </div>
@@ -110,8 +110,10 @@
             <!-- Header End -->
 
 
-<!--             Search Start 
-
+            <!-- Search Start -->
+            <%
+                String searchValue = request.getParameter("txtsearchinteriorName");
+            %>
             <form action="MainController" method="POST">
                 <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
                     <div class="container">
@@ -119,7 +121,18 @@
                             <div class="col-md-10">
                                 <div class="row g-2">
                                     <div class="col-md-4">
-
+                                        <%
+                                            if (searchValue != null) {
+                                        %>
+                                        <input type="text" name="txtsearchinteriorName" value="<%= request.getParameter("txtsearchinteriorName")%>" class="form-control border-0 py-3" placeholder="Search Keyword">
+                                        <%
+                                        } else {
+                                            searchValue = "";
+                                        %>
+                                        <input type="text" name="txtsearchinteriorName" value="" class="form-control border-0 py-3" placeholder="Search Keyword">
+                                        <%
+                                            }
+                                        %>
                                     </div>
                                     <div class="col-md-4">
                                         <select class="form-select border-0 py-3">
@@ -140,70 +153,74 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <button type="submit" value="Show" name="btnAction" class="btn btn-dark border-0 w-100 py-3">Search</button>
-                                <input type="submit" value="Show" name="btnAction" class="btn btn-dark border-0 w-100 py-3"/>
+                                <button type="submit" value="Search Interior" name="btnAction" class="btn btn-dark border-0 w-100 py-3">Search</button>
+                                <!--<input type="submit" value="Show" name="btnAction" class="btn btn-dark border-0 w-100 py-3"/>-->
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>-->
+            </form>
 
             <!-- Search End -->
 
 
             <!-- Property List Start -->
-
+            <%
+                if (searchValue != null) {
+                    List<InteriorDTO> listSearch = (List<InteriorDTO>) request.getAttribute("INTERIOR_LIST_SEARCH");
+                    if (listSearch != null && !listSearch.isEmpty()) {
+            %>
             <div class="container-xxl py-5">
                 <div class="container">
                     <div class="row g-0 gx-5 align-items-end">
-                        <div class="col-lg-6">
-                            <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-                                <h1 class="mb-3">Project Details</h1>
-                                <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit diam justo sed rebum.</p>
-                            </div>
-                        </div>
-
+                        
                     </div>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane fade show p-0 active">
                             <div class="row g-4">
-                                <%
-                                    double totalMoney = 0;
-                                    List<InteriorDetailsDTO> list = (List<InteriorDetailsDTO>) request.getAttribute("INTERIOR_BY_PROJECTID");
-                                    if (list != null && !list.isEmpty()) {
-                                %>
-                                <table class="table">
-                                    <thead class="thead-dark">
+                                <table border="1">
+                                    <thead>
                                         <tr>
-                                            <th scope="col">No</th>
-                                            <th scope="col">Interior Name</th>
-                                            <th scope="col">Image</th>
-                                            <th scope="col">Description</th>
-                                            <th scope="col">Create At</th>
-                                            <th scope="col">Update At</th>
-                                            <th scope="col">Material Name</th>
-                                            <th scope="col">Size</th>
-                                            <th scope="col">Mass</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col">Unit Price</th>
-                                            <th scope="col">Material Level</th>
-                                            <th scope="col">Money</th>
+                                            <th>No</th>
+                                            <th>interiorName</th>
+                                            <th>image</th>
+                                            <th>size</th>
+                                            <th>mass</th>
+                                            <th>materialID</th>
+                                            <th>description</th>
+                                            <th>createAt</th>
+                                            <th>updateAt</th>
+                                            <th>unit</th>
+                                            <th>unitPrice</th>
+                                            <th>Money</th>
+                                            <th>Add</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <%
                                             int count = 0;
-                                            for (InteriorDetailsDTO dto : list) {
+                                            for (InteriorDTO dto : listSearch) {
                                         %>
+                                    <form action="MainController" method="POST">
                                         <tr>
                                             <td>
                                                 <%= ++count%>
                                             </td>
                                             <td>
                                                 <%= dto.getInteriorName()%>
+
                                             </td>
                                             <td>
-                                                <img class="media-img-auto" style="width: 150px; height: 150px; margin-right: 10px" src="<%= dto.getImage()%>" class="img-thumbnail">
+                                                <img class="media-img-auto" style="width: 150px; height: 150px; margin-right: 10px" src="<%= dto.getImage()%>">
+                                            </td>
+                                            <td>
+                                                <%= dto.getSize()%>
+                                            </td>
+                                            <td>
+                                                <%= dto.getMass()%>
+                                            </td>
+                                            <td>
+                                                <%= dto.getMaterialID()%>
                                             </td>
                                             <td>
                                                 <%= dto.getDescription()%>
@@ -215,7 +232,73 @@
                                                 <%= dto.getUpdateAt()%>
                                             </td>
                                             <td>
-                                                <%= dto.getMaterialName()%>
+                                                <%= dto.getUnit()%>
+                                            </td>
+                                            <td>
+                                                <%= dto.getUnitPrice()%>
+                                            </td>
+                                            <td>
+                                                <%
+                                                    double money = dto.getUnit() * dto.getUnitPrice();
+                                                %>
+                                                <%= money%>
+                                            </td>
+                                            <td>
+                                                <input type="submit" value="Add Interior" name="btnAction"/>
+                                                <input type="hidden" name="interiorID" value="<%= dto.getInteriorID()%>" />
+                                            </td>
+                                        </tr>
+                                    </form>
+                                    <%
+                                        }
+                                    %>
+                                    </tbody>
+                                </table>
+                                <%
+                                } else {
+                                %>
+                                <h1>No interior found!</h1>
+                                <%
+                                        }
+                                    }
+
+                                    double totalMoney = 0;
+                                    List<InteriorDTO> listChoose = (List<InteriorDTO>) session.getAttribute("INTERIOR_CHOOSE_LIST");
+                                    if (listChoose != null && !listChoose.isEmpty()) {
+                                %>
+                                </br>
+                                </br>
+                                <table border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>interiorName</th>
+                                            <th>image</th>
+                                            <th>size</th>
+                                            <th>mass</th>
+                                            <th>materialID</th>
+                                            <th>description</th>
+                                            <th>createAt</th>
+                                            <th>updateAt</th>
+                                            <th>unit</th>
+                                            <th>unitPrice</th>
+                                            <th>Money</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%
+                                            int count = 0;
+                                            for (InteriorDTO dto : listChoose) {
+                                        %>
+                                        <tr>
+                                            <td>
+                                                <%= ++count%>
+                                            </td>
+                                            <td>
+                                                <%= dto.getInteriorName()%>
+                                            </td>
+                                            <td>
+                                                <img class="media-img-auto" style="width: 150px; height: 150px; margin-right: 10px" src="<%= dto.getImage()%>">
                                             </td>
                                             <td>
                                                 <%= dto.getSize()%>
@@ -224,56 +307,64 @@
                                                 <%= dto.getMass()%>
                                             </td>
                                             <td>
-                                                <%= dto.getInteriorQuantity()%>
+                                                <%= dto.getMaterialID()%>
+                                            </td>
+                                            <td>
+                                                <%= dto.getDescription()%>
+                                            </td>
+                                            <td>
+                                                <%= dto.getCreateAt()%>
+                                            </td>
+                                            <td>
+                                                <%= dto.getUpdateAt()%>
+                                            </td>
+                                            <td>
+                                                <%= dto.getUnit()%>
                                             </td>
                                             <td>
                                                 <%= dto.getUnitPrice()%>
                                             </td>
                                             <td>
-                                                <%= dto.getValueLevel()%>
-                                            </td>
-                                            <td>
                                                 <%
-                                                    double money = dto.getInteriorQuantity()* dto.getUnitPrice() * dto.getValueLevel();
-                                                    totalMoney += money;
+                                                    double money = dto.getUnit() * dto.getUnitPrice();
+                                                    totalMoney += totalMoney + money;
                                                 %>
                                                 <%= money%>
                                             </td>
+
                                         </tr>
                                         <%
                                             }
                                         %>
                                         <tr>
-                                            <td colspan="5">
-                                                Total: 
-                                            </td>
-                                            <td colspan="6">
+                                            <th>
+                                                Total:
+                                            </th>
+                                            <td>
                                                 <%= totalMoney%>
                                             </td>
                                         </tr>
+
                                     </tbody>
                                 </table>
-                                <div class="col-12 text-center">
-                                    <a class="btn btn-primary py-3 px-5" href="">Browse More Project</a>
-                                </div>
+                                <br/>
+
+                                <%
+                                    }
+                                %>
+                                <form action="MainController" method="POST">
+                                    <input type="submit" value="Save Project" name="btnAction"/>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <%
-                }else{
-            %>
-            <h1>this project did not have interior yet!</h1>
-            <%
-                    }
-                
-            %>
             <!-- Property List End -->
 
 
             <!-- Call to Action Start -->
-            <div class="container-xxl py-5">
+<!--            <div class="container-xxl py-5">
                 <div class="container">
                     <div class="bg-light rounded p-3">
                         <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
@@ -293,7 +384,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- Call to Action End -->
 
 

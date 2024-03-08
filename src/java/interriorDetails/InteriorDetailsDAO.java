@@ -28,10 +28,12 @@ public class InteriorDetailsDAO {
         try{
             con = DBUtils.getConnection();
             if(con != null){
-                String sql = "SELECT Interior.interiorID, Interior.interiorName, Interior.size, Interior.unit, Interior.mass, Interior.unitPrice, Interior.money, Interior.description, " +
-                "Interior.image, Interior.projectID, Interior.createAt, Interior.updateAt, Interior.status, Interior.marterialD, Material.materialName, Material.price " +
-                "FROM Interior INNER JOIN Material ON Interior.marterialD = Material.materialID " +
-                "WHERE Interior.projectID = ?";
+                String sql = "SELECT Interior.interiorID, Interior.interiorName, Interior.size, Interior.unit, Interior.mass, Interior.unitPrice, Interior.description, Interior.image, OrderDetail.projectID, " +
+                "Interior.createAt, Interior.updateAt, OrderDetail.status, Interior.marterialID, Material.materialName, Material.valueLevel, OrderDetail.interiorQuantity, OrderDetail.interiorMoney " +
+                "FROM Interior " +
+                "INNER JOIN Material ON Interior.marterialID = Material.materialID " +
+                "INNER JOIN OrderDetail ON Interior.interiorID = OrderDetail.interiorID " +
+                "WHERE OrderDetail.projectID = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, projectID);
                 rs = stm.executeQuery();
@@ -43,22 +45,24 @@ public class InteriorDetailsDAO {
                     int unit = rs.getInt("unit");
                     double mass = rs.getDouble("mass");
                     double unitPrice = rs.getDouble("unitPrice");
-                    double money = rs.getDouble("money");
                     String description = rs.getString("description");
                     String image = rs.getString("image");
                     Timestamp createAt = rs.getTimestamp("createAt");
                     Timestamp updateAt = rs.getTimestamp("updateAt");
                     int status = rs.getInt("status");
-                    int marterialD = rs.getInt("marterialD");
+                    int marterialD = rs.getInt("marterialID");
                     String materialName = rs.getString("materialName");
-                    double price = rs.getDouble("price");
+                    double valueLevel = rs.getDouble("valueLevel");
+                    int interiorQuantity = rs.getInt("interiorQuantity");
+                    double interiorMoney = rs.getDouble("interiorMoney");
                     
-                    InteriorDetailsDTO dto = new InteriorDetailsDTO(interiorID, interiorName, size, unit, mass, unitPrice, money, description, image, projectID, createAt, updateAt, status, marterialD, materialName, price);
+                    InteriorDetailsDTO dto = new InteriorDetailsDTO(interiorID, interiorName, size, unit, mass, unitPrice, description, image, projectID, createAt, updateAt, status, marterialD, materialName, valueLevel, interiorQuantity, interiorMoney);
                     list.add(dto);
                 }
             }
         }catch(Exception e){
-            
+            e.printStackTrace();
+            throw e;
         }finally{
             if(rs != null){
                 rs.close();

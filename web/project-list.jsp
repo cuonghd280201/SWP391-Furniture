@@ -37,8 +37,25 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     </head>
     <body>
+        <%
+            String save_noti = (String) request.getAttribute("SAVE_NOTI");
+            if (save_noti != null) {
+        %>
+        <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Save the project Successful',
+        });
+        </script>
+        <%        
+            }
+        %>
+        
         <div class="container-xxl bg-white p-0">
             <!-- Spinner Start -->
             <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -70,7 +87,7 @@
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="MainController?btnAction=Show" class="dropdown-item active">Project List</a>
                                     <a href="property-type.html" class="dropdown-item">Project Type</a>
-                                    <a href="property-agent.html" class="dropdown-item">Property Agent</a>
+                                    <a href="MainController?btnAction=Search Interior" class="dropdown-item">Create Project</a>
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
@@ -93,12 +110,12 @@
             <div class="container-fluid header bg-white p-0">
                 <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
                     <div class="col-md-6 p-5 mt-lg-5">
-                        <h1 class="display-5 animated fadeIn mb-4">Property List</h1> 
+                        <h1 class="display-5 animated fadeIn mb-4">List Project</h1> 
                         <nav aria-label="breadcrumb animated fadeIn">
                             <ol class="breadcrumb text-uppercase">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-body active" aria-current="page">Property List</li>
+                                <li class="breadcrumb-item text-body active" aria-current="page">List Project</li>
                             </ol>
                         </nav>
                     </div>
@@ -467,7 +484,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="tab-3" class="tab-pane fade show p-0">
+<!--                        <div id="tab-3" class="tab-pane fade show p-0">
                             <div class="row g-4">
                                 <div class="col-lg-4 col-md-6">
                                     <div class="property-item rounded overflow-hidden">
@@ -587,7 +604,7 @@
                                     <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -603,7 +620,7 @@
 
 
             <!-- Call to Action Start -->
-            <div class="container-xxl py-5">
+<!--            <div class="container-xxl py-5">
                 <div class="container">
                     <div class="bg-light rounded p-3">
                         <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
@@ -623,7 +640,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- Call to Action End -->
 
 

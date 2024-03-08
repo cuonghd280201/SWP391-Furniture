@@ -22,6 +22,9 @@ public class MainController extends HttpServlet {
     
     private final String PROJECT_DETAILS_CONTROLLER = "ProjectDetailsController";
     private final String VIEW_PROJECT_INTERIOR_CONTROLLER = "ProjectInteriorDetailController";
+    private final String ADD_CHOOSE_INTERIOR_CONTROLLER = "AddChooseInteriorController";
+    private final String SEARCH_INTERIOR_CONTROLLER = "SearchInteriorController";
+    private final String SAVE_PROJECT_CONTROLLER = "SaveProjectController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -59,6 +62,15 @@ public class MainController extends HttpServlet {
                 case "ViewProject":
                     url = VIEW_PROJECT_INTERIOR_CONTROLLER;
                     break;
+                case "Add Interior":
+                    url = ADD_CHOOSE_INTERIOR_CONTROLLER;
+                    break;
+                case "Search Interior":
+                    url = SEARCH_INTERIOR_CONTROLLER;
+                    break;
+                case "Save Project":
+                    url = SAVE_PROJECT_CONTROLLER;
+                    break;    
                 default:
                     break;
             }
