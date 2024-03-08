@@ -98,9 +98,10 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Project</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="displayInquiryCustomerController" class="dropdown-item">Project List</a>
+                                <a href="MainController?btnAction=Show" class="dropdown-item">Project List</a>
+                                <a href="displayInquiryCustomerController" class="dropdown-item">Inquiry List</a>
                                 <a href="property-type.html" class="dropdown-item">Project Type</a>
-                                <a href="property-agent.html" class="dropdown-item">Project Agent</a>
+                                <a href="MainController?btnAction=Search Interior" class="dropdown-item">Create Project</a>
                             </div>
                         </div>
                         <div class="nav-item dropdown">

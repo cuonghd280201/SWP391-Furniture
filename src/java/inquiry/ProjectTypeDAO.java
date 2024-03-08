@@ -34,7 +34,7 @@ public class ProjectTypeDAO {
         this.projectTypeDtoList = null;
         try {
             //1. make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 //2. create sql string
                 String sql = "SELECT projectTypeID, projectTypeName, status FROM ProjectType";
@@ -76,7 +76,7 @@ public class ProjectTypeDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             String sql = "SELECT * FROM [dbo].[ProjectType]";
             stm = con.prepareStatement(sql);
             rs = stm.executeQuery();

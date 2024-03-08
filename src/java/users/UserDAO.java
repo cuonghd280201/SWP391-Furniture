@@ -34,7 +34,7 @@ public class UserDAO {
 
         try {
             //1.  make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             Date now = Date.valueOf(LocalDate.now());
 
             if (con != null) {
@@ -77,7 +77,7 @@ public class UserDAO {
         UserDTO result = null;
         try {
             //1. Make connection
-            connection = DBUtils.makeConnection();
+            connection = DBUtils.getConnection();
             if (connection != null) {
                 //2. Create SQL String
                 String sql = "select firstName, lastName, email, password, phoneNumber, dataOfBirth, image, status, roleID, notificationID, is_actived \n"
@@ -125,7 +125,7 @@ public class UserDAO {
         boolean set = false;
         try {
             //1. make connection
-            connection = DBUtils.makeConnection();
+            connection = DBUtils.getConnection();
             if (connection != null) {
                 //2. create sql string
                 String sql = "select is_actived from tblUser where email=? and is_actived=1 ";
@@ -163,7 +163,7 @@ public class UserDAO {
         boolean result = false;
         try {
             //1. make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 //2. create sql string
                 String sql = "update tblUser set is_actived=1 where userID=?";
@@ -195,7 +195,7 @@ public class UserDAO {
         int result = 0;
         try {
             //1. make connection
-            connection = DBUtils.makeConnection();
+            connection = DBUtils.getConnection();
             if (connection != null) {
                 //2. create sql string
                 String sql = "select userID from tblUser where email=? ";
@@ -231,7 +231,7 @@ public class UserDAO {
         boolean set = false;
         try {
             //1. make connection
-            connection = DBUtils.makeConnection();
+            connection = DBUtils.getConnection();
             if (connection != null) {
                 //2. create sql string
                 String sql = "select email from tblUser where email like ? ";
@@ -268,7 +268,7 @@ public class UserDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "select * from tblUser where email = ? and password = ?";
                 stm = con.prepareStatement(sql);
@@ -310,7 +310,7 @@ public class UserDAO {
     public UserDTO checkLogin1(String email, String pass) {
         try {
             String query = "select * from tblUser where email = ? and password = ?";
-            Connection con = DBUtils.makeConnection();
+            Connection con = DBUtils.getConnection();
             ps = con.prepareStatement(query);
             ps.setString(1, email);
             ps.setString(2, pass);
@@ -337,7 +337,7 @@ public class UserDAO {
     public boolean updateUser(UserDTO user) {
         boolean result = true;
         String query = "UPDATE tblUSERS SET FullName= ?, AddressUser= ?, PhoneUser= ?, BirthDay= ? where UserName= ?";
-        Connection con = DBUtils.makeConnection();
+        Connection con = DBUtils.getConnection();
         try {
             PreparedStatement stm = con.prepareStatement(query);
             stm.setString(1, user.getFirstName());
@@ -360,7 +360,7 @@ public class UserDAO {
     public UserDTO checkAccountExist(String user) {
         try {
             String query = "select * from tblUser where email = ?";
-            Connection con = DBUtils.makeConnection();
+            Connection con = DBUtils.getConnection();
             ps = con.prepareStatement(query);
             ps.setString(1, user);
             rs = ps.executeQuery();
@@ -385,7 +385,7 @@ public class UserDAO {
 
     public boolean signUp(UserDTO u) {
         boolean result = true;
-        Connection con = DBUtils.makeConnection();
+        Connection con = DBUtils.getConnection();
         try {
             PreparedStatement stm = con.prepareStatement("insert into tblUser values(?, '', '', ?, ?,'','','','','1','1')");
             stm.setInt(1, u.getUserId());
@@ -405,7 +405,7 @@ public class UserDAO {
 
     public UserDTO detailUserById(String id) {
         UserDTO user = null;
-        Connection con = DBUtils.makeConnection();
+        Connection con = DBUtils.getConnection();
         try {
             PreparedStatement stm = con.prepareStatement("select * from tblUser where userID = ?");
             stm.setString(1, id);
@@ -432,7 +432,7 @@ public class UserDAO {
     public List<UserDTO> selectAllUsersAdmin() {
         List<UserDTO> list = new ArrayList<>();
         String query = "SELECT TOP 5 * FROM tblUser JOIN role ON tblUser.roleID = role.roleID WHERE role.roleID = 1 ORDER BY tblUser.create_At DESC;";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query);
                 ResultSet rs = stm.executeQuery()) {
             while (rs.next()) {
@@ -457,7 +457,7 @@ public class UserDAO {
     public List<UserDTO> selectAllUsers() {
         List<UserDTO> list = new ArrayList<>();
         String query = "SELECT * FROM tblUser JOIN role ON tblUser.roleID = role.roleID WHERE role.roleID = 1";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query);
                 ResultSet rs = stm.executeQuery()) {
             while (rs.next()) {
@@ -482,7 +482,7 @@ public class UserDAO {
     public List<UserDTO> selectAllStaffs() {
         List<UserDTO> list = new ArrayList<>();
         String query = "SELECT * FROM tblUser JOIN role ON tblUser.roleID = role.roleID WHERE role.roleID = 2";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query);
                 ResultSet rs = stm.executeQuery()) {
             while (rs.next()) {
@@ -509,7 +509,7 @@ public class UserDAO {
         Connection con = null;
         Date now = Date.valueOf(LocalDate.now());
         try {
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             //Insert register data to database
             String query = " insert into tblUser (created_At) values(?)";
 
@@ -535,7 +535,7 @@ public class UserDAO {
         ResultSet rs = null;
         int userId = 0;
         try {
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             String query = "SELECT TOP 1 userID AS current_identity FROM tblUser ORDER BY userID DESC";
             Statement pst = con.createStatement();
             //pst.setString(1, query);            
@@ -577,7 +577,7 @@ public class UserDAO {
         boolean set = false;
         Date now = Date.valueOf(LocalDate.now());
         try {
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             //Insert register data to database
             String query = "INSERT INTO tblUser (firstName, lastName, password, email, phoneNumber, create_At, is_actived,  roleID)\n"
                     + "VALUES (?, ?, ?, ?, ?, ?, 0, 1);";
@@ -615,7 +615,7 @@ public class UserDAO {
         boolean set = false;
         try {
             //1. make connection
-            connection = DBUtils.makeConnection();
+            connection = DBUtils.getConnection();
             if (connection != null) {
                 //2. create sql string
                 String sql = "select phoneNumber from tblUser where phoneNumber like ? ";
@@ -649,7 +649,7 @@ public class UserDAO {
     public int countAllUsers() {
         int numberOfUsers = 0;
         String query = "SELECT COUNT(*) AS NumberOfUsers FROM tblUser";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query);
                 ResultSet rs = stm.executeQuery()) {
 
@@ -667,7 +667,7 @@ public class UserDAO {
     public int countAllCustomers() {
         int numberOfCustomers = 0;
         String query = "SELECT COUNT(*) AS NumberOfCustomers FROM tblUser where roleID = 1";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query);
                 ResultSet rs = stm.executeQuery()) {
 
@@ -685,7 +685,7 @@ public class UserDAO {
     public int countAllStaffs() {
         int numberOfStaffs = 0;
         String query = "SELECT COUNT(*) AS NumberOfStaffs FROM tblUser WHERE roleID = 2";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query);
                 ResultSet rs = stm.executeQuery()) {
 
@@ -706,7 +706,7 @@ public class UserDAO {
         int affectedRows = 0;
         try {
             //1. make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 //2. create sql string
                 String sql = "UPDATE tblUser \n"
@@ -734,7 +734,7 @@ public class UserDAO {
 
     public boolean addUser(UserDTO u) {
         String query = "insert into tblUser (firstName, lastName, email, password, phoneNumber, dataOfBirth) values (?,?,?,?,?,?)";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query)) {
 
             stm.setString(1, u.getFirstName());

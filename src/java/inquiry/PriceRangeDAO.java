@@ -33,7 +33,7 @@ public class PriceRangeDAO {
         this.priceRangeDtoList = null;
         try {
             //1. make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 //2. create sql string
                 String sql = "SELECT priceRangeID, priceRangeName, priceRangeDescription FROM PriceRange";
@@ -75,7 +75,7 @@ public class PriceRangeDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             String sql = "SELECT * FROM [dbo].[PriceRange]";
             stm = con.prepareStatement(sql);
             rs = stm.executeQuery();

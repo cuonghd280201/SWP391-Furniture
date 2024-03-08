@@ -23,7 +23,7 @@ public class ProjectFacade {
 
         try {
             // 1. Tạo kết nối
-            connection = DBUtils.makeConnection();
+            connection = DBUtils.getConnection();
 
             if (connection != null) {
                 // 2. Tạo câu lệnh SQL
@@ -75,7 +75,7 @@ public class ProjectFacade {
     public int countAllProjects() {
         int numberOfProjects = 0;
         String query = "SELECT COUNT(*) AS NumberOfProjects FROM Project";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query);
                 ResultSet rs = stm.executeQuery()) {
 
@@ -99,7 +99,7 @@ public class ProjectFacade {
         List<Project> projectDtoList = new ArrayList<>(); // Initialize list outside try block
 
         try {
-            connection = DBUtils.makeConnection();
+            connection = DBUtils.getConnection();
             stm = connection.prepareStatement(query);
             rs = stm.executeQuery();
 

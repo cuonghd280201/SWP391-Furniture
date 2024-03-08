@@ -27,7 +27,7 @@ public class ConstructionDAO {
         boolean result = false;
         try {
             //1. make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 //2. create sql string
                 String sql = "DELETE FROM Construction Where constructionID = ?;";
@@ -61,7 +61,7 @@ public class ConstructionDAO {
         Construction result = null;
         try {
             //1. make connection
-            connection = DBUtils.makeConnection();
+            connection = DBUtils.getConnection();
             if (connection != null) {
                 //2. create sql string
                 String sql = "SELECT constructionName, constructionDescription FROM Construction Where constructionID = ?";
@@ -102,7 +102,7 @@ public class ConstructionDAO {
         boolean result = false;
         try {
             //1.  make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 //2. create sql string
                 String sql = "UPDATE Construction SET constructionName= ?, constructionDescription = ? WHERE (constructionID = ?);";
@@ -136,7 +136,7 @@ public class ConstructionDAO {
         boolean result = false;
         try {
             //1.  make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 //2. create sql string
                 String sql = "INSERT INTO Construction \n"
@@ -179,7 +179,7 @@ public class ConstructionDAO {
         this.constructionDtoList = null;
         try {
             //1. make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 //2. create sql string
                 String sql = "SELECT constructionID, constructionName , constructionDescription FROM Construction";
@@ -221,7 +221,7 @@ public class ConstructionDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             String sql = "SELECT * FROM [dbo].[Construction]";
             stm = con.prepareStatement(sql);
             rs = stm.executeQuery();

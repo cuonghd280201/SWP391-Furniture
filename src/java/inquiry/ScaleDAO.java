@@ -32,7 +32,7 @@ public class ScaleDAO {
         this.scaleDtoList = null;
         try {
             //1. make connection
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 //2. create sql string
                 String sql = "SELECT scaleID, scaleName, scaleDescription FROM Scale";
@@ -74,7 +74,7 @@ public class ScaleDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             String sql = "SELECT * FROM [dbo].[Scale]";
             stm = con.prepareStatement(sql);
             rs = stm.executeQuery();
