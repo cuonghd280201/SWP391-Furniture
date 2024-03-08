@@ -16,6 +16,11 @@ public class Scale {
 
     public Scale() {
     }
+
+    public Scale(int scaleID, String scaleName) {
+        this.scaleID = scaleID;
+        this.scaleName = scaleName;
+    }
     
     
 

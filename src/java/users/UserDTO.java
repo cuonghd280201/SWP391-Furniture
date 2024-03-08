@@ -6,28 +6,64 @@
 package users;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  *
  * @author Admin
  */
-public class UserDTO implements Serializable{
-     private String userId;
+public class UserDTO implements Serializable {
+
+    private int userId;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String phoneNumber;
-    private String dataOfBirth;
+    private Date dataOfBirth;
     private String image;
     private String roleId;
+    private boolean isActived;
+    private Date create_At;
 
     public UserDTO() {
     }
+
+    public UserDTO(String firstName, String lastName, String email, String password, String phoneNumber, Date dataOfBirth, String image, String roleId, boolean isActived) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.dataOfBirth = dataOfBirth;
+        this.image = image;
+        this.roleId = roleId;
+        this.isActived = isActived;
+    }
+
+    public UserDTO(String firstName, String lastName, String email, String password, String phoneNumber, Date created_At, boolean isActived) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.create_At = created_At;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.isActived = isActived;
+    }
+
+    public UserDTO(String firstName, String lastName, String email, String password, String phoneNumber, Date dataOfBirth) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.dataOfBirth = dataOfBirth;
+    }
+    
     
     
 
-    public UserDTO(String userId, String firstName, String lastName, String email, String password, String phoneNumber, String dataOfBirth, String image, String roleId) {
+    public UserDTO(int userId, String firstName, String lastName, String email, String password, String phoneNumber, Date dataOfBirth, String image, String roleId, boolean isActived) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,13 +73,14 @@ public class UserDTO implements Serializable{
         this.dataOfBirth = dataOfBirth;
         this.image = image;
         this.roleId = roleId;
+        this.isActived = isActived;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -62,8 +99,6 @@ public class UserDTO implements Serializable{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-   
 
     public String getEmail() {
         return email;
@@ -89,11 +124,11 @@ public class UserDTO implements Serializable{
         this.phoneNumber = phoneNumber;
     }
 
-    public String getDataOfBirth() {
+    public Date getDataOfBirth() {
         return dataOfBirth;
     }
 
-    public void setDataOfBirth(String dataOfBirth) {
+    public void setDataOfBirth(Date dataOfBirth) {
         this.dataOfBirth = dataOfBirth;
     }
 
@@ -112,5 +147,13 @@ public class UserDTO implements Serializable{
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
-    
+
+    public boolean isIsActived() {
+        return isActived;
+    }
+
+    public void setIsActived(boolean isActived) {
+        this.isActived = isActived;
+    }
+
 }
