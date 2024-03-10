@@ -1,8 +1,12 @@
 
+<%@page import="inquiry.InquiryErrorDTO"%>
+<%@page import="inquiry.Construction"%>
+<%@page import="java.util.List"%>
 <%@page import="users.UserDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,11 +17,11 @@
         <meta content="" name="keywords">
         <meta content="" name="description">
 
+        <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
 
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
-
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
 
@@ -28,12 +32,12 @@
         <!-- Libraries Stylesheet -->
         <link href="lib/animate/animate.min.css" rel="stylesheet">
         <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-        <!-- Customized Bootstrap Stylesheet -->
-        <link href="<c:url value="/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css"/>
 
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
-        <link href="<c:url value="/css/style.css"/>" rel="stylesheet" type="text/css"/>
+        <link href="css/style.css" rel="stylesheet">
         <style>
             .container-fluid {
                 /* Add your existing container styles here */
@@ -55,14 +59,14 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 background-color: white;
-                padding: 20px;
+                padding: 50px;
                 border: 1px solid #ccc;
                 z-index: 1000;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                width: 80%;
-                height: 80%;
-                max-width: 3000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều rộng tối đa */
-                max-height: 4000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều cao tối đa */
+                width: 70%;
+                height: 70%;
+                max-width: 2000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều rộng tối đa */
+                max-height: 3000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều cao tối đa */
             }
 
             .popup-content {
@@ -73,93 +77,39 @@
             }
         </style>
     </head>
-
-    <body>
-        <div class="container-xxl bg-white p-0">
-            <!-- Spinner Start -->
-            <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-            <!-- Spinner End -->
-
-
-            <!-- Navbar Start -->
-            <div class="container-fluid nav-bar bg-transparent">
-                <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
-                    <a href="MainController?btnAction=Home" class="navbar-brand d-flex align-items-center text-center">
-                        <div class="icon p-2 me-2">
-                            <img class="img-fluid" src="img/icon-deal.png" alt="Icon" style="width: 30px; height: 30px;">
-                        </div>
-                        <h1 class="m-0 text-primary">Furniture</h1>
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto">
-                            <a href="MainController?btnAction=Home" class="nav-item nav-link active">Home</a>
-                            <a href="MainController?btnAction=CountUser" class="nav-item nav-link">About</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Project</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="MainController?btnAction=Show" class="dropdown-item">Project List</a>
-                                    <a href="property-type.html" class="dropdown-item">Project Type</a>
-                                    <a href="MainController?btnAction=Search Interior" class="dropdown-item">Create Project</a>
-                                </div>
-                            </div>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Error</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
-                        </div>
-                        <div class="header__user">
-                            <%
-                                UserDTO loginuser = (UserDTO) session.getAttribute("LOGIN_USER");
-                                if (loginuser != null) {
-                                    if (!"1".equals(loginuser.getRoleId())) {
-                                        response.sendRedirect("MainController?btnAction=Login Back");
-                                        return;
-                                    }
-                            %>
-                            <p class="display-8 text-center text-primary">Welcome, <%= loginuser.getFirstName()%> <%= loginuser.getLastName()%></p>
-                            <a href="MainController?btnAction=Logout" class="btn btn-primary px-3 d-none d-lg-flex">Logout</a>
-                            <%
-                            } else {
-                            %>
-                            <a href="MainController?btnAction=Login Back" class="btn btn-primary px-3 d-none d-lg-flex">Login</a>
-                            <%
-                                }
-                            %>
-                        </div>
-
+    <c:import url="LoadHomePageController"></c:import>
+s
+        <body>
+            <div class="container-xxl bg-white p-0">
+                <!-- Spinner Start -->
+                <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
                     </div>
-                </nav>
-            </div>
+                </div>
+                <!-- Spinner End -->
+
+                <!-- Nabar Start -->
+            <%@include file="header.jsp" %>
+
             <!-- Navbar End -->
 
 
             <!-- Header Start -->
             <div class="container-fluid header bg-white p-0">
                 <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
-                    <div class="col-md-6 p-5 mt-lg-5">
+                    <div class="col-md-6 p-5 mt-lg-10">
                         <h1 class="display-5 animated fadeIn mb-4">Find A <span class="text-primary">Perfect Furniture</span> To Live With Your Family</h1>
-                        <p class="animated fadeIn mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet
-                            sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
+                        <p class="animated fadeIn mb-4 pb-2">Furniture companies often provide services such as design consulting, material selection and supply, custom furniture production, installation and finishing of interior spaces...</p>
                         <a href="#" id="getStartedBtn" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Get Started</a>
                     </div>
                     <div class="col-md-6 animated fadeIn">
                         <div class="owl-carousel header-carousel">
                             <div class="owl-carousel-item">
-                                <img class="img-fluid" src="img/carousel-1.jpg" alt="">
+                                <img class="img-fluid" src="img/home1.jpg" alt="">
                             </div>
                             <div class="owl-carousel-item">
-                                <img class="img-fluid" src="img/carousel-2.jpg" alt="">
+                                <img class="img-fluid" src="img/home2.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -169,63 +119,84 @@
             <div id="popup" class="popup">
                 <div class="popup-content">
                     <!-- Your popup content goes here -->
-
-                    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+                    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 100px;">
                         <div class="container">
-                            <div class="row g-2">
-                                <div class="col-md-10">
-                                    <div class="row g-2">  
-                                        <div class="col-md-6">
-                                            <select class="form-select border-0 py-3">
-                                                <option selected>Construction</option>
-                                                <option value="1">Bedroom</option>
-                                                <option value="2">Kitchen</option>
-                                                <option value="3">Living room</option>
-                                                <option value="4">Bathroom</option>
-
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <select class="form-select border-0 py-3">
-                                                <option selected>Project Type</option>
-                                                <option value="1">Basic Style</option>
-                                                <option value="2">Mordern Style</option>
-                                                <option value="3">Classic Style</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <select class="form-select border-0 py-3">
-                                                <option selected>Scale</option>
-                                                <option value="1">1 room</option>
-                                                <option value="2">2 rooms</option>
-                                                <option value="3">3 rooms</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <select class="form-select border-0 py-3">
-                                                <option selected>Price</option>
-                                                <option value="1">Under 50 million</option>
-                                                <option value="2">From 50 - 100 million</option>
-                                                <option value="3">Over 100 million</option>
-                                            </select>
-                                        </div>
-
-
-
-                                        <textarea class="border-0 py-3" name = "text" cols ="40" rows ="10" placeholder="Description"></textarea>
-                                    </div>
-                                </div>
+                            <form action="createInquiryController" method="post" >
                                 <div class="row g-2">
-                                    <div class="col-md-2">
-                                        <button class="btn btn-dark border-0 w-100 py-3">Send</button>
+                                    <div class="col-md-13">
+                                        <div class="row g-10">
+                                            <c:set var="constructionList" value="${requestScope.constructionList}"></c:set>
+                                                <div class="col-md-6">
+                                                    <label for="txtConstructionID"><strong>Construction</strong> <font color="red">*</font></label>
+                                                    <select class="form-control border-0 py-3" name="txtConstructionID">
+                                                        <option value="" disabled="disabled" selected>Choose Project</option>
+                                                    <c:if test="${not empty constructionList}">
+                                                        <c:forEach var="construction" items="${constructionList}">
+                                                            <c:if test="${not empty construction.constructionID}">
+                                                                <option value="${construction.constructionID}">${construction.constructionName}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </c:if>    
+                                                </select>
+                                            </div>
+                                            <c:set var="projectTypeList" value="${requestScope.projectTypeList}"></c:set>
+                                                <div class="col-md-6">
+                                                    <label for="txtProjectTypeID"><strong>Project Type</strong> <font color="red">*</font></label>
+                                                    <select class="form-control border-0 py-3" name="txtProjectTypeID">
+                                                        <option value="" disabled="disabled" selected>Choose Project</option>
+                                                    <c:if test="${not empty projectTypeList}">
+                                                        <c:forEach var="projectType" items="${projectTypeList}">
+                                                            <option value="${projectType.projectTypeID}">${projectType.projectTypeName}</option>
+                                                        </c:forEach>
+                                                    </c:if>            
+                                                </select>
+                                            </div>
+                                            <c:set var="scaleList" value="${requestScope.scaleList}"></c:set>
+                                                <div class="col-md-6">
+                                                    <label for="txtScaleID"><strong>Scale</strong>  <font color="red">*</font></label>
+                                                    <select class="form-control border-0 py-3" name="txtScaleID">
+                                                        <option value="" disabled="disabled" selected>Choose Scale</option>
+                                                    <c:forEach var="scale" items="${scaleList}">
+                                                        <option value="${scale.scaleID}">${scale.scaleName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <c:set var="priceRangeList" value="${requestScope.priceList}"></c:set>
+                                                <div class="col-md-6">
+                                                    <label for="txtPriceRangeID"><strong>Price Range</strong>  <font color="red">*</font></label>
+                                                    <select class="form-control border-0 py-3" name="txtPriceRangeID">
+                                                        <option value="" disabled="disabled" selected>Choose Price Range</option>
+                                                    <c:forEach var="price" items="${priceRangeList}">
+                                                        <option value="${price.priceRangeID}">${price.priceRangeName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="txtDescription"><strong>Description</strong>  <font color="red">*</font></label>
+                                                <textarea placeholder="Short description about your inquiry..." 
+                                                          class="textarea form-control" name="txtDescription" id="form-message"
+                                                          rows="3" cols="20" data-error="Description is required" required>${param.txtDescription}</textarea>
+                                                <div class="help-block with-errors"></div>
+                                                <font color="red">${requestScope.ERROR.descriptionExceedCharsCount}</font>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-2">
+                                        <div class="col-md-2">
+                                            <button class="btn btn-dark border-0 w-100 py-3" type="submit">Send Quote</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+
+                            </form>
+                        </div>                             
                     </div>
-                    <button onclick="closePopup()">Close</button>
                 </div>
+                <span class="close-btn" onclick="closePopup()">X</span>
+
             </div>
+
+
             <!-- Header End -->
 
 
@@ -365,31 +336,6 @@
                 </div>
             </div>
             <!-- Category End -->
-
-
-            <!-- About Start -->
-            <div class="container-xxl py-5">
-                <div class="container">
-                    <div class="row g-5 align-items-center">
-                        <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                            <div class="about-img position-relative overflow-hidden p-5 pe-0">
-                                <img class="img-fluid w-100" src="img/about.jpg">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                            <h1 class="mb-4">#1 Place To Find The Perfect Property</h1>
-                            <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                            <p><i class="fa fa-check text-primary me-3"></i>Tempor erat elitr rebum at clita</p>
-                            <p><i class="fa fa-check text-primary me-3"></i>Aliqu diam amet diam et eos</p>
-                            <p><i class="fa fa-check text-primary me-3"></i>Clita duo justo magna dolore erat amet</p>
-                            <a class="btn btn-primary py-3 px-5 mt-3" href="">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- About End -->
-
-
             <!-- Property List Start -->
             <div class="container-xxl py-5">
                 <div class="container">
@@ -402,27 +348,34 @@
                         <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
                             <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
                                 <li class="nav-item me-2">
-                                    <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">Basic</a>
+                                    <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">Modern</a>
                                 </li>
                                 <li class="nav-item me-2">
                                     <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">Classic</a>
                                 </li>
                                 <li class="nav-item me-0">
-                                    <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">Modern</a>
+                                    <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">Basic</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane fade show p-0 active">
-                            <div class="row g-4" style="display: flex; flex-wrap: nowrap; overflow-x: auto;">
-                                
-                                <c:forEach var="project" items="${listProjects}">
-                                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s" style="flex: 0 0 auto; margin-right: 15px;">
+
+                            <div class="row g-4">
+                                <c:forEach var="project" items="${sessionScope.listProjects}">
+                                    <c:set var="image" value="${project.imageDTO}"/>
+                                    <c:url var="single_recipe_url" value="displayDetailProject">
+                                        <c:param name="projectID" value="${project.projectID}"/>
+                                    </c:url>
+                                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                                         <div class="property-item rounded overflow-hidden">
-                                            <div class="position-relative overflow-hidden" style="height: 200px; overflow: hidden;">
-                                                <img src="<c:url value='${project.image}'/>" style="width: 100%; height: 100%; object-fit: cover;"/>
-                                                <!-- Add other project details here -->
+                                            <div class="position-relative overflow-hidden">
+                                                <figure class="item-figure"><a href="${single_recipe_url}">
+
+                                                        <img src="${image.imageURL}" style="width: 100%; height: 100%; object-fit: cover;"/>
+                                                </figure>                                               
+                                                <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Modern</div>
                                             </div>
                                             <div class="p-4 pb-0">
                                                 <h5 class="text-primary mb-3">Price: 
@@ -431,145 +384,193 @@
                                                     </c:set>
                                                     <c:out value="${formattedPrice}" />
                                                 </h5>
-                                                <a class="d-block h5 mb-2" href=""><c:out value='${project.projectName}'/></a>
+                                                <a class="d-block h5 mb-2" href="">${project.projectName}</a>
                                                 <p><i class="fa fa-clock text-primary me-2"></i><c:out value='${project.createAt}'/></p>
-                                            </div>
-                                            <div class="d-flex border-top">
-                                                <!-- Add other project details here -->
                                             </div>
                                         </div>
                                     </div>
                                 </c:forEach>
+
                             </div>
+
                         </div>
+
                     </div>
+                </div>
 
 
 
-                 
-                            <div class="col-12 text-center">
-                                <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
-                            </div>
-                        </div>
-                    </div>
+
+                <div class="col-12 text-center">
+                    <a class="btn btn-primary py-3 px-5" href="">Browse More Property</a>
                 </div>
             </div>
         </div>
-        <!-- Property List End -->
-
-
-        <!-- Call to Action Start -->
-        <div class="container-xxl py-5">
-            <div class="container">
-                <div class="bg-light rounded p-3">
-                    <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
-                        <div class="row g-5 align-items-center">
-                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                                <img class="img-fluid rounded w-100" src="img/call-to-action.jpg" alt="">
-                            </div>
-                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                                <div class="mb-4">
-                                    <h1 class="mb-3">Contact With Our Certified Agent</h1>
-                                    <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>
-                                </div>
-                                <a href="" class="btn btn-primary py-3 px-4 me-2"><i class="fa fa-phone-alt me-2"></i>Make A Call</a>
-                                <a href="" class="btn btn-dark py-3 px-4"><i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Call to Action End -->
-
-
-
-
-        <!-- Footer Start -->
-        <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-            <div class="container py-5">
-                <div class="row g-5">
-                    <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Get In Touch</h5>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                        <div class="d-flex pt-2">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Quick Links</h5>
-                        <a class="btn btn-link text-white-50" href="">About Us</a>
-                        <a class="btn btn-link text-white-50" href="">Contact Us</a>
-                        <a class="btn btn-link text-white-50" href="">Our Services</a>
-                        <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
-                        <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Photo Gallery</h5>
-                        <div class="row g-2 pt-2">
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-1.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-2.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-3.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-4.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-5.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="img/property-6.jpg" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Newsletter</h5>
-                        <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                        <div class="position-relative mx-auto" style="max-width: 400px;">
-                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="copyright">
-                    <div class="row">
-                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
-
-                            <!--/*** This template is free as long as you keep the footer author?s credit link/attribution link/backlink. If you'd like to use the template without the footer author?s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                        </div>
-                        <div class="col-md-6 text-center text-md-end">
-                            <div class="footer-menu">
-                                <a href="">Home</a>
-                                <a href="">Cookies</a>
-                                <a href="">Help</a>
-                                <a href="">FQAs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Footer End -->
-
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
+</div>
+</div>
+<!-- Property List End -->
 
+
+<!-- Call to Action Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="bg-light rounded p-3">
+            <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                        <img class="img-fluid rounded w-100" src="img/call-to-action.jpg" alt="">
+                    </div>
+                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                        <div class="mb-4">
+                            <h1 class="mb-3">Contact With Our Certified Agent</h1>
+                            <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>
+                        </div>
+                        <a href="" class="btn btn-primary py-3 px-4 me-2"><i class="fa fa-phone-alt me-2"></i>Make A Call</a>
+                        <a href="" class="btn btn-dark py-3 px-4"><i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Call to Action End -->
+
+
+
+
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white mb-4">Get In Touch</h5>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white mb-4">Quick Links</h5>
+                <a class="btn btn-link text-white-50" href="">About Us</a>
+                <a class="btn btn-link text-white-50" href="">Contact Us</a>
+                <a class="btn btn-link text-white-50" href="">Our Services</a>
+                <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
+                <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white mb-4">Photo Gallery</h5>
+                <div class="row g-2 pt-2">
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/property-1.jpg" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/property-2.jpg" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/property-3.jpg" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/property-4.jpg" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/property-5.jpg" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/property-6.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white mb-4">Newsletter</h5>
+                <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                <div class="position-relative mx-auto" style="max-width: 400px;">
+                    <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                    <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
+
+                    <!--/*** This template is free as long as you keep the footer author?s credit link/attribution link/backlink. If you'd like to use the template without the footer author?s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
+
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+
+<!-- Modal Start-->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="title-default-bold mb-none">Login</div>
+            </div>
+            <div class="modal-body">
+                <c:url var="login_url" value="loginPage"></c:url>
+                <c:url var="register_url" value="registerPage"></c:url>
+                    <form class="login-form" action="login_url" method="post" id="loginform">
+                        <!--                                <div class="inline-box mb-5 mt-4">
+                                            <a href="${login_url}">Login</a>
+                                        <a href="${register_url}">Register</a>
+                                    </div>-->
+                    <div class="d-flex justify-content-between mb-5">
+                        <button type="button" class="btn btn-success" style="font-size: 1.75rem"
+                                onclick="dieu_huong_login()">Login</button>
+                        <script>
+                            function dieu_huong_login() {
+                                location.assign("${login_url}");
+                            }
+                        </script>
+                        <button type="button" class="btn btn-danger" style="font-size: 1.75rem"
+                                onclick="dieu_huong_Register()">Register</button>
+                        <script>
+                            function dieu_huong_Register() {
+                                location.assign("${register_url}");
+                            }
+                        </script>
+                    </div>
+                </form>
+                <label>Login connect with your Social Network</label>
+                <div class="login-box-social">
+                    <ul>
+                        <li><a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/BakeryRecipe/login-google&response_type=code&client_id=220347070456-brh7fuqartnn99t6prha0o1kcc6rmajr.apps.googleusercontent.com&approval_prompt=force"
+                               class="google"><i class="fab fa-google-plus-g"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </form>
+
+
+    </div>
+    <!-- Modal End-->
     <script>
         document.getElementById('getStartedBtn').addEventListener('click', function () {
             document.getElementById('popup').style.display = 'flex';
@@ -579,6 +580,9 @@
             document.getElementById('popup').style.display = 'none';
         }
     </script>
+
+
+
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -590,6 +594,36 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script>
+        function openModal() {
+            $('#myModal').modal('show');
+        }
+    </script>
+    <script>
+        function toggleDropdown(id) {
+            var dropdown = document.getElementById(id);
+            if (dropdown.style.display === "none") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+    </script>
+
+    <script src="js/select2.full.min.js"></script>
+
+
+    <script>
+<!--Chan gui form bang Enter-->
+        $("#submitForm").keypress(function (e) {
+            if (e.which == 13) {
+                return false;
+            }
+        });
+    </script>
+    <script src="js/submit_recipe.js"></script>
+
 </body>
+
 
 </html>

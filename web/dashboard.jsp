@@ -10,8 +10,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS -->
-
-
         <link href="<c:url value="/assets/vendor/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/assets/vendor/fonts/circular-std/style.css"/>" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/assets/libs/css/style.css"/>" rel="stylesheet" type="text/css"/>
@@ -21,32 +19,27 @@
         <link href="<c:url value="/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css"/>" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/assets/vendor/charts/c3charts/c3.css"/>" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/assets/vendor/fonts/flag-icon-css/flag-icon.min.css"/>" rel="stylesheet" type="text/css"/>
-
-
-
-
-
-
-
-        <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
+        <title>
+            Furniture</title>
     </head>
+    <c:import url="adminDashboardController"></c:import>
 
-    <body>
-        <!-- ============================================================== -->
-        <!-- main wrapper -->
-        <!-- ============================================================== -->
-        <div class="dashboard-main-wrapper">
+        <body>
             <!-- ============================================================== -->
-            <!-- navbar -->
+            <!-- main wrapper -->
             <!-- ============================================================== -->
-     
-            <!-- ============================================================== -->
-            <!-- end navbar -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- left sidebar -->
-            <!-- ============================================================== -->
-                                            <%@include file="siderBar.jsp" %>
+            <div class="dashboard-main-wrapper">
+                <!-- ============================================================== -->
+                <!-- navbar -->
+                <!-- ============================================================== -->
+
+                <!-- ============================================================== -->
+                <!-- end navbar -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- left sidebar -->
+                <!-- ============================================================== -->
+            <%@include file="siderBar.jsp" %>
 
             <!-- ============================================================== -->
             <!-- end left sidebar -->
@@ -86,11 +79,13 @@
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                     <div class="card border-3 border-top border-top-primary">
                                         <div class="card-body">
-                                            <h5 class="text-muted">Sales</h5>
+                                            <h5 class="text-muted">Total Projects</h5>
                                             <div class="metric-value d-inline-block">
-                                                <h1 class="mb-1">0</h1>
+                                                <h1 class="mb-1">${sessionScope.numberOfProjects}</h1>
                                             </div>
-
+                                            <div class="metric-label d-inline-block float-right text-warning font-weight-bold">
+                                                <span class="icon-circle-small icon-box-xs text-success bg-warning-light bg-warning-light "></span><span class="ml-1">projects</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -105,9 +100,11 @@
                                         <div class="card-body">
                                             <h5 class="text-muted">Total Qoutation</h5>
                                             <div class="metric-value d-inline-block">
-                                                <h1 class="mb-1">0</h1>
+                                                <h1 class="mb-1"></h1>
                                             </div>
-
+                                            <div class="metric-label d-inline-block float-right text-info font-weight-bold">
+                                                <span class="icon-circle-small icon-box-xs text-info bg-info-light bg-info-light "></span><span class="ml-1">qoutations</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -122,7 +119,10 @@
                                         <div class="card-body">
                                             <h5 class="text-muted">Total Inquiry</h5>
                                             <div class="metric-value d-inline-block">
-                                                <h1 class="mb-1">0</h1>
+                                                <h1 class="mb-1">${sessionScope.numberOfInquirys}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                                <span class="icon-circle-small icon-box-xs text-success bg-success-light bg-success-light "></span><span class="ml-1">inquirys</span>
                                             </div>
 
                                         </div>
@@ -139,7 +139,7 @@
                                         <div class="card-body">
                                             <h5 class="text-muted">Total Users</h5>
                                             <div class="metric-value d-inline-block">
-                                                <h1 class="mb-1">${numberOfUsers}</h1>
+                                                <h1 class="mb-1">${sessionScope.numberOfUsers}</h1>
                                             </div>
                                             <div class="metric-label d-inline-block float-right text-danger font-weight-bold">
                                                 <span class="icon-circle-small icon-box-xs text-danger bg-danger-light bg-danger-light "></span><span class="ml-1">users</span>
@@ -166,28 +166,32 @@
                                                 <table class="table">
                                                     <thead class="bg-light">
                                                         <tr class="border-0">
-                                                            <th class="border-0">User ID</th>
+                                                            <th class="border-0">Image</th>
                                                             <th class="border-0">First Name</th>
                                                             <th class="border-0">Last Name</th>
                                                             <th class="border-0">Email</th>
                                                             <th class="border-0">Phone Number</th>
-                                                            <th class="border-0">Date Of Birth</th>
-                                                            <th class="border-0">Image</th>
-                                                            <
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <c:forEach var="user" items="${listUser}">
+                                                        <c:forEach var="user" items="${sessionScope.listUser}">
                                                             <tr>
-                                                                <td>${user.userId}</td>
+                                                                <td>
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty user.image}">
+                                                                            <img src="${user.image}" class="rounded-circle media-img-auto" style="width: 50px; height: 50px; margin-right: 10px">
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <img class="rounded-circle media-img-auto" src="img/noimage.png" alt="" style="width: 50px; height: 50px; margin-right: 10px">
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </td>
+
                                                                 <td>${user.firstName}</td>
                                                                 <td>${user.lastName}</td>
                                                                 <td>${user.email}</td>
-                                                                <td>${user.password}</td>
                                                                 <td>${user.phoneNumber}</td>
-                                                                <td>${user.dataOfBirth}</td>
-                                                                <td>${user.image}</td>
-
                                                                 <!-- Add more columns as needed -->
                                                             </tr>
                                                         </c:forEach>
@@ -206,6 +210,33 @@
                                 <!-- ============================================================== -->
                                 <!-- customer acquistion  -->
                                 <!-- ============================================================== -->
+
+
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <h5 class="card-header">Number of Customers and Staff</h5>
+                                        <div class="card-body">
+
+                                            <canvas id="pieChart" width="400" height="400"></canvas>
+
+                                            <%
+                                                // Get the number of customers and staff from session
+                                                int numberOfCustomers = (int) session.getAttribute("numberOfCustomers");
+                                                int numberOfStaffs = (int) session.getAttribute("numberOfStaffs");
+
+                                            %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ============================================================== -->
+                                <!-- end customer acquistion  -->
+                                <!-- ============================================================== -->
+                            </div>
+                            <div class="row">
+                                <!-- ============================================================== -->
+                                <!-- product category  -->
+                                <!-- ============================================================== -->
+
                                 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                                     <div class="card">
                                         <h5 class="card-header">Customer Acquisition</h5>
@@ -225,35 +256,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- ============================================================== -->
-                                <!-- end customer acquistion  -->
-                                <!-- ============================================================== -->
-                            </div>
-                            <div class="row">
-                                <!-- ============================================================== -->
-                                <!-- product category  -->
-                                <!-- ============================================================== -->
-                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                    <div class="card">
-                                        <h5 class="card-header"> Product Category</h5>
-                                        <div class="card-body">
-                                            <div class="ct-chart-category ct-golden-section" style="height: 315px;"></div>
-                                            <div class="text-center m-t-40">
-                                                <span class="legend-item mr-3">
-                                                    <span class="fa-xs text-primary mr-1 legend-tile"><i class="fa fa-fw fa-square-full "></i></span><span class="legend-text">Man</span>
-                                                </span>
-                                                <span class="legend-item mr-3">
-                                                    <span class="fa-xs text-secondary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
-                                                    <span class="legend-text">Woman</span>
-                                                </span>
-                                                <span class="legend-item mr-3">
-                                                    <span class="fa-xs text-info mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
-                                                    <span class="legend-text">Accessories</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <!-- ============================================================== -->
                                 <!-- end product category  -->
                                 <!-- product sales  -->
@@ -522,8 +525,31 @@
         <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
         <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
         <script src="assets/libs/js/dashboard-ecommerce.js"></script>
-         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-                
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+        <script>
+            // Prepare data
+            var data = {
+                labels: ['Customers', 'Staffs'],
+                datasets: [{
+                        data: [<%= numberOfCustomers%>, <%= numberOfStaffs%>],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)', // Red for Customers
+                            'rgba(54, 162, 235, 0.5)'   // Blue for Staffs
+                        ]
+                    }]
+            };
+
+            // Get the canvas element
+            var ctx = document.getElementById('pieChart').getContext('2d');
+
+            // Initialize the pie chart
+            var pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: data
+            });
+        </script>
+
     </body>
 
 </html>

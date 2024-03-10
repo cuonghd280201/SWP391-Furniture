@@ -1,27 +1,31 @@
+<%-- 
+    Document   : manageConstruction
+    Created on : Mar 5, 2024, 12:21:58 AM
+    Author     : Admin
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<!doctype html>
-<html lang="en">
 
+
+<!DOCTYPE html>
+<html>
     <head>
-        <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS -->
 
-
-        <link href="<c:url value="/assets/vendor/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/assets/vendor/fonts/circular-std/style.css"/>" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/assets/libs/css/style.css"/>" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/assets/vendor/fonts/fontawesome/css/fontawesome-all.css"/>" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/assets/vendor/charts/chartist-bundle/chartist.css"/>" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/assets/vendor/charts/morris-bundle/morris.css"/>" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css"/>" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/assets/vendor/charts/c3charts/c3.css"/>" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/assets/vendor/fonts/flag-icon-css/flag-icon.min.css"/>" rel="stylesheet" type="text/css"/>
-
+        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/fonts/circular-std/style.css"" rel="stylesheet" type="text/css"/>
+        <link href="assets/libs/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/charts/chartist-bundle/chartist.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/charts/morris-bundle/morris.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/charts/c3charts/c3.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css" rel="stylesheet" type="text/css"/>
 
         <style>
             /* Popup styling */
@@ -185,24 +189,26 @@
 
 
 
-        <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
     </head>
 
-    <body>
-        <!-- ============================================================== -->
-        <!-- main wrapper -->
-        <!-- ============================================================== -->
-        <div class="dashboard-main-wrapper">
+    <c:import url="adminListConstruction"></c:import>
+
+
+        <body>
             <!-- ============================================================== -->
-            <!-- navbar -->
+            <!-- main wrapper -->
             <!-- ============================================================== -->
-           
-            <!-- ============================================================== -->
-            <!-- end navbar -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- left sidebar -->
-            <!-- ============================================================== -->
+            <div class="dashboard-main-wrapper">
+                <!-- ============================================================== -->
+                <!-- navbar -->
+                <!-- ============================================================== -->
+
+                <!-- ============================================================== -->
+                <!-- end navbar -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- left sidebar -->
+                <!-- ============================================================== -->
             <%@include file="siderBar.jsp" %>
 
             <!-- ============================================================== -->
@@ -225,7 +231,7 @@
                                     <div class="page-breadcrumb">
                                         <nav aria-label="breadcrumb">
                                             <ol class="breadcrumb">
-                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Manager</a></li>
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Manager Construction Info</a></li>
                                             </ol>
                                         </nav>
                                     </div>
@@ -242,54 +248,53 @@
 
                             <!-- recent orders  -->
                             <!-- ============================================================== -->
-                            
+                            <c:set var="cDto" value="${requestScope.listConstruction}"/>
+                            <c:set var="detail" value="${requestScope.DETAIL_INFO}"/>
+
                             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <div class="card">
                                     <div class="mb-3">
                                         <button class="create-btn" onclick="openCreatePopup()">Create</button>
                                     </div>
 
-                                    <h5 class="card-header">Manage Customer</h5>
+                                    <h5 class="card-header">Manage Construction</h5>
                                     <div class="card-body p-0">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
-                                                        <th class="border-0">User ID</th>
-                                                        <th class="border-0">First Name</th>
-                                                        <th class="border-0">Last Name</th>
-                                                        <th class="border-0">Email</th>
-                                                        <th class="border-0">Password</th>
-                                                        <th class="border-0">Phone Number</th>
-                                                        <th class="border-0">Date Of Birth</th>
-                                                        <th class="border-0">Image</th>
-                                                        <th class="border-0">Action</th>
+                                                        <th class="border-0">Construction ID</th>
+                                                        <th class="border-0">Construction Name</th>
+                                                        <th class="border-0">Construction Description</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <c:forEach var="user" items="${listStaff}">
+                                                    <c:forEach var="c" items="${cDto}">
                                                         <tr>
-                                                            <td>${user.userId}</td>
-                                                            <td>${user.firstName}</td>
-                                                            <td>${user.lastName}</td>
-                                                            <td>${user.email}</td>
-                                                            <td>${user.password}</td>
-                                                            <td>${user.phoneNumber}</td>
-                                                            <td>${user.dataOfBirth}</td>
-                                                            <td>${user.image}</td>
+                                                            <td>${c.constructionID}</td>
+                                                            <td>${c.constructionName}</td>
+                                                            <td>${c.constructionDescription}</td>   
                                                             <td>
-                                                                <!-- Update Button -->
-                                                                <button class="update-btn" onclick="openPopup()">Update</button>
+                                                                <c:url var="edit_construction_url" value="displayDetailConstruction">
+                                                                    <c:param name="constructionID" value="${c.constructionID}"/>
+                                                                </c:url>
 
-                                                                <!-- Delete Button -->
-                                                                <label class="switch">
-                                                                    <input type="checkbox">
-                                                                    <span class="slider round"></span>
-                                                                </label>                                                            </td>                                                       </tr>
-                                                            </c:forEach>
+                                                                <a href="${edit_construction_url}" class="update-btn" onclick="openPopupWithoutClose()">
+                                                                    <button><i class="fas fa-edit"></i></button>
+                                                                </a>
+
+
+                                                                <c:url var="remove_recipe_url" value="deleteConstructionController">
+                                                                    <c:param name="constructionID" value="${c.constructionID}"/>
+                                                                </c:url>
+
+                                                                <button id="approveButton" class="btn btn-primary py-2 px-3 me-2"><i class="fas fa-trash-alt me-2"></i></button>
+                                                        </tr>
+                                                    </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -300,8 +305,8 @@
                         <div id="deletePopup" class="popup">
                             <div class="popup-content">
                                 <!-- Content of your popup goes here -->
-                                <h2>Delete User</h2>
-                                <p>Bạn có chắc chắn muốn xóa hay không?</p>
+                                <h2>Delete Contruction</h2>
+                                <p>Are you sure you want to delete?</p>
 
                                 <div class="confirmation-buttons">
                                     <button class="update-btn" onclick="confirmDelete()">Yes</button>
@@ -313,75 +318,26 @@
                             </div>
                         </div>
 
-
-
-
-
                         <div id="updatePopup" class="popup">
                             <div class="popup-content">
                                 <!-- Content of your popup goes here -->
-                                <h2>Update User</h2>
+                                <h2>Update Contruction</h2>
                                 <div class="container">
-                                    <form action="action_page.php">
+                                    <form action="CreateConstructionController">
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="fname">First Name</label>
+                                                <label for="txtConstructionName">Construction Name</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input first name..">
+                                                <input type="text" id="fname" name="txtConstructionName" value="${detail.constructionName}" placeholder="Input first construction name..">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="fname">Last Name</label>
+                                                <label for="txtContructionDescription">Construction Description</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input last name..">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="fname">Email</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input email..">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="fname">Password</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input password..">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="lname">Phone Number</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <input type="text" id="lname" name="lastname" placeholder="Input phone number..">
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="lname">Date Of Birth</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <input type="date" id="dob" name="dob">
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="country">Gender</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <select id="country" name="country">
-                                                    <option value="australia">Female</option>
-                                                    <option value="canada">Male</option>
-                                                </select>
+                                                <input type="text" id="fname" name="txtContructionDescription"value="${detail.constructionDescription}" placeholder="Input construction description..">
                                             </div>
                                         </div>
 
@@ -402,66 +358,21 @@
                                 <!-- Content of your popup goes here -->
                                 <h2>Create</h2>
                                 <div class="container">
-                                    <form action="action_page.php">
+                                    <form action="CreateConstructionController">
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="fname">First Name</label>
+                                                <label for="txtConstructionName">Construction Name</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input first name..">
+                                                <input type="text" id="fname" name="txtConstructionName" placeholder="Input first construction name..">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="fname">Last Name</label>
+                                                <label for="txtContructionDescription">Construction Description</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input last name..">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="fname">Email</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input email..">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="fname">Password</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input password..">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="lname">Phone Number</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <input type="text" id="lname" name="lastname" placeholder="Input phone number..">
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="lname">Date Of Birth</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <input type="date" id="dob" name="dob">
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="country">Gender</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <select id="country" name="country">
-                                                    <option value="australia">Female</option>
-                                                    <option value="canada">Male</option>
-                                                </select>
+                                                <input type="text" id="fname" name="txtContructionDescription" placeholder="Input construction description..">
                                             </div>
                                         </div>
 
@@ -493,6 +404,129 @@
 
                         <!-- ============================================================== -->
                     </div>
+
+
+                    <div id="approvalModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <p>Do You Want To Aprroved This Inquiry?</p>
+                            <div class="button-group">
+                                <button class="yes-button" onclick="approve()">Yes</button>
+                                <button class="no-button" onclick="closeModal()">No</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        /* Modal styles */
+                        .modal {
+                            display: none;
+                            position: fixed;
+                            z-index: 1;
+                            left: 0;
+                            top: 0;
+                            width: 100%;
+                            height: 100%;
+                            overflow: auto;
+                            background-color: rgba(0,0,0,0.4);
+                        }
+
+                        /* Modal content */
+                        .modal-content {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background-color: #fefefe;
+                            padding: 20px;
+                            border: 1px solid #888;
+                            width: 60%;
+                            text-align: center;
+                        }
+
+                        /* Close button */
+                        .close {
+                            color: #aaa;
+                            float: right;
+                            font-size: 28px;
+                            font-weight: bold;
+                        }
+
+                        .close:hover,
+                        .close:focus {
+                            color: black;
+                            text-decoration: none;
+                            cursor: pointer;
+                        }
+
+                        /* Button group */
+                        .button-group {
+                            display: flex;
+                            justify-content: center;
+                            gap: 10px;
+                            margin-top: 20px;
+                        }
+
+                        /* Buttons */
+                        .button-group button {
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 5px;
+                            cursor: pointer;
+                        }
+
+                        .yes-button {
+                            background-color: #28a745;
+                            color: #fff;
+                        }
+
+                        .yes-button:hover {
+                            background-color: #218838;
+                        }
+
+                        .no-button {
+                            background-color: #dc3545;
+                            color: #fff;
+                        }
+
+                        .no-button:hover {
+                            background-color: #c82333;
+                        }
+                    </style>
+                    <script>
+                        // Get the modal
+                        var modal = document.getElementById("approvalModal");
+
+                        // Get the button that opens the modal
+                        var btn = document.getElementById("approveButton");
+
+                        // When the user clicks on the button, open the modal
+                        btn.onclick = function () {
+                            modal.style.display = "block";
+                        }
+
+                        // When the user clicks on <span> (x), close the modal
+                        span.onclick = function () {
+                            modal.style.display = "none";
+                        }
+
+                        // Function to approve the inquiry
+                        function approve() {
+                            // Construct the URL
+                            var url = "${remove_recipe_url}";
+
+                            // Redirect to the URL
+                            window.location.href = url;
+
+                            // Close the modal
+                            closeModal();
+                        }
+
+                        // Function to close the modal
+                        function closeModal() {
+                            modal.style.display = "none";
+                        }
+                    </script>
                     <!-- ============================================================== -->
                     <!-- end main wrapper  -->
                     <!-- ============================================================== -->
@@ -520,15 +554,20 @@
                     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
                     <script>
-                                    // Function to open the popup
-                                    function openPopup() {
-                                        document.getElementById("updatePopup").style.display = "block";
-                                    }
+                        // Function to open the popup
+                        function openPopup() {
+                            document.getElementById("updatePopup").style.display = "block";
+                        }
 
-                                    // Function to close the popup
-                                    function closePopup() {
-                                        document.getElementById("updatePopup").style.display = "none";
-                                    }
+                        // Function to close the popup
+                        function closePopup() {
+                            document.getElementById("updatePopup").style.display = "none";
+                        }
+
+                        function openPopupWithoutClose(event) {
+                            event.preventDefault(); // Ngăn chặn mặc định hành vi của liên kết
+                            openPopup(); // Gọi hàm mở cửa sổ popup
+                        }
                     </script>
 
                     <script>
@@ -554,8 +593,12 @@
                         function closeDeletePopup() {
                             document.getElementById("deletePopup").style.display = "none";
                         }
+
+
                     </script>
 
                     </body>
 
                     </html>
+
+

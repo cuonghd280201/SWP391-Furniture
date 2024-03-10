@@ -14,7 +14,6 @@ public class MainController extends HttpServlet {
 
     private final String LOGIN_CONTROLLER = "LoginController";
     private final String LOGOUT_CONTROLLER = "LogoutController";
-    private final String HOME_CONTROLLER = "HomeController";
     private final String LIST_CUSTOMER_CONTROLLER = "ListCustomerController";
     private final String COUNT_USER_CONTROLLER = "CountUserController";
     private final String SIGUP_CONTROLLER = "SigUpController";
@@ -26,11 +25,18 @@ public class MainController extends HttpServlet {
     private final String SEARCH_INTERIOR_CONTROLLER = "SearchInteriorController";
     private final String SAVE_PROJECT_CONTROLLER = "SaveProjectController";
 
+    private final String CONSTRUCTION_CONTROLLER = "ContructionController";
+    private final String CREATE_INQUIRY_CONTROLLER = "CreateInquiryController";
+
+    private final String DISPLAY_USER_PROFILE_CONTROLLER = "DisplayUserProfile";
+
+    private final String HOME_PAGE_CONTROLLER = "DisplayHomePage";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String button = request.getParameter("btnAction");
-        String url = HOME_CONTROLLER;
+        String url = HOME_PAGE_CONTROLLER;
 
         if (button != null) {
             switch (button) {
@@ -51,6 +57,15 @@ public class MainController extends HttpServlet {
                     break;
                 case "CountUser":
                     url = COUNT_USER_CONTROLLER;
+                    break;
+                case "construction":
+                    url = CONSTRUCTION_CONTROLLER;
+                    break;
+                case "DisplayProfile":
+                    url = DISPLAY_USER_PROFILE_CONTROLLER;
+                    break;
+                case "createInquiry":
+                    url = CREATE_INQUIRY_CONTROLLER;
                     break;
 
                 case "SignUp":

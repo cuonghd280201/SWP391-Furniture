@@ -8,8 +8,10 @@ package controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import users.UserDAO;
 import users.UserDTO;
+import utils.AppContants;
 
 /**
  *
@@ -26,11 +29,12 @@ import users.UserDTO;
  */
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
-    
-     private final String SEARCH_PAGE = "index.jsp";
+
+    private final String SEARCH_PAGE = "index.jsp";
     private final String LOGIN_FAIL = "invalid.html";
     private final String USER_PAGE = "user.jsp";
-    private final String ADMIN_PAGE = "/FunitureQoute/views/admin/dashboard.jsp";
+    private final String DASHBOARD_PAGE = "dashboard.jsp";
+    private final String STAFF_PAGE = "listInquiryStaff.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,37 +48,41 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        ServletContext context = getServletContext();
+
+        Properties siteMaps = (Properties) context.getAttribute("SITEMAPS");
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String email = request.getParameter("txtemail");
             String password = request.getParameter("txtpassword");
             String url = LOGIN_FAIL;
-            
+
             UserDAO dao = new UserDAO();
             UserDTO user = dao.checkLogin(email, password);
-            if(user != null){
+            if (user != null) {
                 HttpSession session = request.getSession();
+                session.setAttribute("USER", user);
                 session.setAttribute("LOGIN_USER", user);
                 String role = user.getRoleId();
-                if("1".equals(role)){
+                if ("1".equals(role)) {
                     url = SEARCH_PAGE;
-                }else if("2".equals(role)){
-                    url = USER_PAGE;
-                }else if("3".equals(role)){
-                    url = ADMIN_PAGE;
-                }
-                else{
+                } else if ("2".equals(role)) {
+                    url = STAFF_PAGE;
+                } else if ("3".equals(role)) {
+                    url = DASHBOARD_PAGE;
+
+                } else {
                     session.setAttribute("ERROR_MESSAGE", "Your role is not support!");
                 }
                 Cookie cookie = new Cookie(email, password);
-                cookie.setMaxAge(120*1);
+                cookie.setMaxAge(120 * 1);
                 response.addCookie(cookie);
             }
             response.sendRedirect(url);
-            
+
         }
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -85,7 +93,7 @@ public class LoginController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
