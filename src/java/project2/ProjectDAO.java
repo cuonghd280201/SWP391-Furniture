@@ -40,7 +40,7 @@ public class ProjectDAO {
                     String projectName = rs.getString("projectName");
                     String scale = rs.getString("scale");
                     String description = rs.getString("description");
-                    String image = rs.getString("image");
+//                    String image = rs.getString("image");
                     Timestamp createAt = rs.getTimestamp("createAt");
 //                    Timestamp createAt = Timestamp.valueOf(localdatetime);
                     Timestamp updateAt = rs.getTimestamp("updateAt");
@@ -49,7 +49,7 @@ public class ProjectDAO {
                     int userID = rs.getInt("userID");
                     int projectTypeID = rs.getInt("projectTypeID");
                     
-                    ProjectDTO dto = new ProjectDTO(projectID, projectName, scale, description, image, createAt, updateAt, status, price/100, userID, projectTypeID);
+                    ProjectDTO dto = new ProjectDTO(projectID, projectName, scale, description, createAt, updateAt, status, price/100, userID, projectTypeID);
                     list.add(dto);
                 }
             }
@@ -132,18 +132,18 @@ public class ProjectDAO {
             con = DBUtils.getConnection();
             if(con != null){
                 
-                String sql = "INSERT INTO Project VALUES (?,?,?,?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO Project VALUES (?,?,?,?,?,?,?,?,?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, projectName);
                 stm.setString(2, scale);
                 stm.setString(3, description);
-                stm.setString(4, image);
-                stm.setTimestamp(5, createAt);
-                stm.setTimestamp(6, null);
-                stm.setInt(7, 1);
-                stm.setDouble(8, price);
-                stm.setInt(9, userID);
-                stm.setInt(10, projectTypeID);
+//                stm.setString(4, image);
+                stm.setTimestamp(4, createAt);
+                stm.setTimestamp(5, null);
+                stm.setInt(6, 1);
+                stm.setDouble(7, price);
+                stm.setInt(8, userID);
+                stm.setInt(9, projectTypeID);
                 int row = stm.executeUpdate();
                 if(row > 0){
                     createStatus = 1;
