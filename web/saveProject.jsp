@@ -4,270 +4,524 @@
     Author     : cdkhu
 --%>
 
-<%@page import="project2.ProjectErrorDTO"%>
 <%@page import="projectType.ProjectTypeDTO"%>
+<%@page import="project2.ProjectErrorDTO"%>
+<%@page import="material.MaterialErrorDTO"%>
+<%@page import="material.MaterialDTO"%>
 <%@page import="java.util.List"%>
+<%@page import="interior.InteriorDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Furniture - Main Page</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="" name="keywords">
-        <meta content="" name="description">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
 
-        <!-- Favicon -->
-        <link href="img/favicon.ico" rel="icon">
+        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/fonts/circular-std/style.css"" rel="stylesheet" type="text/css"/>
+        <link href="assets/libs/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/charts/chartist-bundle/chartist.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/charts/morris-bundle/morris.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/charts/c3charts/c3.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css" rel="stylesheet" type="text/css"/>
 
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+        <style>
+            /* Popup styling */
+            .popup {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: white;
+                padding: 20px;
+                border: 1px solid #ccc;
+                z-index: 1000;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 80%;
+                height: 80%;
+                max-width: 3000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều rộng tối đa */
+                max-height: 4000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều cao tối đa */
+            }
 
-        <!-- Icon Font Stylesheet -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-        <!-- Libraries Stylesheet -->
-        <link href="lib/animate/animate.min.css" rel="stylesheet">
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-        <!-- Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+            .popup-content {
+                position: relative;
+            }
 
-        <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
+            .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+                font-size: 20px;
+                color: #555; /* You can customize the color */
+            }
+
+            input[type=text], select, textarea{
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                resize: vertical;
+            }
+
+            /* Style the label to display next to the inputs */
+            label {
+                padding: 12px 12px 12px 0;
+                display: inline-block;
+            }
+
+            /* Style the submit button */
+            input[type=submit] {
+                background-color: #04AA6D;
+                color: white;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                float: right;
+            }
+
+            /* Style the container */
+            .container {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px;
+            }
+
+            /* Floating column for labels: 25% width */
+            .col-25 {
+                float: left;
+                width: 25%;
+                margin-top: 6px;
+            }
+
+            /* Floating column for inputs: 75% width */
+            .col-75 {
+                float: left;
+                width: 75%;
+                margin-top: 6px;
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+            /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+            @media screen and (max-width: 600px) {
+                .col-25, .col-75, input[type=submit] {
+                    width: 100%;
+                    margin-top: 0;
+                }
+            }
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+            /* Hide default HTML checkbox */
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            /* The slider */
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #757575; /* Gray color when off */
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #0e0c28; /* Darker blue color when on */
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3; /* Box shadow when focused */
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+        </style>
+
+
+
+
     </head>
-    <body>
-        <div class="container-xxl bg-white p-0">
-            <!-- Spinner Start -->
-            <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-            <!-- Spinner End -->
 
+    <c:import url="adminListConstruction"></c:import>
 
-            <!-- Navbar Start -->
-            <%@include file="header.jsp" %>
+        <body>
+            <!-- ============================================================== -->
+            <!-- main wrapper -->
+            <!-- ============================================================== -->
+            <div class="dashboard-main-wrapper">
+                <!-- ============================================================== -->
+                <!-- navbar -->
+                <!-- ============================================================== -->
 
-            <!-- Navbar End -->
+                <!-- ============================================================== -->
+                <!-- end navbar -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- left sidebar -->
+                <!-- ============================================================== -->
+            <%@include file="siderBar.jsp" %>
 
+            <!-- ============================================================== -->
+            <!-- end left sidebar -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- wrapper  -->
+            <!-- ============================================================== -->
+            <div class="dashboard-wrapper">
+                <div class="dashboard-ecommerce">
+                    <div class="container-fluid dashboard-content ">
+                        <!-- ============================================================== -->
+                        <!-- pageheader  -->
+                        <!-- ============================================================== -->
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="page-header">
 
-            <!-- Header Start -->
-            <div class="container-fluid header bg-white p-0">
-                <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
-                    <div class="col-md-6 p-5 mt-lg-5">
-                        <h1 class="display-5 animated fadeIn mb-4">Create Project</h1> 
-                        <nav aria-label="breadcrumb animated fadeIn">
-                            <ol class="breadcrumb text-uppercase">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-body active" aria-current="page">Create Project</li>
-                            </ol>
-                        </nav>
-                    </div>
-                    <div class="col-md-6 animated fadeIn">
-                        <img class="img-fluid" src="img/header.jpg" alt="">
-                    </div>
-                </div>
-            </div>
-            <!-- Header End -->
-
-
-
-
-
-            <!-- Property List Start -->
-            <div class="container-xxl py-5">
-                <div class="container">
-                    <form action="MainController" method="POST">
-                        Project Name:
-                        <input type="text" name="projectName" value=""/><br>
-                        <%
-                            ProjectErrorDTO errors = (ProjectErrorDTO) request.getAttribute("SAVE_PROJECT_ERROR");
-                            if (errors != null) {
-                                if (errors.getProjectNameErr() != "") {
-                        %>
-                        <p class="text-center text-danger"><%= errors.getProjectNameErr()%></p>
-                        <%
-                                }
-                            }
-                        %>
-                        Project Scale:
-                        <input type="text" name="scale" value=""/><br>
-                        <%
-                            if (errors != null) {
-                                if (errors.getScaleErr() != "") {
-                        %>
-                        <p class="text-center text-danger"><%= errors.getScaleErr()%></p>
-                        <%
-                                }
-                            }
-                        %>
-                        Project Description
-                        <input type="text" name="description" value=""/><br>
-                        Project URL Image
-                        <input type="text" name="image" value=""/><br>
-                        Project Type:
-                        <select name="projectTypeID">
-                            <%
-                                List<ProjectTypeDTO> listProjectType = (List<ProjectTypeDTO>) request.getAttribute("LIST_PROJECT_TYPE");
-                                for (ProjectTypeDTO dto : listProjectType) {
-                            %>
-                            <option value="<%= dto.getProjectTypeID()%>">
-                                <%= dto.getProjectTypeName()%>
-                            </option>
-                            <%
-                                }
-                            %>
-
-                        </select><br>
-
-
-                        <input type="submit" value="Save Project" name="btnAction" />
-                        <input type="reset" value="Reset" />
-                    </form>
-                    <%
-                        if (errors != null) {
-                            if (errors.getProjectNameExisted() != "") {
-                    %>
-                    <p class="text-center text-danger"><%= errors.getProjectNameExisted()%></p>
-                    <%
-                        }
-                        if (errors.getSessionRunOut() != "") {
-                    %>
-                    <p class="text-center text-danger"><%= errors.getSessionRunOut()%></p>
-                    <%
-                            }
-                        }
-                    %>
-                </div>
-            </div>
-            <!-- Property List End -->
-
-
-            <!-- Call to Action Start -->
-            <!--            <div class="container-xxl py-5">
-                            <div class="container">
-                                <div class="bg-light rounded p-3">
-                                    <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
-                                        <div class="row g-5 align-items-center">
-                                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                                                <img class="img-fluid rounded w-100" src="img/call-to-action.jpg" alt="">
-                                            </div>
-                                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                                                <div class="mb-4">
-                                                    <h1 class="mb-3">Contact With Our Certified Agent</h1>
-                                                    <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>
-                                                </div>
-                                                <a href="" class="btn btn-primary py-3 px-4 me-2"><i class="fa fa-phone-alt me-2"></i>Make A Call</a>
-                                                <a href="" class="btn btn-dark py-3 px-4"><i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>
-                                            </div>
-                                        </div>
+                                    <h2 class="pageheader-title">Staff</h2>
+                                    <div class="page-breadcrumb">
+                                        <nav aria-label="breadcrumb">
+                                            <ol class="breadcrumb">
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Detail Material</a></li>
+                                            </ol>
+                                        </nav>
                                     </div>
                                 </div>
                             </div>
-                        </div>-->
-            <!-- Call to Action End -->
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end pageheader  -->
 
 
-            <!-- Footer Start -->
-            <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-                <div class="container py-5">
-                    <div class="row g-5">
-                        <div class="col-lg-3 col-md-6">
-                            <h5 class="text-white mb-4">Get In Touch</h5>
-                            <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                            <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                            <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                            <div class="d-flex pt-2">
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <h5 class="text-white mb-4">Quick Links</h5>
-                            <a class="btn btn-link text-white-50" href="">About Us</a>
-                            <a class="btn btn-link text-white-50" href="">Contact Us</a>
-                            <a class="btn btn-link text-white-50" href="">Our Services</a>
-                            <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
-                            <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <h5 class="text-white mb-4">Photo Gallery</h5>
-                            <div class="row g-2 pt-2">
-                                <div class="col-4">
-                                    <img class="img-fluid rounded bg-light p-1" src="img/property-1.jpg" alt="">
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-fluid rounded bg-light p-1" src="img/property-2.jpg" alt="">
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-fluid rounded bg-light p-1" src="img/property-3.jpg" alt="">
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-fluid rounded bg-light p-1" src="img/property-4.jpg" alt="">
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-fluid rounded bg-light p-1" src="img/property-5.jpg" alt="">
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-fluid rounded bg-light p-1" src="img/property-6.jpg" alt="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <h5 class="text-white mb-4">Newsletter</h5>
-                            <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                            <div class="position-relative mx-auto" style="max-width: 400px;">
-                                <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                                <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="copyright">
+
+
+
+
+                        <!-- ============================================================== -->
                         <div class="row">
-                            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                                &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
+                            <!-- ============================================================== -->
 
-                                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                                Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                            </div>
-                            <div class="col-md-6 text-center text-md-end">
-                                <div class="footer-menu">
-                                    <a href="">Home</a>
-                                    <a href="">Cookies</a>
-                                    <a href="">Help</a>
-                                    <a href="">FQAs</a>
+                            <!-- ============================================================== -->
+
+                            <!-- recent orders  -->
+                            <!-- ============================================================== -->
+
+                            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <h3 class="card-header">Detail Interior</h3>
+
+
+
+
+                                    <!--                                    <div class="mb-3">
+                                                                            <button class="create-btn" onclick="openCreatePopup()">Create</button>
+                                                                        </div>-->
+
+
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+
+                                            <form action="MainController" method="POST">
+                                                <h4 class="card-header">Project Name:</h4>
+                                                <input type="text" name="projectName" value="" class="form-control border-0" placeholder="Table"/><br>
+                                                <%
+                                                    ProjectErrorDTO errors = (ProjectErrorDTO) request.getAttribute("SAVE_PROJECT_ERROR");
+                                                    if (errors != null) {
+                                                        if (errors.getProjectNameErr() != "") {
+                                                %>
+                                                <p class="text-center text-danger"><%= errors.getProjectNameErr()%></p>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
+                                                <h4 class="card-header">Project Scale:</h4>
+                                                <input type="text" name="scale" value="" class="form-control border-0" placeholder="Table"/><br>
+                                                <%
+                                                    if (errors != null) {
+                                                        if (errors.getScaleErr() != "") {
+                                                %>
+                                                <p class="text-center text-danger"><%= errors.getScaleErr()%></p>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
+                                                <h4 class="card-header">Project Description:</h4>
+                                                <input type="text" name="description" value="" class="form-control border-0" placeholder="Table"/><br>
+                                                <h4 class="card-header">Project URL Image:</h4>
+                                                <input type="text" name="image" value="" class="form-control border-0" placeholder="Table"/><br>
+                                                <h4 class="card-header">Project Type:</h4>
+                                                <select name="projectTypeID">
+                                                    <%
+                                                        List<ProjectTypeDTO> listProjectType = (List<ProjectTypeDTO>) request.getAttribute("LIST_PROJECT_TYPE");
+                                                        for (ProjectTypeDTO dto : listProjectType) {
+                                                    %>
+                                                    <option value="<%= dto.getProjectTypeID()%>">
+                                                        <%= dto.getProjectTypeName()%>
+                                                    </option>
+                                                    <%
+                                                        }
+                                                    %>
+
+                                                </select><br>
+
+
+                                                <input type="submit" value="Save Project" name="btnAction" />
+                                                <input type="reset" value="Reset" />
+                                            </form>
+                                            <%
+                                                if (errors != null) {
+                                                    if (errors.getProjectNameExisted() != "") {
+                                            %>
+                                            <p class="text-center text-danger"><%= errors.getProjectNameExisted()%></p>
+                                            <%
+                                                }
+                                                if (errors.getSessionRunOut() != "") {
+                                            %>
+                                            <p class="text-center text-danger"><%= errors.getSessionRunOut()%></p>
+                                            <%
+                                                    }
+                                                }
+                                            %>
+                                            
+                                        </div>
+
+                                    </div>
+                                    
                                 </div>
                             </div>
+
+
                         </div>
+
+                        <div id="deletePopup" class="popup">
+                            <div class="popup-content">
+                                <!-- Content of your popup goes here -->
+                                <h2>Delete ProjectType</h2>
+                                <p>Are you sure you want to delete?</p>
+
+                                <div class="confirmation-buttons">
+                                    <button class="update-btn" onclick="confirmDelete()">Yes</button>
+                                    <button class="delete-btn" onclick="closePopup()">No</button>
+                                </div>
+
+                                <span class="close-btn" onclick="closeDeletePopup()">X</span>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div id="updatePopup" class="popup">
+                            <div class="popup-content">
+                                <!-- Content of your popup goes here -->
+                                <h2>Update ProjectType</h2>
+                                <div class="container">
+                                    <form action="action_page.php">
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">ProjectType Name</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input first construction name..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">ProjectType Description</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input construction description..">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <input type="submit" value="Submit">
+                                        </div>
+                                    </form>
+                                </div>
+                                <span class="close-btn" onclick="closePopup()">X</span>
+
+                            </div>
+                        </div>
+
+
+                        <div id="createPopup" class="popup">
+                            <div class="popup-content">
+                                <!-- Content of your popup goes here -->
+                                <h2>Create</h2>
+                                <div class="container">
+                                    <form action="action_page.php">
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">ProjectType Name</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input first construction name..">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fname">ProjectType Description</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fname" name="firstname" placeholder="Input construction description..">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <input type="submit" value="Submit">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Add form elements or other content as needed -->
+                                <span class="close-btn" onclick="closeCreatePopup()">X</span>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!-- ============================================================== -->
                     </div>
-                </div>
-            </div>
-            <!-- Footer End -->
+                    <!-- ============================================================== -->
+                    <!-- end main wrapper  -->
+                    <!-- ============================================================== -->
+                    <!-- Optional JavaScript -->
+                    <!-- jquery 3.3.1 -->
+                    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+                    <!-- bootstap bundle js -->
+                    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+                    <!-- slimscroll js -->
+                    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+                    <!-- main js -->
+                    <script src="assets/libs/js/main-js.js"></script>
+                    <!-- chart chartist js -->
+                    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+                    <!-- sparkline js -->
+                    <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+                    <!-- morris js -->
+                    <script src="assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+                    <script src="assets/vendor/charts/morris-bundle/morris.js"></script>
+                    <!-- chart c3 js -->
+                    <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
+                    <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+                    <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
+                    <script src="assets/libs/js/dashboard-ecommerce.js"></script>
+                    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+                    <script>
+                                    // Function to open the popup
+                                    function openPopup() {
+                                        document.getElementById("updatePopup").style.display = "block";
+                                    }
+
+                                    // Function to close the popup
+                                    function closePopup() {
+                                        document.getElementById("updatePopup").style.display = "none";
+                                    }
+                    </script>
+
+                    <script>
+                        // Function to open the popup
+                        function openCreatePopup() {
+                            document.getElementById("createPopup").style.display = "block";
+                        }
+
+                        // Function to close the popup
+                        function closeCreatePopup() {
+                            document.getElementById("createPopup").style.display = "none";
+                        }
+                    </script>
 
 
-            <!-- Back to Top -->
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-        </div>
+                    <script>
+                        // Function to open the popup
+                        function openDeletePopup() {
+                            document.getElementById("deletePopup").style.display = "block";
+                        }
 
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/wow/wow.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+                        // Function to close the popup
+                        function closeDeletePopup() {
+                            document.getElementById("deletePopup").style.display = "none";
+                        }
+                    </script>
 
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-    </body>
-</html>
+                    </body>
+
+                    </html>
+
+
+
+
+
+

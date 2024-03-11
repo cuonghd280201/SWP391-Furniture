@@ -155,7 +155,8 @@ public class MaterialDAO {
                 }
             }
         }catch(Exception e){
-            
+            e.printStackTrace();
+            throw e;
         }finally{
             if(stm != null) stm.close();
             if(con != null) con.close();

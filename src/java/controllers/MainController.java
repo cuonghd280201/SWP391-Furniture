@@ -93,7 +93,7 @@ public class MainController extends HttpServlet {
                     url = ADD_CHOOSE_INTERIOR_CONTROLLER;
                     break;
                 case "Search Interior":
-                    url = SEARCH_INTERIOR_CONTROLLER;
+                    url = SEARCH_CHOOSE_INTERIOR_CONTROLLER;
                     break;
                 case "Save Project":
                     url = SAVE_PROJECT_CONTROLLER;
