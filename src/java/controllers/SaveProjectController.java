@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import email.SendProject;
 import interior.InteriorDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -98,7 +99,8 @@ public class SaveProjectController extends HttpServlet {
                             url = MAIN_PAGE;
                             request.setAttribute("SAVE_NOTI", "1");
                             session.setAttribute("INTERIOR_CHOOSE_LIST", "");
-                            
+                            SendProject sp = new SendProject();
+                            boolean sendProject = sp.sendEmail("hoangduycuong2802@gmail.com");
                         }
                     }else{
                         projectErr.setProjectNameExisted("Project "+projectName+" is already existed!");

@@ -55,7 +55,7 @@ public class CreateMaterialController extends HttpServlet {
                     errCheck = true;
                     materialErr.setValueLevelErr("Value Level must be greater than or equal 1");
                 }
-                MaterialDTO materialEdit = new MaterialDTO(1, materialName, valueLevel, desciprtion, 1);
+                MaterialDTO materialEdit = new MaterialDTO(0, materialName, valueLevel, desciprtion, 1);
                 if (errCheck) {
                     request.setAttribute("DETAIL_MATERIAL_ERROR", materialErr);
                     request.setAttribute("MATERIAL_DETAIL", materialEdit);
