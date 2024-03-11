@@ -507,7 +507,7 @@ public class UserDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            con = DBUtils.makeConnection();
+            con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "select * from tblUser where email = ? and password = ?";
                 stm = con.prepareStatement(sql);
@@ -549,7 +549,7 @@ public class UserDAO {
     public UserDTO checkLogin1(String email, String pass) {
         try {
             String query = "select * from tblUser where email = ? and password = ?";
-            Connection con = DBUtils.makeConnection();
+            Connection con = DBUtils.getConnection();
             ps = con.prepareStatement(query);
             ps.setString(1, email);
             ps.setString(2, pass);
@@ -576,7 +576,7 @@ public class UserDAO {
     public boolean updateUser(UserDTO user) {
         boolean result = true;
         String query = "UPDATE tblUSERS SET FullName= ?, AddressUser= ?, PhoneUser= ?, BirthDay= ? where UserName= ?";
-        Connection con = DBUtils.makeConnection();
+        Connection con = DBUtils.getConnection();
         try {
             PreparedStatement stm = con.prepareStatement(query);
             stm.setString(1, user.getFirstName());
@@ -599,7 +599,7 @@ public class UserDAO {
     public UserDTO checkAccountExist(String user) {
         try {
             String query = "select * from tblUser where email = ?";
-            Connection con = DBUtils.makeConnection();
+            Connection con = DBUtils.getConnection();
             ps = con.prepareStatement(query);
             ps.setString(1, user);
             rs = ps.executeQuery();
@@ -624,7 +624,7 @@ public class UserDAO {
 
     public boolean signUp(UserDTO u) {
         boolean result = true;
-        Connection con = DBUtils.makeConnection();
+        Connection con = DBUtils.getConnection();
         try {
             PreparedStatement stm = con.prepareStatement("insert into tblUser values(?, '', '', ?, ?,'','','','','1','1')");
             stm.setInt(1, u.getUserId());
@@ -644,7 +644,7 @@ public class UserDAO {
 
     public UserDTO detailUserById(String id) {
         UserDTO user = null;
-        Connection con = DBUtils.makeConnection();
+        Connection con = DBUtils.getConnection();
         try {
             PreparedStatement stm = con.prepareStatement("select * from tblUser where userID = ?");
             stm.setString(1, id);
@@ -795,7 +795,7 @@ public class UserDAO {
     public List<UserDTO> selectAllStaffs1() {
         List<UserDTO> list = new ArrayList<>();
         String query = "SELECT * FROM tblUser JOIN role ON tblUser.roleID = role.roleID WHERE role.roleID = 2";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query);
                 ResultSet rs = stm.executeQuery()) {
             while (rs.next()) {
@@ -963,7 +963,7 @@ public class UserDAO {
     public int countAllUsers() {
         int numberOfUsers = 0;
         String query = "SELECT COUNT(*) AS NumberOfUsers FROM tblUser";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query);
                 ResultSet rs = stm.executeQuery()) {
 
@@ -1048,7 +1048,7 @@ public class UserDAO {
 
     public boolean addUser(UserDTO u) {
         String query = "insert into tblUser (firstName, lastName, email, password, phoneNumber, dataOfBirth) values (?,?,?,?,?,?)";
-        try (Connection con = DBUtils.makeConnection();
+        try (Connection con = DBUtils.getConnection();
                 PreparedStatement stm = con.prepareStatement(query)) {
 
             stm.setString(1, u.getFirstName());

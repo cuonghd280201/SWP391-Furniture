@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package interior;
+package interriorDetails;
 
 import java.sql.Timestamp;
 
@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  *
  * @author cdkhu
  */
-public class InteriorDTO {
+public class InteriorDetailsDTO {
     private int interiorID;
     private String interiorName;
     private int size;
@@ -24,12 +24,16 @@ public class InteriorDTO {
     private Timestamp createAt;
     private Timestamp updateAt;
     private int status;
-    private int materialID;
+    private int marterialD;
+    private String materialName;
+    private double valueLevel;
+    private int interiorQuantity;
+    private double interiorMoney;
 
-    public InteriorDTO() {
+    public InteriorDetailsDTO() {
     }
 
-    public InteriorDTO(int interiorID, String interiorName, int size, int unit, double mass, double unitPrice, String description, String image, int projectID, Timestamp createAt, Timestamp updateAt, int status, int materialID) {
+    public InteriorDetailsDTO(int interiorID, String interiorName, int size, int unit, double mass, double unitPrice, String description, String image, int projectID, Timestamp createAt, Timestamp updateAt, int status, int marterialD, String materialName, double valueLevel, int interiorQuantity, double interiorMoney) {
         this.interiorID = interiorID;
         this.interiorName = interiorName;
         this.size = size;
@@ -42,7 +46,11 @@ public class InteriorDTO {
         this.createAt = createAt;
         this.updateAt = updateAt;
         this.status = status;
-        this.materialID = materialID;
+        this.marterialD = marterialD;
+        this.materialName = materialName;
+        this.valueLevel = valueLevel;
+        this.interiorQuantity = interiorQuantity;
+        this.interiorMoney = interiorMoney;
     }
 
     public int getInteriorID() {
@@ -141,12 +149,45 @@ public class InteriorDTO {
         this.status = status;
     }
 
-    public int getMaterialID() {
-        return materialID;
+    public int getMarterialD() {
+        return marterialD;
     }
 
-    public void setMaterialID(int materialID) {
-        this.materialID = materialID;
+    public void setMarterialD(int marterialD) {
+        this.marterialD = marterialD;
     }
 
+    public String getMaterialName() {
+        return materialName;
+    }
+
+    public void setMaterialName(String materialName) {
+        this.materialName = materialName;
+    }
+
+    public double getValueLevel() {
+        return valueLevel;
+    }
+
+    public void setValueLevel(double valueLevel) {
+        this.valueLevel = valueLevel;
+    }
+
+    public int getInteriorQuantity() {
+        return interiorQuantity;
+    }
+
+    public void setInteriorQuantity(int interiorQuantity) {
+        this.interiorQuantity = interiorQuantity;
+    }
+
+    public double getInteriorMoney() {
+        return interiorMoney;
+    }
+
+    public void setInteriorMoney(double interiorMoney) {
+        this.interiorMoney = interiorMoney;
+    }
+
+    
 }

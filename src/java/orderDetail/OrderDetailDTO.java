@@ -7,11 +7,10 @@ package orderDetail;
 
 /**
  *
- * @author Admin
+ * @author cdkhu
  */
 public class OrderDetailDTO {
-    
-     private int orderDetailID;
+    private int orderDetailID;
     private int interiorID;
     private int projectID;
     private int paymentID;

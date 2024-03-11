@@ -14,10 +14,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import utils.DBUtils;
-/**
- *
- * @author Admin
- */
+
+
 public class InteriorDAO {
     
     public InteriorDTO getInteriorByID(int interiorID) throws SQLException{
@@ -26,6 +24,7 @@ public class InteriorDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try{
+
             con = DBUtils.makeConnection();
             if(con != null){
                 String sql = "SELECT * FROM Interior WHERE interiorID = ?";
@@ -138,5 +137,4 @@ public class InteriorDAO {
         }
         return list;
     }
-    
 }

@@ -10,13 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import utils.DBUtils;
 
-
 /**
  *
  * @author Admin
  */
 public class OrderDetailDAO {
-    
     public int createOrderDetail(int interiorID, int projectID, int interiorQuantity, double interiorMoney, int status) throws SQLException{
         Connection con = null;
         PreparedStatement stm = null;
@@ -45,5 +43,4 @@ public class OrderDetailDAO {
         }
         return createStatus;
     }
-    
 }

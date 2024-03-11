@@ -12,7 +12,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Makaan - Real Estate HTML Template</title>
+        <title>Furniture - Main Page</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -78,7 +78,7 @@
         </style>
     </head>
     <c:import url="LoadHomePageController"></c:import>
-
+s
         <body>
             <div class="container-xxl bg-white p-0">
                 <!-- Spinner Start -->

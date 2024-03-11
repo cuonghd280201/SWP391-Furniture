@@ -15,6 +15,7 @@ import images.ImageDTO;
 
 public class ProjectFacade {
 
+
     public Project getProjectById(int projectID) throws SQLException {
         Connection connection = null;
         PreparedStatement stm = null;
