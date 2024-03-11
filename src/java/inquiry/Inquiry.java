@@ -9,11 +9,15 @@ package inquiry;
  *
  * @author Admin
  */
-import java.util.Date;
 
-public class Inquiry {
+import java.io.Serializable;
+import java.util.Date;
+import users.UserDTO;
+
+public class Inquiry implements Serializable{
 
     public int inquiryID;
+    public String inquiryTittle;
     public int projectID;
     public int userID;
     public int statusInquiry;
@@ -28,8 +32,9 @@ public class Inquiry {
     public Scale scale;
     public ProjectType projectType;
     public PriceRange priceRange;
+    public UserDTO userDTO;
 
-    public Inquiry(int projectID, int userID, int statusInquiry, Date createAt, Date updateAt, String description, int constructionID, int scaleID, int priceRangeID, int projectTypeID, Construction construction, Scale scale, ProjectType projectType, PriceRange priceRange) {
+    public Inquiry(int projectID, String inquiryTittle, int userID, int statusInquiry, Date createAt, Date updateAt, String description, int constructionID, int scaleID, int priceRangeID, int projectTypeID, Construction construction, Scale scale, ProjectType projectType, PriceRange priceRange, UserDTO userDTO) {
         this.projectID = projectID;
         this.userID = userID;
         this.statusInquiry = statusInquiry;
@@ -44,15 +49,16 @@ public class Inquiry {
         this.scale = scale;
         this.projectType = projectType;
         this.priceRange = priceRange;
+        this.inquiryTittle = inquiryTittle;
+        this.userDTO = userDTO;
     }
-    
-    
 
     public Inquiry() {
     }
 
-    public Inquiry(int userID, int constructionID, int scaleID, int priceRangeID, int projectTypeID, String description) {
+    public Inquiry(int userID, String inquiryTittle, int constructionID, int scaleID, int priceRangeID, int projectTypeID, String description) {
         this.userID = userID;
+        this.inquiryTittle = inquiryTittle;
         this.description = description;
         this.constructionID = constructionID;
         this.scaleID = scaleID;
@@ -60,9 +66,30 @@ public class Inquiry {
         this.projectTypeID = projectTypeID;
     }
 
-    public Inquiry(int inquiryID, int projectID, int userID, int statusInquiry, Date createAt, Date updateAt, String description, int constructionID, int scaleID, int priceRangeID, int projectTypeID, Construction construction, Scale scale, ProjectType projectType, PriceRange priceRange) {
+    public Inquiry(int inquiryID, int projectID, String inquiryTittle, int userID, int statusInquiry, Date createAt, Date updateAt, String description, int constructionID, int scaleID, int priceRangeID, int projectTypeID, Construction construction, Scale scale, ProjectType projectType, PriceRange priceRange, UserDTO userDTO) {
         this.inquiryID = inquiryID;
         this.projectID = projectID;
+        this.inquiryTittle = inquiryTittle;
+        this.userID = userID;
+        this.statusInquiry = statusInquiry;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+        this.description = description;
+        this.constructionID = constructionID;
+        this.scaleID = scaleID;
+        this.priceRangeID = priceRangeID;
+        this.projectTypeID = projectTypeID;
+        this.construction = construction;
+        this.scale = scale;
+        this.projectType = projectType;
+        this.priceRange = priceRange;
+        this.userDTO = userDTO;
+    }
+    
+     public Inquiry(int inquiryID, int projectID, String inquiryTittle, int userID, int statusInquiry, Date createAt, Date updateAt, String description, int constructionID, int scaleID, int priceRangeID, int projectTypeID, Construction construction, Scale scale, ProjectType projectType, PriceRange priceRange) {
+        this.inquiryID = inquiryID;
+        this.projectID = projectID;
+        this.inquiryTittle = inquiryTittle;
         this.userID = userID;
         this.statusInquiry = statusInquiry;
         this.createAt = createAt;
@@ -77,6 +104,16 @@ public class Inquiry {
         this.projectType = projectType;
         this.priceRange = priceRange;
     }
+
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public void setUserDTO(UserDTO userDTO) {
+        this.userDTO = userDTO;
+    }
+    
+    
 
     public Construction getConstruction() {
         return construction;
@@ -197,4 +234,13 @@ public class Inquiry {
     public void setProjectTypeID(int projectTypeID) {
         this.projectTypeID = projectTypeID;
     }
+
+    public String getInquiryTittle() {
+        return inquiryTittle;
+    }
+
+    public void setInquiryTittle(String inquiryTittle) {
+        this.inquiryTittle = inquiryTittle;
+    }
+    
 }

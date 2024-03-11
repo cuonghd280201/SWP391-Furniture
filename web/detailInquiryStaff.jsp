@@ -47,11 +47,9 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
 
-    <c:import url="LoadHomeStaffController"></c:import>
+    <body>
 
-
-        <body>
-            <div class="dashboard-main-wrapper">
+        <div class="dashboard-main-wrapper">
 
             <%@include file="siderBarStaff.jsp" %>
 
@@ -90,13 +88,13 @@
                             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <div class="card">
                                     <c:set var="inquiryList" value="${sessionScope.MY_INQUIRY_LIST_STAFF}"></c:set>
-
                                     <c:set var="inquiryDTO" value="${requestScope.DETAIL_INQUIRY_STAFF}" />
-
                                     <c:set var="construction" value="${inquiryDTO.construction}"/>
                                     <c:set var="s" value="${inquiryDTO.scale}"/>
                                     <c:set var="p" value="${inquiryDTO.projectType}"/>
                                     <c:set var="r" value="${inquiryDTO.priceRange}"/>
+                                    <c:set var="u" value="${inquiryDTO.userDTO}"/>
+
 
                                     <div class="container-xxl py-5">
                                         <div class="container">
@@ -104,37 +102,37 @@
                                                 <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
                                                     <div class="row g-5 align-items-center">
                                                         <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                                                            <img class="img-fluid rounded w-100" src="img/call-to-action.jpg" alt="">
+                                                            <img style="border-radius: 50%; width: 300px; height: 300px; object-fit: cover;" src="${u.image}" alt="">
+                                                            <p>Name: ${u.firstName} ${u.lastName} </p>
+                                                            <p>Email: ${u.email} </p>
+
                                                         </div>
                                                         <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                                                             <div class="mb-4">
-                                                                <h1 class="mb-3">${inquiryDTO.projectID}</h1>
+                                                                <h1 class="mb-3">${inquiryDTO.inquiryTittle}</h1>
                                                                 <p>   
-                                                                    <span class="badge ms-1 
-                                                                          <c:choose>
-                                                                              <c:when test="${inquiryDTO.statusInquiry == 1}">
-                                                                                  bg-info
-                                                                              </c:when>
-                                                                              <c:when test="${inquiryDTO.statusInquiry == 2}">
-                                                                                  bg-success
-                                                                              </c:when>
-                                                                              <c:otherwise>
-                                                                                  bg-danger
-                                                                              </c:otherwise>
-                                                                          </c:choose>">
-                                                                        <i class="mdi align-middle"></i>
-                                                                        <c:choose>
-                                                                            <c:when test="${inquiryDTO.statusInquiry == 1}">
-                                                                                Waiting
-                                                                            </c:when>
-                                                                            <c:when test="${inquiryDTO.statusInquiry == 2}">
-                                                                                Approved
-                                                                            </c:when>
-                                                                            <c:otherwise>
-                                                                                Rejected
-                                                                            </c:otherwise>
-                                                                        </c:choose>
-                                                                    </span>
+                                                                    <c:choose>
+                                                                        <c:when test="${inquiryDTO.statusInquiry == 1}">
+                                                                            <!-- Display Waiting status -->
+                                                                            <span class="badge ms-1 bg-info">
+                                                                                <i class="mdi align-middle"></i> Waiting
+                                                                            </span>
+                                                                        </c:when>
+                                                                        <c:when test="${inquiryDTO.statusInquiry == 2}">
+                                                                            <!-- Display Approved status -->
+                                                                            <span class="badge ms-1 bg-success">
+                                                                                <i class="mdi align-middle"></i> Approved
+                                                                            </span>
+                                                                        </c:when>
+                                                                        <c:when test="${inquiryDTO.statusInquiry == 3}">
+                                                                            <!-- Display Rejected status -->
+                                                                            <span class="badge ms-1 bg-danger">
+                                                                                <i class="mdi align-middle"></i> Rejected
+                                                                            </span>
+                                                                        </c:when>
+
+
+                                                                    </c:choose>
                                                                 </p>
                                                                 <p>Contruction Name: ${construction.constructionName}</p>
                                                                 <p>Scale Name: ${s.scaleName}</p>
@@ -168,7 +166,7 @@
                 <div id="approvalModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
-                        <p>Do You Want To Aprroved This Inquiry?</p>
+                        <p>Do you want to approve this inquiry?</p>
                         <div class="button-group">
                             <button class="yes-button" onclick="approve()">Yes</button>
                             <button class="no-button" onclick="closeModal()">No</button>
@@ -176,19 +174,33 @@
                     </div>
                 </div>
 
-                <div id="rejectModal" class="modal">
+                <div id="rejectionModal" class="modal">
                     <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <p>Do You Want To Rejected This Inquiry?</p>
+                        <span class="close" onclick="closeRejectModal()">&times;</span>
+                        <p>Do you want to reject this inquiry?</p>
                         <div class="button-group">
                             <button class="yes-button" onclick="reject()">Yes</button>
-                            <button class="no-button" onclick="closeModal()">No</button>
+                            <button class="no-button" onclick="closeRejectModal()">No</button>
                         </div>
                     </div>
                 </div>
 
+
+
                 <style>
                     /* Modal styles */
+
+                    .modal {
+                        display: none;
+                        position: fixed;
+                        z-index: 1;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        overflow: auto;
+                        background-color: rgba(0,0,0,0.4);
+                    }
                     .modal {
                         display: none;
                         position: fixed;
@@ -290,19 +302,27 @@
 
                 <script>
                                 // Get the modal
-                                var modal = document.getElementById("approvalModal");
+                                var approvalModal = document.getElementById("approvalModal");
+                                var rejectionModal = document.getElementById("rejectionModal");
 
                                 // Get the button that opens the modal
-                                var btn = document.getElementById("approveButton");
+                                var approveBtn = document.getElementById("approveButton");
+                                var rejectBtn = document.getElementById("rejectButton");
 
                                 // When the user clicks on the button, open the modal
-                                btn.onclick = function () {
-                                    modal.style.display = "block";
+                                approveBtn.onclick = function () {
+                                    approvalModal.style.display = "block";
+                                }
+                                rejectBtn.onclick = function () {
+                                    rejectionModal.style.display = "block";
                                 }
 
                                 // When the user clicks on <span> (x), close the modal
-                                span.onclick = function () {
-                                    modal.style.display = "none";
+                                function closeModal() {
+                                    approvalModal.style.display = "none";
+                                }
+                                function closeRejectModal() {
+                                    rejectionModal.style.display = "none";
                                 }
 
                                 // Function to approve the inquiry
@@ -317,30 +337,7 @@
                                     closeModal();
                                 }
 
-                                // Function to close the modal
-                                function closeModal() {
-                                    modal.style.display = "none";
-                                }
-                </script>
-
-                 <script>
-                                // Get the modal
-                                var modal = document.getElementById("rejectModal");
-
-                                // Get the button that opens the modal
-                                var btn = document.getElementById("rejectButton");
-
-                                // When the user clicks on the button, open the modal
-                                btn.onclick = function () {
-                                    modal.style.display = "block";
-                                }
-
-                                // When the user clicks on <span> (x), close the modal
-                                span.onclick = function () {
-                                    modal.style.display = "none";
-                                }
-
-                                // Function to approve the inquiry
+                                // Function to reject the inquiry
                                 function reject() {
                                     // Construct the URL
                                     var url = "${reject_inquiry_url}";
@@ -349,14 +346,10 @@
                                     window.location.href = url;
 
                                     // Close the modal
-                                    closeModal();
-                                }
-
-                                // Function to close the modal
-                                function closeModal() {
-                                    modal.style.display = "none";
+                                    closeRejectModal();
                                 }
                 </script>
+
 
 
                 </body>

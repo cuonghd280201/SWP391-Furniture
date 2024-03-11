@@ -149,5 +149,4 @@ public class InteriorDTO {
         this.materialID = materialID;
     }
 
-    
 }

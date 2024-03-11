@@ -5,10 +5,11 @@
  */
 package controllers;
 
-import inquiry.InquiryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -17,16 +18,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import notifications.NotificationDAO;
 import users.UserDTO;
-import utils.AppContants;
+import notifications.NotificationDAO;
+import notifications.NotificationDTO;
+
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "ApprovedInquiryController", urlPatterns = {"/ApprovedInquiryController"})
-public class ApprovedInquiryController extends HttpServlet {
+@WebServlet(name = "GetNotification", urlPatterns = {"/GetNotification"})
+public class GetNotification extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,32 +44,34 @@ public class ApprovedInquiryController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         ServletContext context = getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITEMAPS");
-        HttpSession session = request.getSession();
-        UserDTO user = (UserDTO) session.getAttribute("USER");
-        int userID = user.getUserId();
+        //end get sitemap
 
-        // End get site map
-        // Mapping url        
-        String url = siteMaps.getProperty(AppContants.CreateInquiryFeature.ERROR_PAGE);
-        int inquiryID = Integer.parseInt(request.getParameter("inquiryID"));
+
         try {
-            //1. call DAO
-            InquiryDAO inquiryDAO = new InquiryDAO();
-            boolean result = inquiryDAO.approvedInquiry(inquiryID);
-            if (result) {
-                NotificationDAO notificationDAO = new NotificationDAO();
-                notificationDAO.insertNotificationStaff(userID, "This inquiry are approved by web furniture");
-                request.getSession().setAttribute("SAVE_NOTI", "success"); // Set success attribute
-                // call search function again by using url rewriting
-                url = siteMaps.getProperty(AppContants.Staff.LIST_INQUIRTY_PAGE_STAFF);
+            HttpSession session = request.getSession();
+            UserDTO user = (UserDTO) session.getAttribute("USER");
+            if (user != null) {
+                
+                //call dao 
+                NotificationDAO dao = new NotificationDAO();
+                //process result 
+                List<NotificationDTO> result = dao.getListNoti(user.getUserId());
+                if(result == null ) {
+                   result = new ArrayList<NotificationDTO>();
+                   NotificationDTO newDto = new NotificationDTO();
+                   newDto.setNotificationContent("Welcome to furniture qoute!!");
+                 result.add(newDto);
+               }         
+             session.setAttribute("NOTIFICATION_RESULT", result );
+           
             }
-
         } catch (SQLException ex) {
-            log("RemoveConstruction Controller _ SQL " + ex.getMessage());
+            log("SearchController _ SQL " + ex.getMessage());
         } finally {
-            response.sendRedirect(url);
+
         }
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -192,8 +192,7 @@
     </head>
 
     <c:import url="adminListConstruction"></c:import>
-
-
+    <c:import url="DisplayDetailConstruction"></c:import>
         <body>
             <!-- ============================================================== -->
             <!-- main wrapper -->
@@ -279,9 +278,7 @@
                                                                     <c:param name="constructionID" value="${c.constructionID}"/>
                                                                 </c:url>
 
-                                                                <a href="${edit_construction_url}" class="update-btn" onclick="openPopupWithoutClose()">
-                                                                    <button><i class="fas fa-edit"></i></button>
-                                                                </a>
+                                                                <button class="update-btn" onclick="openPopup()"><i class="fas fa-edit"></i></button>
 
 
                                                                 <c:url var="remove_recipe_url" value="deleteConstructionController">
@@ -323,13 +320,13 @@
                                 <!-- Content of your popup goes here -->
                                 <h2>Update Contruction</h2>
                                 <div class="container">
-                                    <form action="CreateConstructionController">
+                                    <form action="" method="post">
                                         <div class="row">
                                             <div class="col-25">
                                                 <label for="txtConstructionName">Construction Name</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="txtConstructionName" value="${detail.constructionName}" placeholder="Input first construction name..">
+                                                <input type="text" id="txtConstructionName" name="txtConstructionName" value="${detail.constructionName}" >
                                             </div>
                                         </div>
                                         <div class="row">
@@ -337,7 +334,7 @@
                                                 <label for="txtContructionDescription">Construction Description</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="txtContructionDescription"value="${detail.constructionDescription}" placeholder="Input construction description..">
+                                                <input type="text" id="txtContructionDescription" name="txtContructionDescription" value="${detail.constructionDescription}" >
                                             </div>
                                         </div>
 
@@ -409,7 +406,7 @@
                     <div id="approvalModal" class="modal">
                         <div class="modal-content">
                             <span class="close" onclick="closeModal()">&times;</span>
-                            <p>Do You Want To Aprroved This Inquiry?</p>
+                            <p>Do You Want To Delete Construction?</p>
                             <div class="button-group">
                                 <button class="yes-button" onclick="approve()">Yes</button>
                                 <button class="no-button" onclick="closeModal()">No</button>
@@ -564,10 +561,7 @@
                             document.getElementById("updatePopup").style.display = "none";
                         }
 
-                        function openPopupWithoutClose(event) {
-                            event.preventDefault(); // Ngăn chặn mặc định hành vi của liên kết
-                            openPopup(); // Gọi hàm mở cửa sổ popup
-                        }
+
                     </script>
 
                     <script>

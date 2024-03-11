@@ -7,6 +7,7 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import users.UserDAO;
 import users.UserDTO;
 import utils.AppContants;
+import utils.SHA256;
 
 /**
  *
@@ -46,7 +48,7 @@ public class LoginController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, NoSuchAlgorithmException {
         response.setContentType("text/html;charset=UTF-8");
         ServletContext context = getServletContext();
 
@@ -56,10 +58,12 @@ public class LoginController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String email = request.getParameter("txtemail");
             String password = request.getParameter("txtpassword");
+            byte[] getSha= SHA256.getSHA(password);
+            String passSHA= SHA256.toHexString(getSha);
             String url = LOGIN_FAIL;
 
             UserDAO dao = new UserDAO();
-            UserDTO user = dao.checkLogin(email, password);
+            UserDTO user = dao.checkLogin(email, passSHA);
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("USER", user);
@@ -100,6 +104,8 @@ public class LoginController extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -117,6 +123,8 @@ public class LoginController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -16,6 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import notifications.NotificationDAO;
+import users.UserDTO;
 import utils.AppContants;
 
 /**
@@ -37,26 +40,32 @@ public class RejectInquiryController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       ServletContext context = getServletContext();
+        ServletContext context = getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITEMAPS");
+        HttpSession session = request.getSession();
+        UserDTO user = (UserDTO) session.getAttribute("USER");
+        int userID = user.getUserId();
         // End get site map
 
         // Mapping url        
-        String urlRewriting = AppContants.CreateInquiryFeature.ERROR_PAGE;
+        String url = siteMaps.getProperty(AppContants.CreateInquiryFeature.ERROR_PAGE);
         int inquiryID = Integer.parseInt(request.getParameter("inquiryID"));
         try {
             //1. call DAO
             InquiryDAO inquiryDAO = new InquiryDAO();
             boolean result = inquiryDAO.rejectInquiry(inquiryID);
             if (result) {
+                NotificationDAO notificationDAO = new NotificationDAO();
+                notificationDAO.insertNotificationStaff(userID, "This inquiry are rejected by web furniture");
+                request.getSession().setAttribute("SAVE_NOTI", "fail"); // Set success attribute
                 // call search function again by using url rewriting
-                urlRewriting = AppContants.Staff.DETAIL_INQUIRY_PAGE_STAFF;
+                url = siteMaps.getProperty(AppContants.Staff.LIST_INQUIRTY_PAGE_STAFF);
             }
 
         } catch (SQLException ex) {
             log("RemoveConstruction Controller _ SQL " + ex.getMessage());
         } finally {
-            response.sendRedirect(urlRewriting);
+            response.sendRedirect(url);
         }
     }
 

@@ -5,6 +5,7 @@
  */
 package interior;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,10 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import utils.DBUtils;
 
-/**
- *
- * @author cdkhu
- */
+
 public class InteriorDAO {
     
     public InteriorDTO getInteriorByID(int interiorID) throws SQLException{
@@ -26,7 +24,8 @@ public class InteriorDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try{
-            con = DBUtils.getConnection();
+
+            con = DBUtils.makeConnection();
             if(con != null){
                 String sql = "SELECT * FROM Interior WHERE interiorID = ?";
                 stm = con.prepareStatement(sql);
@@ -64,7 +63,7 @@ public class InteriorDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try{
-            con = DBUtils.getConnection();
+            con = DBUtils.makeConnection();
             if(con != null){
                 String sql = "SELECT * FROM Interior";
                 stm = con.prepareStatement(sql);
@@ -104,7 +103,7 @@ public class InteriorDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try{
-            con = DBUtils.getConnection();
+            con = DBUtils.makeConnection();
             if(con != null){
                 String sql = "SELECT * FROM Interior WHERE interiorName like ?";
                 stm = con.prepareStatement(sql);

@@ -41,11 +41,52 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <style>
+            .container-fluid {
+                /* Add your existing container styles here */
+            }
+
+            .header-carousel {
+                /* Add your existing carousel styles here */
+            }
+
+            .col-md-6 {
+                position: relative;
+                z-index: 1; /* Ensure a higher z-index value */
+            }
+
+            .popup {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: white;
+                padding: 50px;
+                border: 1px solid #ccc;
+                z-index: 1000;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 70%;
+                height: 70%;
+                max-width: 2000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều rộng tối đa */
+                max-height: 3000px; /* Thay đổi giá trị này nếu bạn muốn giới hạn chiều cao tối đa */
+            }
+
+            .popup-content {
+                background: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                z-index: 1000; /* Ensure a higher z-index value */
+            }
+        </style>
     </head>
-    <body>
-        <!-- Navbar Start -->
-        <!-- Navbar Start -->
-        <div class="container-fluid nav-bar bg-transparent">
+    <c:import url="LoadHomePageController"></c:import>
+
+        <body>
+            
+            <!-- Navbar Start -->
+            <!-- Navbar Start -->
+              <div class="container-fluid nav-bar bg-transparent">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
                 <a href="index.html" class="navbar-brand d-flex align-items-center text-center">
                     <div class="icon p-2 me-2">
@@ -63,7 +104,7 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Project</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="property-list.html" class="dropdown-item">Project List</a>
+                                <a href="displayInquiryCustomerController" class="dropdown-item">Project List</a>
                                 <a href="property-type.html" class="dropdown-item">Project Type</a>
                                 <a href="property-agent.html" class="dropdown-item">Project Agent</a>
                             </div>
@@ -85,28 +126,21 @@
                             </button>
                         </c:when>
                         <c:otherwise>
-                            <!-- If a user is logged in -->
-                            <!-- Clicking on the image will toggle the dropdown menu -->
-                            <img src="${sessionScope.USER.image}" alt="My Person" class="rounded-circle media-img-auto" style="width: 40px; height: 40px; margin-right: 10px; cursor: pointer;" onclick="toggleDropdown('dropdown-user')">
+                            <ul> 
+                                <li class="nav-item dropdown nav-user">
+                                <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="${sessionScope.USER.image}" alt="My Person" class="rounded-circle media-img-auto" style="width: 50px; height: 50px; margin-right: 10px; cursor: pointer;" onclick="toggleDropdown('dropdown-user')">
+                                </a>                           
+                                <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                                    <div class="nav-user-info">
+                                        <b>${sessionScope.USER.firstName} ${sessionScope.USER.lastName}</b>
 
-                            <b>${sessionScope.USER.firstName} ${sessionScope.USER.lastName}</b>
-
-                            <!-- Dropdown menu for user actions -->
-                            <ul class="dropdown-menu-col-1" id="dropdown-user" style="width: 15rem; display: none;">
-                                <!-- User actions -->
-                                <li style="display: inline-block; width: 100%">
-                                    <a href="displayUserProfileController">Profile</a>
-                                </li>
-                                <li style="display: inline-block; width: 100%">
-                                    <c:url var="Reset_url" value="resetPasswordPage"></c:url>
-                                    <a href="${Reset_url}">Reset Password</a>
-                                </li>
-                                <li style="display: inline-block; width: 100%">
-                                    <a href="removeAccountController" onclick="return confirm('Are you sure? Do you want to delete this item?');">Inactive account</a>
-                                </li>
-                                <li style="display: inline-block; width: 100%">                                                                                        
-                                    <a href="logoutController">Logout</a>
-                                </li> 
+                                    </div>
+                                    <a class="dropdown-item" href="displayUserProfileController"><i class="fas fa-user mr-2"></i>Account</a>
+                                    <a class="dropdown-item" href="removeAccountController" onclick="return confirm('Are you sure? Do you want to delete this item?');">Inactive account</a>
+                                    <a class="dropdown-item" href="logoutController"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                </div>
+                            </li>
                             </ul>
                         </c:otherwise>
                     </c:choose>
@@ -114,9 +148,9 @@
 
                 </div>
             </nav>
+        </div>
             <c:set var="inquiryDTO" value="${requestScope.DETAIL_INQUIRY}" />
-
-            <c:set var="construction" value="${inquiryDTO.construction}"/>
+            <c:set var="c" value="${inquiryDTO.construction}"/>
             <c:set var="s" value="${inquiryDTO.scale}"/>
             <c:set var="p" value="${inquiryDTO.projectType}"/>
             <c:set var="r" value="${inquiryDTO.priceRange}"/>
@@ -127,37 +161,41 @@
                         <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
                             <div class="row g-5 align-items-center">
                                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                                    <img class="img-fluid rounded w-100" src="img/call-to-action.jpg" alt="">
+                                    <img class="img-fluid rounded w-100" src="img/inquiry.jpg" alt="">
                                 </div>
                                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                                     <div class="mb-4">
-                                        <h1 class="mb-3">${inquiryDTO.projectID}</h1>
-                                        <p><span class="badge ms-1 
-                                                 <c:choose>
-                                                     <c:when test="${inquiryDTO.statusInquiry == 1}">
-                                                         bg-info
-                                                     </c:when>
-                                                     <c:when test="${inquiryDTO.statusInquiry == 2}">
-                                                         bg-success
-                                                     </c:when>
-                                                     <c:otherwise>
-                                                         bg-danger
-                                                     </c:otherwise>
-                                                 </c:choose>">
-                                                <i class="mdi align-middle"></i>
-                                                <c:choose>
-                                                    <c:when test="${inquiryDTO.statusInquiry == 1}">
-                                                        Waiting
-                                                    </c:when>
-                                                    <c:when test="${inquiryDTO.statusInquiry == 2}">
-                                                        Approved
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        Rejected
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </span>        </p>
-                                        <p>Contruction Name: ${construction.constructionName}</p>
+                                        <h1 class="mb-3">${inquiryDTO.inquiryTittle}</h1>
+                                        <p> <c:choose>
+                                                <c:when test="${inquiryDTO.statusInquiry == 1}">
+                                                    <!-- Display Waiting status -->
+                                                    <span class="badge ms-1 bg-info">
+                                                        <i class="mdi align-middle"></i> Waiting
+                                                    </span>
+                                                </c:when>
+                                                <c:when test="${inquiryDTO.statusInquiry == 2}">
+                                                    <!-- Display Approved status -->
+                                                    <span class="badge ms-1 bg-success">
+                                                        <i class="mdi align-middle"></i> Approved
+                                                    </span>
+                                                </c:when>
+                                                <c:when test="${inquiryDTO.statusInquiry == 3}">
+                                                    <!-- Display Rejected status -->
+                                                    <span class="badge ms-1 bg-danger">
+                                                        <i class="mdi align-middle"></i> Rejected
+                                                    </span>
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                    <a href="#" id="getStartedBtn" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Edit</a>
+                                                    <!-- Display Save Draft status -->
+                                                    <span class="badge ms-1 bg-dark">
+                                                        <i class="mdi align-middle"></i> Save Draft
+                                                    </span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </p>
+                                        <p>Contruction Name: ${c.constructionName}</p>
                                         <p>Scale Name: ${s.scaleName}</p>
                                         <p>Price Range: ${r.priceRangeName}</p>
                                         <p>Project Type Name: ${p.projectTypeName}</p>
@@ -169,6 +207,105 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <!-- Your popup content goes here -->
+                    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 30px;">
+                        <div class="container">
+                            <form id="inquiryForm" method="post">
+                                <div class="row g-2">
+                                    <div class="col-md-13">
+                                        <div class="row g-10">
+                                            <div class="col-md-12">
+                                                <label for="txtInquiryTittle">Inquiry Title <font color="red">*</font></label>
+                                                <input type="text" placeholder="Inquiry Title" class="form-control" name="txtInquiryTittle" id="txtInquiryTittle" value="${inquiryDTO.inquiryTittle}">
+                                                <div id="inquiryTitleError" class="error-message">Please enter an inquiry title.</div>
+                                            </div>
+                                            <c:set var="constructionList" value="${requestScope.constructionList}"></c:set>
+                                                <div class="col-md-6">
+                                                    <label for="txtConstructionID"><strong>Construction</strong> <font color="red">*</font></label>
+                                                    <select class="form-control border-0 py-3" name="txtConstructionID" id="txtConstructionID">
+                                                        <option value="" disabled="disabled" selected>Choose Project</option>
+                                                    <c:if test="${not empty constructionList}">
+                                                        <c:forEach var="construction" items="${constructionList}">
+                                                            <option value="${construction.constructionID}"
+                                                                    <c:if test="${construction.constructionID == c.constructionID}">selected</c:if>
+                                                                    >${construction.constructionName}</option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                                <div id="constructionIDError" class="error-message">Please select a construction.</div>
+                                            </div>
+                                            <!-- Add similar blocks for other fields -->
+
+                                            <div class="col-md-6">
+                                                <label for="txtScaleID"><strong>Scale</strong>  <font color="red">*</font></label>
+                                                <select class="form-control border-0 py-3" name="txtScaleID" id="txtScaleID">
+                                                    <option value="" disabled="disabled" selected>Choose Scale</option>
+                                                    <c:set var="scaleList" value="${requestScope.scaleList}"></c:set>
+                                                    <c:forEach var="scale" items="${scaleList}">
+
+                                                        <option value="${scale.scaleID}"
+                                                                <c:if test="${scale.scaleID == s.scaleID}">selected</c:if>
+                                                                >${scale.scaleName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                <div id="scaleIDError" class="error-message">Please select a scale.</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="txtProjectTypeID"><strong>Project Type</strong> <font color="red">*</font></label>
+                                                <select class="form-control border-0 py-3" name="txtProjectTypeID" id="txtProjectTypeID">
+                                                    <option value="" disabled="disabled" selected>Choose Project Type</option>
+                                                    <c:set var="projectTypeList" value="${requestScope.projectTypeList}"></c:set>
+                                                    <c:if test="${not empty projectTypeList}">
+                                                        <c:forEach var="projectType" items="${projectTypeList}">
+                                                            <option value="${projectType.projectTypeID}"
+                                                                    <c:if test="${projectType.projectTypeID == p.projectTypeID}">selected</c:if>
+                                                                    >${projectType.projectTypeName}</option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                                <div id="projectTypeIDError" class="error-message">Please select a project type.</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="txtPriceRangeID"><strong>Price Range</strong>  <font color="red">*</font></label>
+                                                <select class="form-control border-0 py-3" name="txtPriceRangeID" id="txtPriceRangeID">
+                                                    <option value="" disabled="disabled" selected>Choose Price Range</option>
+                                                    <c:set var="priceRangeList" value="${requestScope.priceList}"></c:set>
+                                                    <c:forEach var="price" items="${priceRangeList}">
+
+                                                        <option value="${price.priceRangeID}"
+                                                                <c:if test="${price.priceRangeID == r.priceRangeID}">selected</c:if>
+                                                                >${price.priceRangeName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                                <div id="priceRangeIDError" class="error-message">Please select a price range.</div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="txtDescription"><strong>Description</strong> </label>
+                                                <textarea placeholder="Short description about your inquiry..."
+                                                          class="textarea form-control" name="txtDescription" id="form-message" value="${inquiryDTO.description}"
+                                                          rows="3" cols="20">${param.txtDescription}</textarea>
+                                                <div id="descriptionError" class="error-message">Please enter a description.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-2">
+                                        <div class="col-md-4">
+                                            <button class="btn btn-dark border-0 w-100 py-3" type="submit" formaction="createInquiryController" onclick="return checkNullFieldsSend()">Send Quote</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-dark border-0 w-100 py-3" type="submit" formaction="saveDraftInquiryController" onclick="return checkNullFieldsSave()">Save Draft</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <span class="close-btn" onclick="closePopup()">X</span>
             </div>
 
             <!-- Footer Start -->
@@ -251,9 +388,9 @@
             </div>
             <!-- Footer End -->
 
-
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
 
             <!-- Modal End-->
 
@@ -268,9 +405,9 @@
             <!-- Template Javascript -->
             <script src="js/main.js"></script>
             <script>
-                                        function openModal() {
-                                            $('#myModal').modal('show');
-                                        }
+                    function openModal() {
+                        $('#myModal').modal('show');
+                    }
             </script>
             <script>
                 function toggleDropdown(id) {
@@ -282,6 +419,93 @@
                     }
                 }
             </script>
+            <script>
+                document.getElementById('getStartedBtn').addEventListener('click', function () {
+                    document.getElementById('popup').style.display = 'flex';
+                });
+                function closePopup() {
+                    document.getElementById('popup').style.display = 'none';
+                }
+            </script>
+
+            <script>
+
+                function checkNullFieldsSave() {
+                    var inquiryTitle = document.getElementById("txtInquiryTittle").value;
+                    if (inquiryTitle === "") {
+                        document.getElementById("inquiryTitleError").style.display = "block";
+                        return false;
+                    } else {
+                        document.getElementById("inquiryTitleError").style.display = "none";
+                    }
+                }
+            </script>
+
+            <script>
+                function checkNullFieldsSend() {
+                    var inquiryTitle = document.getElementById("txtInquiryTittle").value;
+                    var constructionID = document.getElementById("txtConstructionID").value;
+                    var description = document.getElementById("form-message").value;
+                    var scaleID = document.getElementById("txtScaleID").value;
+                    var projectTypeID = document.getElementById("txtProjectTypeID").value;
+                    var priceRangeID = document.getElementById("txtPriceRangeID").value;
+                    if (inquiryTitle === "") {
+                        document.getElementById("inquiryTitleError").style.display = "block";
+                        return false;
+                    } else {
+                        document.getElementById("inquiryTitleError").style.display = "none";
+                    }
+
+                    if (constructionID === "") {
+                        document.getElementById("constructionIDError").style.display = "block";
+                        return false;
+                    } else {
+                        document.getElementById("constructionIDError").style.display = "none";
+                    }
+
+                    // Add similar checks for other fields
+
+                    if (description.length > 2000) {
+                        document.getElementById("descriptionError").innerHTML = "Description should not exceed 2000 characters.";
+                        document.getElementById("descriptionError").style.display = "block";
+                        return false;
+                    } else {
+                        document.getElementById("descriptionError").style.display = "none";
+                    }
+
+                    if (scaleID === "") {
+                        document.getElementById("scaleIDError").style.display = "block";
+                        return false;
+                    } else {
+                        document.getElementById("scaleIDError").style.display = "none";
+                    }
+
+                    if (projectTypeID === "") {
+                        document.getElementById("projectTypeIDError").style.display = "block";
+                        return false;
+                    } else {
+                        document.getElementById("projectTypeIDError").style.display = "none";
+                    }
+
+                    if (priceRangeID === "") {
+                        document.getElementById("priceRangeIDError").style.display = "block";
+                        return false;
+                    } else {
+                        document.getElementById("priceRangeIDError").style.display = "none";
+                    }
+
+                    return true;
+                }
+            </script>
+
+            <style>
+                .error-message {
+                    display: none;
+                    color: red;
+                    margin-top: 5px;
+                }
+            </style>
+
 
     </body>
 

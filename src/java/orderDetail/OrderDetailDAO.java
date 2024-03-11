@@ -12,7 +12,7 @@ import utils.DBUtils;
 
 /**
  *
- * @author cdkhu
+ * @author Admin
  */
 public class OrderDetailDAO {
     public int createOrderDetail(int interiorID, int projectID, int interiorQuantity, double interiorMoney, int status) throws SQLException{
@@ -20,7 +20,7 @@ public class OrderDetailDAO {
         PreparedStatement stm = null;
         int createStatus = 0;
         try{
-            con = DBUtils.getConnection();
+            con = DBUtils.makeConnection();
             if(con != null){
                 String sql = "INSERT INTO OrderDetail VALUES (?,?,?,?,?,?)";
                 stm = con.prepareStatement(sql);
