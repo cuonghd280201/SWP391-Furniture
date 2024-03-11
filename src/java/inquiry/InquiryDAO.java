@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import projects.Project;
 import utils.DBUtils;
 import java.sql.Date;
+import users.UserDTO;
 
 /**
  *
@@ -101,18 +102,63 @@ public class InquiryDAO {
             if (con != null) {
                 //2. create sql string
                 String sql = "INSERT INTO Inquiry \n"
-                        + "	(userID, constructionID , scaleID, priceRangeID, projectTypeID, description, statusInquiry, createAt) \n"
-                        + "    VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                        + "	(userID, inquiryTittle, constructionID , scaleID, priceRangeID, projectTypeID, description, statusInquiry, createAt) \n"
+                        + "    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
                 //3. create statement obj
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, inquiry.getUserID());
-                stm.setInt(2, inquiry.getConstructionID());
-                stm.setInt(3, inquiry.getScaleID());
-                stm.setInt(4, inquiry.getProjectTypeID());
-                stm.setInt(5, inquiry.getPriceRangeID());
-                stm.setString(6, inquiry.getDescription());
-                stm.setInt(7, 1);
-                stm.setDate(8, now);
+                stm.setString(2, inquiry.getInquiryTittle());
+                stm.setInt(3, inquiry.getConstructionID());
+                stm.setInt(4, inquiry.getScaleID());
+                stm.setInt(5, inquiry.getProjectTypeID());
+                stm.setInt(6, inquiry.getPriceRangeID());
+                stm.setString(7, inquiry.getDescription());
+                stm.setInt(8, 1);
+                stm.setDate(9, now);
+                //4. execute query
+                int affectedRows = stm.executeUpdate();
+                //5 process result
+                if (affectedRows > 0) {
+                    result = true;
+                }// end process rs
+            }// end check con not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
+    public boolean saveDraftInquiry(Inquiry inquiry)
+            throws SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            //1.  make connection
+            con = DBUtils.makeConnection();
+            Date now = Date.valueOf(LocalDate.now());
+
+            if (con != null) {
+                //2. create sql string
+                String sql = "INSERT INTO Inquiry \n"
+                        + "	(userID, inquiryTittle, constructionID , scaleID, priceRangeID, projectTypeID, description, statusInquiry, createAt) \n"
+                        + "    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                //3. create statement obj
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, inquiry.getUserID());
+                stm.setString(2, inquiry.getInquiryTittle());
+                stm.setInt(3, inquiry.getConstructionID());
+                stm.setInt(4, inquiry.getScaleID());
+                stm.setInt(5, inquiry.getProjectTypeID());
+                stm.setInt(6, inquiry.getPriceRangeID());
+                stm.setString(7, inquiry.getDescription());
+                stm.setInt(8, 4);
+                stm.setDate(9, now);
                 //4. execute query
                 int affectedRows = stm.executeUpdate();
                 //5 process result
@@ -193,7 +239,7 @@ public class InquiryDAO {
         try {
             connection = DBUtils.makeConnection();
             if (connection != null) {
-                String sql = "SELECT inquiryID, projectID, Inquiry.userID, statusInquiry, createAt, updateAt, description, Inquiry.constructionID, Construction.constructionName, Inquiry.scaleID, Scale.scaleName, Inquiry.priceRangeID, PriceRange.priceRangeName, Inquiry.projectTypeID, ProjectType.projectTypeName FROM Inquiry inner join (select userID from tblUser where userID = ?) as saveUser on Inquiry.userID = saveUser.userID INNER JOIN Construction ON Construction.constructionID = Inquiry.constructionID INNER JOIN Scale ON Scale.scaleID = Inquiry.scaleID INNER JOIN PriceRange ON PriceRange.priceRangeID = Inquiry.priceRangeID INNER JOIN ProjectType ON ProjectType.projectTypeID = Inquiry.projectTypeID ORDER BY inquiryID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                String sql = "SELECT inquiryID, projectID, inquiryTittle, Inquiry.userID, statusInquiry, createAt, updateAt, description, Inquiry.constructionID, Construction.constructionName, Inquiry.scaleID, Scale.scaleName, Inquiry.priceRangeID, PriceRange.priceRangeName, Inquiry.projectTypeID, ProjectType.projectTypeName FROM Inquiry inner join (select userID from tblUser where userID = ?) as saveUser on Inquiry.userID = saveUser.userID INNER JOIN Construction ON Construction.constructionID = Inquiry.constructionID INNER JOIN Scale ON Scale.scaleID = Inquiry.scaleID INNER JOIN PriceRange ON PriceRange.priceRangeID = Inquiry.priceRangeID INNER JOIN ProjectType ON ProjectType.projectTypeID = Inquiry.projectTypeID ORDER BY createAt DESC, inquiryID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, loginUserId);
                 stm.setInt(2, offset); // Set the offset
@@ -202,6 +248,7 @@ public class InquiryDAO {
                 while (rs.next()) {
                     int inquiryID = rs.getInt("InquiryID");
                     int projectID = rs.getInt("ProjectID");
+                    String inquiryTittle = rs.getString("InquiryTittle");
                     int userID = rs.getInt("UserID");
                     int statusInquiry = rs.getInt("StatusInquiry");
                     Date createdAt = rs.getDate("CreateAt");
@@ -220,7 +267,7 @@ public class InquiryDAO {
                     String projectTypeName = rs.getString("ProjectTypeName");
                     ProjectType projectType = new ProjectType(projectTypeID, projectTypeName);
 
-                    Inquiry inquiryDto = new Inquiry(inquiryID, projectID, userID, statusInquiry, createdAt, updatedAt, description, constructionID, scaleID, priceRangeID, projectTypeID, construction, scale, projectType, priceRange);
+                    Inquiry inquiryDto = new Inquiry(inquiryID, projectID, inquiryTittle, userID, statusInquiry, createdAt, updatedAt, description, constructionID, scaleID, priceRangeID, projectTypeID, construction, scale, projectType, priceRange);
                     if (inquiriesList == null) {
                         inquiriesList = new ArrayList<>();
                     }
@@ -256,7 +303,7 @@ public class InquiryDAO {
         try {
             connection = DBUtils.makeConnection();
             if (connection != null) {
-                String sql = "SELECT inquiryID, projectID, Inquiry.userID, statusInquiry, createAt, updateAt, description, Inquiry.constructionID, Construction.constructionName, Inquiry.scaleID, Scale.scaleName, Inquiry.priceRangeID, PriceRange.priceRangeName, Inquiry.projectTypeID, ProjectType.projectTypeName FROM Inquiry INNER JOIN Construction ON Construction.constructionID = Inquiry.constructionID INNER JOIN Scale ON Scale.scaleID = Inquiry.scaleID INNER JOIN PriceRange ON PriceRange.priceRangeID = Inquiry.priceRangeID INNER JOIN ProjectType ON ProjectType.projectTypeID = Inquiry.projectTypeID ORDER BY inquiryID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                String sql = "SELECT inquiryID, projectID, inquiryTittle, Inquiry.userID, statusInquiry, createAt, updateAt, description, Inquiry.constructionID, Construction.constructionName, Inquiry.scaleID, Scale.scaleName, Inquiry.priceRangeID, PriceRange.priceRangeName, Inquiry.projectTypeID, ProjectType.projectTypeName, tblUser.firstName, tblUser.lastName, tblUser.email, tblUser.image FROM Inquiry INNER JOIN Construction ON Construction.constructionID = Inquiry.constructionID INNER JOIN Scale ON Scale.scaleID = Inquiry.scaleID INNER JOIN PriceRange ON PriceRange.priceRangeID = Inquiry.priceRangeID INNER JOIN ProjectType ON ProjectType.projectTypeID = Inquiry.projectTypeID INNER JOIN tblUser ON tblUser.userID = Inquiry.userID ORDER BY createAt DESC, inquiryID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, offset); // Set the offset
                 stm.setInt(2, pageSize); // Set the fetch count
@@ -264,7 +311,13 @@ public class InquiryDAO {
                 while (rs.next()) {
                     int inquiryID = rs.getInt("InquiryID");
                     int projectID = rs.getInt("ProjectID");
+                    String inquiryTittle = rs.getString("InquiryTittle");
                     int userID = rs.getInt("UserID");
+                    String firstName = rs.getString("FirstName");
+                    String lastName = rs.getString("LastName");
+                    String email = rs.getString("Email");
+                                       String image = rs.getString("Image");
+                    UserDTO userDTO = new UserDTO(userID, firstName, lastName, email, image);
                     int statusInquiry = rs.getInt("StatusInquiry");
                     Date createdAt = rs.getDate("CreateAt");
                     Date updatedAt = rs.getDate("UpdateAt");
@@ -282,7 +335,7 @@ public class InquiryDAO {
                     String projectTypeName = rs.getString("ProjectTypeName");
                     ProjectType projectType = new ProjectType(projectTypeID, projectTypeName);
 
-                    Inquiry inquiryDto = new Inquiry(inquiryID, projectID, userID, statusInquiry, createdAt, updatedAt, description, constructionID, scaleID, priceRangeID, projectTypeID, construction, scale, projectType, priceRange);
+                    Inquiry inquiryDto = new Inquiry(inquiryID, projectID, inquiryTittle, userID, statusInquiry, createdAt, updatedAt, description, constructionID, scaleID, priceRangeID, projectTypeID, construction, scale, projectType, priceRange, userDTO);
                     if (inquiriesList == null) {
                         inquiriesList = new ArrayList<>();
                     }
@@ -318,7 +371,7 @@ public class InquiryDAO {
             connection = DBUtils.makeConnection();
             if (connection != null) {
                 //2. create sql string
-                String sql = "SELECT inquiryID, projectID, Inquiry.userID, statusInquiry, createAt, updateAt, description, Inquiry.constructionID, Construction.constructionName, Inquiry.scaleID, Scale.scaleName, Inquiry.priceRangeID, PriceRange.priceRangeName, Inquiry.projectTypeID, ProjectType.projectTypeName FROM Inquiry  INNER JOIN Construction ON Construction.constructionID = Inquiry.constructionID INNER JOIN Scale ON Scale.scaleID = Inquiry.scaleID INNER JOIN PriceRange ON PriceRange.priceRangeID = Inquiry.priceRangeID INNER JOIN ProjectType ON ProjectType.projectTypeID = Inquiry.projectTypeID where  Inquiry.inquiryID = ?";
+                String sql = "SELECT inquiryID, projectID, inquiryTittle, Inquiry.userID, statusInquiry, createAt, updateAt, description, Inquiry.constructionID, Construction.constructionName, Inquiry.scaleID, Scale.scaleName, Inquiry.priceRangeID, PriceRange.priceRangeName, Inquiry.projectTypeID, ProjectType.projectTypeName,tblUser.firstName, tblUser.lastName, tblUser.email, tblUser.image FROM Inquiry  INNER JOIN Construction ON Construction.constructionID = Inquiry.constructionID INNER JOIN Scale ON Scale.scaleID = Inquiry.scaleID INNER JOIN PriceRange ON PriceRange.priceRangeID = Inquiry.priceRangeID INNER JOIN tblUser ON tblUser.userID = Inquiry.userID INNER JOIN ProjectType ON ProjectType.projectTypeID = Inquiry.projectTypeID where  Inquiry.inquiryID = ?";
                 //3. create statement obj
                 stm = connection.prepareStatement(sql); // tao ra obj rong
                 stm.setInt(1, inquiryID);
@@ -329,6 +382,12 @@ public class InquiryDAO {
                     // get recipe DTO info
                     int projectID = rs.getInt("ProjectID");
                     int userID = rs.getInt("UserID");
+                    String firstName = rs.getString("FirstName");
+                    String lastName = rs.getString("LastName");
+                    String email = rs.getString("Email");
+                    String image = rs.getString("Image");
+                    UserDTO userDTO = new UserDTO(userID, firstName, lastName, email, image);
+                    String inquiryTittle = rs.getString("InquiryTittle");
                     int statusInquiry = rs.getInt("StatusInquiry");
                     Date createdAt = rs.getDate("CreateAt");
                     Date updatedAt = rs.getDate("UpdateAt");
@@ -346,7 +405,7 @@ public class InquiryDAO {
                     String projectTypeName = rs.getString("ProjectTypeName");
                     ProjectType projectType = new ProjectType(projectTypeID, projectTypeName);
 
-                    Inquiry inquiryDto = new Inquiry(projectID, userID, statusInquiry, createdAt, updatedAt, description, constructionID, scaleID, priceRangeID, projectTypeID, construction, scale, projectType, priceRange);
+                    Inquiry inquiryDto = new Inquiry(projectID, inquiryTittle, userID, statusInquiry, createdAt, updatedAt, description, constructionID, scaleID, priceRangeID, projectTypeID, construction, scale, projectType, priceRange, userDTO);
                     result = inquiryDto;
 
                 }

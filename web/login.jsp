@@ -17,14 +17,17 @@
             <input type="checkbox" id="check">   
             <div class="login form">
                 <header>Login</header>
-                                    <form action="loginController"  method="post">
+                <form action="loginController"  method="post">
                     <input type="text" name="txtemail" placeholder="Enter your email">
                     <input type="password" name="txtpassword" placeholder="Enter your password">
-                    <a href="#">Forgot password?</a>
-                    <input type="submit" class="button"> <!-- Change to type="submit" -->
-                    <h2 style="color: red;">${result}</h2>
-                     <c:url var="verifyEmail_url" value="verifyEmailPage"></c:url>
-                                        <label class="lost-password"><a href="${verifyEmail_url}">Verify your email?</a></label>
+
+                    <c:url var="forgot_url" value="forgotPasswordPage"></c:url>
+
+                        <a href="${forgot_url}">Forgot password?</a>
+                        <input type="submit" class="button"> <!-- Change to type="submit" -->
+                        <h2 style="color: red;">${result}</h2>
+                    <c:url var="verifyEmail_url" value="verifyEmailPage"></c:url>
+                    <label class="lost-password"><a href="${verifyEmail_url}">Verify your email?</a></label>
                 </form>
                 <div class="signup">
                     <span class="signup">Don't have an account?

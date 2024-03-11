@@ -45,6 +45,7 @@
     <c:import url="LoadHomeStaffController"></c:import>
 
         <body>
+
             <div class="dashboard-main-wrapper">
 
             <%@include file="siderBarStaff.jsp" %>
@@ -52,9 +53,6 @@
             <div class="dashboard-wrapper">
                 <div class="dashboard-ecommerce">
                     <div class="container-fluid dashboard-content ">
-                        <!-- ============================================================== -->
-                        <!-- pageheader  -->
-                        <!-- ============================================================== -->
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="page-header">
@@ -136,6 +134,9 @@
                                                             <c:set var="s" value="${inquiry.scale}"/>
                                                             <c:set var="p" value="${inquiry.projectType}"/>
                                                             <c:set var="r" value="${inquiry.priceRange}"/>
+                                                            <c:set var="u" value="${inquiry.userDTO}"/>
+
+
 
                                                             <div class="candidate-list-box card mt-4">
 
@@ -144,21 +145,20 @@
                                                                     <div class="align-items-center row">
                                                                         <div class="col-auto">
                                                                             <div class="candidate-list-images">
-                                                                                <a href="#"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="avatar-md img-thumbnail rounded-circle" /></a>
+                                                                                <a href="#"><img style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover;" src="${u.image}" alt="">
+                                                                                </a>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-lg-5">
                                                                             <div class="candidate-list-content mt-3 mt-lg-0">
 
                                                                                 <h5 class="fs-19 mb-0">
-                                                                                    <a class="primary-link" href="#">${inquiry.inquiryID}</a>
+                                                                                    <a class="primary-link" href="${single_recipe_url}">${inquiry.inquiryTittle}</a>
                                                                                 </h5>
 
-                                                                                <p class="text-muted mb-2">${inquiry.description}</p>
+                                                                                <p class="text-muted mb-2">Sent By: ${u.email}</p>
                                                                                 <ul class="list-inline mb-0 text-muted">
-                                                                                    <figure ><a href="${single_recipe_url}">
-                                                                                            <li class="list-inline-item"><i class="fa fa-clock text-primary me-2"></i> ${inquiry.createAt}</li>
-                                                                                    </figure>
+                                                                                    <li class="list-inline-item"><i class="fa fa-clock text-primary me-2"></i> ${inquiry.createAt}</li>
                                                                                     <li class="list-inline-item"><i class="mdi mdi-wallet"></i> ${r.priceRangeName}</li>
                                                                                 </ul>
                                                                             </div>
@@ -170,31 +170,28 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="favorite-icon">
-                                                                        <span class="badge ms-1 
-                                                                              <c:choose>
-                                                                                  <c:when test="${inquiry.statusInquiry == 1}">
-                                                                                      bg-info
-                                                                                  </c:when>
-                                                                                  <c:when test="${inquiry.statusInquiry == 2}">
-                                                                                      bg-success
-                                                                                  </c:when>
-                                                                                  <c:otherwise>
-                                                                                      bg-danger
-                                                                                  </c:otherwise>
-                                                                              </c:choose>">
-                                                                            <i class="mdi align-middle"></i>
-                                                                            <c:choose>
-                                                                                <c:when test="${inquiry.statusInquiry == 1}">
-                                                                                    Waiting
-                                                                                </c:when>
-                                                                                <c:when test="${inquiry.statusInquiry == 2}">
-                                                                                    Approved
-                                                                                </c:when>
-                                                                                <c:otherwise>
-                                                                                    Rejected
-                                                                                </c:otherwise>
-                                                                            </c:choose>
-                                                                        </span>
+                                                                        <c:choose>
+                                                                            <c:when test="${inquiry.statusInquiry == 1}">
+                                                                                <!-- Display Waiting status -->
+                                                                                <span class="badge ms-1 bg-info">
+                                                                                    <i class="mdi align-middle"></i> Waiting
+                                                                                </span>
+                                                                            </c:when>
+                                                                            <c:when test="${inquiry.statusInquiry == 2}">
+                                                                                <!-- Display Approved status -->
+                                                                                <span class="badge ms-1 bg-success">
+                                                                                    <i class="mdi align-middle"></i> Approved
+                                                                                </span>
+                                                                            </c:when>
+                                                                            <c:when test="${inquiry.statusInquiry == 3}">
+                                                                                <!-- Display Rejected status -->
+                                                                                <span class="badge ms-1 bg-danger">
+                                                                                    <i class="mdi align-middle"></i> Rejected
+                                                                                </span>
+                                                                            </c:when>
+
+
+                                                                        </c:choose>
                                                                     </div>
 
                                                                 </div>

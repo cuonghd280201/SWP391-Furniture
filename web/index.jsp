@@ -119,16 +119,21 @@
             <div id="popup" class="popup">
                 <div class="popup-content">
                     <!-- Your popup content goes here -->
-                    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 100px;">
+                    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 50px;">
                         <div class="container">
-                            <form action="createInquiryController" method="post" >
+                            <form id="inquiryForm" method="post">
                                 <div class="row g-2">
                                     <div class="col-md-13">
                                         <div class="row g-10">
+                                            <div class="col-md-12">
+                                                <label for="txtInquiryTittle">Inquiry Title <font color="red">*</font></label>
+                                                <input type="text" placeholder="Inquiry Title" class="form-control" name="txtInquiryTittle" id="txtInquiryTittle">
+                                                <div id="inquiryTitleError" class="error-message">Please enter an inquiry title.</div>
+                                            </div>
                                             <c:set var="constructionList" value="${requestScope.constructionList}"></c:set>
                                                 <div class="col-md-6">
                                                     <label for="txtConstructionID"><strong>Construction</strong> <font color="red">*</font></label>
-                                                    <select class="form-control border-0 py-3" name="txtConstructionID">
+                                                    <select class="form-control border-0 py-3" name="txtConstructionID" id="txtConstructionID">
                                                         <option value="" disabled="disabled" selected>Choose Project</option>
                                                     <c:if test="${not empty constructionList}">
                                                         <c:forEach var="construction" items="${constructionList}">
@@ -136,66 +141,71 @@
                                                                 <option value="${construction.constructionID}">${construction.constructionName}</option>
                                                             </c:if>
                                                         </c:forEach>
-                                                    </c:if>    
+                                                    </c:if>
                                                 </select>
+                                                <div id="constructionIDError" class="error-message">Please select a construction.</div>
                                             </div>
-                                            <c:set var="projectTypeList" value="${requestScope.projectTypeList}"></c:set>
-                                                <div class="col-md-6">
-                                                    <label for="txtProjectTypeID"><strong>Project Type</strong> <font color="red">*</font></label>
-                                                    <select class="form-control border-0 py-3" name="txtProjectTypeID">
-                                                        <option value="" disabled="disabled" selected>Choose Project</option>
-                                                    <c:if test="${not empty projectTypeList}">
-                                                        <c:forEach var="projectType" items="${projectTypeList}">
-                                                            <option value="${projectType.projectTypeID}">${projectType.projectTypeName}</option>
-                                                        </c:forEach>
-                                                    </c:if>            
-                                                </select>
-                                            </div>
-                                            <c:set var="scaleList" value="${requestScope.scaleList}"></c:set>
-                                                <div class="col-md-6">
-                                                    <label for="txtScaleID"><strong>Scale</strong>  <font color="red">*</font></label>
-                                                    <select class="form-control border-0 py-3" name="txtScaleID">
-                                                        <option value="" disabled="disabled" selected>Choose Scale</option>
+                                            <!-- Add similar blocks for other fields -->
+
+                                            <div class="col-md-6">
+                                                <label for="txtScaleID"><strong>Scale</strong>  <font color="red">*</font></label>
+                                                <select class="form-control border-0 py-3" name="txtScaleID" id="txtScaleID">
+                                                    <option value="" disabled="disabled" selected>Choose Scale</option>
+                                                    <c:set var="scaleList" value="${requestScope.scaleList}"></c:set>
                                                     <c:forEach var="scale" items="${scaleList}">
                                                         <option value="${scale.scaleID}">${scale.scaleName}</option>
                                                     </c:forEach>
                                                 </select>
+                                                <div id="scaleIDError" class="error-message">Please select a scale.</div>
                                             </div>
-                                            <c:set var="priceRangeList" value="${requestScope.priceList}"></c:set>
-                                                <div class="col-md-6">
-                                                    <label for="txtPriceRangeID"><strong>Price Range</strong>  <font color="red">*</font></label>
-                                                    <select class="form-control border-0 py-3" name="txtPriceRangeID">
-                                                        <option value="" disabled="disabled" selected>Choose Price Range</option>
+                                            <div class="col-md-6">
+                                                <label for="txtProjectTypeID"><strong>Project Type</strong> <font color="red">*</font></label>
+                                                <select class="form-control border-0 py-3" name="txtProjectTypeID" id="txtProjectTypeID">
+                                                    <option value="" disabled="disabled" selected>Choose Project Type</option>
+                                                    <c:set var="projectTypeList" value="${requestScope.projectTypeList}"></c:set>
+                                                    <c:if test="${not empty projectTypeList}">
+                                                        <c:forEach var="projectType" items="${projectTypeList}">
+                                                            <option value="${projectType.projectTypeID}">${projectType.projectTypeName}</option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                                <div id="projectTypeIDError" class="error-message">Please select a project type.</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="txtPriceRangeID"><strong>Price Range</strong>  <font color="red">*</font></label>
+                                                <select class="form-control border-0 py-3" name="txtPriceRangeID" id="txtPriceRangeID">
+                                                    <option value="" disabled="disabled" selected>Choose Price Range</option>
+                                                    <c:set var="priceRangeList" value="${requestScope.priceList}"></c:set>
                                                     <c:forEach var="price" items="${priceRangeList}">
                                                         <option value="${price.priceRangeID}">${price.priceRangeName}</option>
                                                     </c:forEach>
                                                 </select>
+                                                <div id="priceRangeIDError" class="error-message">Please select a price range.</div>
                                             </div>
                                             <div class="col-md-12">
-                                                <label for="txtDescription"><strong>Description</strong>  <font color="red">*</font></label>
-                                                <textarea placeholder="Short description about your inquiry..." 
+                                                <label for="txtDescription"><strong>Description</strong> </label>
+                                                <textarea placeholder="Short description about your inquiry..."
                                                           class="textarea form-control" name="txtDescription" id="form-message"
-                                                          rows="3" cols="20" data-error="Description is required" required>${param.txtDescription}</textarea>
-                                                <div class="help-block with-errors"></div>
-                                                <font color="red">${requestScope.ERROR.descriptionExceedCharsCount}</font>
+                                                          rows="3" cols="20">${param.txtDescription}</textarea>
+                                                <div id="descriptionError" class="error-message">Please enter a description.</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row g-2">
-                                        <div class="col-md-2">
-                                            <button class="btn btn-dark border-0 w-100 py-3" type="submit">Send Quote</button>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-dark border-0 w-100 py-3" type="submit" formaction="createInquiryController" onclick="return checkNullFieldsSend()">Send Quote</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-dark border-0 w-100 py-3" type="submit" formaction="saveDraftInquiryController" onclick="return checkNullFieldsSave()">Save Draft</button>
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
-                        </div>                             
+                        </div>
                     </div>
                 </div>
                 <span class="close-btn" onclick="closePopup()">X</span>
-
             </div>
-
 
             <!-- Header End -->
 
@@ -544,16 +554,16 @@
                         <button type="button" class="btn btn-success" style="font-size: 1.75rem"
                                 onclick="dieu_huong_login()">Login</button>
                         <script>
-                            function dieu_huong_login() {
-                                location.assign("${login_url}");
-                            }
+                                    function dieu_huong_login() {
+                                    location.assign("${login_url}");
+                                    }
                         </script>
                         <button type="button" class="btn btn-danger" style="font-size: 1.75rem"
                                 onclick="dieu_huong_Register()">Register</button>
                         <script>
-                            function dieu_huong_Register() {
-                                location.assign("${register_url}");
-                            }
+                                    function dieu_huong_Register() {
+                                    location.assign("${register_url}");
+                                    }
                         </script>
                     </div>
                 </form>
@@ -573,12 +583,11 @@
     <!-- Modal End-->
     <script>
         document.getElementById('getStartedBtn').addEventListener('click', function () {
-            document.getElementById('popup').style.display = 'flex';
+        document.getElementById('popup').style.display = 'flex';
         });
-
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-        }
+                function closePopup() {
+                document.getElementById('popup').style.display = 'none';
+                }
     </script>
 
 
@@ -595,18 +604,18 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
-        function openModal() {
-            $('#myModal').modal('show');
-        }
+                function openModal() {
+                $('#myModal').modal('show');
+                }
     </script>
     <script>
         function toggleDropdown(id) {
-            var dropdown = document.getElementById(id);
-            if (dropdown.style.display === "none") {
-                dropdown.style.display = "block";
-            } else {
-                dropdown.style.display = "none";
-            }
+        var dropdown = document.getElementById(id);
+                if (dropdown.style.display === "none") {
+        dropdown.style.display = "block";
+        } else {
+        dropdown.style.display = "none";
+        }
         }
     </script>
 
@@ -615,13 +624,90 @@
 
     <script>
 <!--Chan gui form bang Enter-->
-        $("#submitForm").keypress(function (e) {
-            if (e.which == 13) {
-                return false;
-            }
-        });
-    </script>
+                $("#submitForm").keypress(function (e) {
+        if (e.which == 13) {
+        return false;
+        }
+        });    </script>
     <script src="js/submit_recipe.js"></script>
+    <script>
+
+                function checkNullFieldsSave(){
+        var inquiryTitle = document.getElementById("txtInquiryTittle").value;
+                if (inquiryTitle === "") {
+        document.getElementById("inquiryTitleError").style.display = "block";
+                return false;
+        } else {
+        document.getElementById("inquiryTitleError").style.display = "none";
+        }
+        }
+    </script>
+
+    <script>
+        function checkNullFieldsSend() {
+        var inquiryTitle = document.getElementById("txtInquiryTittle").value;
+                var constructionID = document.getElementById("txtConstructionID").value;
+                var description = document.getElementById("form-message").value;
+                var scaleID = document.getElementById("txtScaleID").value;
+                var projectTypeID = document.getElementById("txtProjectTypeID").value;
+                var priceRangeID = document.getElementById("txtPriceRangeID").value;
+                if (inquiryTitle === "") {
+        document.getElementById("inquiryTitleError").style.display = "block";
+                return false;
+        } else {
+        document.getElementById("inquiryTitleError").style.display = "none";
+        }
+
+        if (constructionID === "") {
+        document.getElementById("constructionIDError").style.display = "block";
+                return false;
+        } else {
+        document.getElementById("constructionIDError").style.display = "none";
+        }
+
+        // Add similar checks for other fields
+
+        if (description.length > 2000) {
+        document.getElementById("descriptionError").innerHTML = "Description should not exceed 2000 characters.";
+                document.getElementById("descriptionError").style.display = "block";
+                return false;
+        } else {
+        document.getElementById("descriptionError").style.display = "none";
+        }
+
+        if (scaleID === "") {
+        document.getElementById("scaleIDError").style.display = "block";
+                return false;
+        } else {
+        document.getElementById("scaleIDError").style.display = "none";
+        }
+
+        if (projectTypeID === "") {
+        document.getElementById("projectTypeIDError").style.display = "block";
+                return false;
+        } else {
+        document.getElementById("projectTypeIDError").style.display = "none";
+        }
+
+        if (priceRangeID === "") {
+        document.getElementById("priceRangeIDError").style.display = "block";
+                return false;
+        } else {
+        document.getElementById("priceRangeIDError").style.display = "none";
+        }
+
+        return true;
+        }
+    </script>
+
+    <style>
+        .error-message {
+            display: none;
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+
 
 </body>
 

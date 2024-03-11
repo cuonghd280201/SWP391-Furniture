@@ -119,60 +119,6 @@
                 }
             }
             /* Style for the switch */
-            .switch {
-                position: relative;
-                display: inline-block;
-                width: 60px;
-                height: 34px;
-            }
-
-            /* Hide the default checkbox */
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-
-            /* Style the slider */
-            .slider {
-                position: absolute;
-                cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #ccc;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            /* Rounded sliders */
-            .slider.round {
-                border-radius: 34px;
-            }
-
-            /* On state */
-            .slider.round:before {
-                position: absolute;
-                content: "";
-                height: 26px;
-                width: 26px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            input:checked + .slider.round {
-                background-color: #2196F3;
-            }
-
-            input:checked + .slider.round:before {
-                -webkit-transform: translateX(26px);
-                -ms-transform: translateX(26px);
-                transform: translateX(26px);
-            }
 
         </style>
 
@@ -255,10 +201,11 @@
                                                         <th class="border-0">First Name</th>
                                                         <th class="border-0">Last Name</th>
                                                         <th class="border-0">Email</th>
-                                                        <th class="border-0">Password</th>
                                                         <th class="border-0">Phone Number</th>
                                                         <th class="border-0">Date Of Birth</th>
                                                         <th class="border-0">Image</th>
+                                                        <th class="border-0">Active</th>
+
                                                         <th class="border-0">Action</th>
                                                     </tr>
                                                 </thead>
@@ -269,20 +216,23 @@
                                                             <td>${user.firstName}</td>
                                                             <td>${user.lastName}</td>
                                                             <td>${user.email}</td>
-                                                            <td>${user.password}</td>
                                                             <td>${user.phoneNumber}</td>
                                                             <td>${user.dataOfBirth}</td>
 
                                                             <td> <img src="${user.image}" class="rounded-circle media-img-auto"
-                                                                      style="width: 50px; height: 50px; margin-right: 10px"></td>                                                            <td>
+                                                                      style="width: 50px; height: 50px; margin-right: 10px"></td> 
+                                                            <td>${user.isActived}</td>
+
+                                                            <td>
                                                                 <!-- Update Button -->
                                                                 <button class="update-btn" onclick="openPopup()">Update</button>
 
                                                                 <!-- Delete Switch -->
-                                                                <label class="switch">
-                                                                    <input type="checkbox" ${user.isActived == 'true' ? 'checked' : ''}>
-                                                                    <span class="slider round"></span>
-                                                                </label>
+                                                                <div class="switch">
+                                                                    <input type="checkbox" id="toggle" ${user.isActived ? "checked" : ""}>
+                                                                    <label for="toggle"></label>
+                                                                </div>
+
                                                             </td>                                              
                                                         </tr>
                                                     </c:forEach>
@@ -395,74 +345,62 @@
                             </div>
                         </div>
 
-
                         <div id="createPopup" class="popup">
                             <div class="popup-content">
                                 <!-- Content of your popup goes here -->
                                 <h2>Create</h2>
                                 <div class="container">
-                                    <form action="action_page.php">
+                                    <form action="adminCreateCustomer">
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="fname">First Name</label>
+                                                <label for="txtFirstName">First Name</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input first name..">
+                                                <input type="text"  name="txtFirstName" placeholder="Input first name..">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="fname">Last Name</label>
+                                                <label for="txtLastName">Last Name</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input last name..">
+                                                <input type="text"  name="txtLastName" placeholder="Input last name..">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="fname">Email</label>
+                                                <label for="txtEmail">Email</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input email..">
+                                                <input type="text"  name="txtEmail" placeholder="Input email..">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="fname">Password</label>
+                                                <label for="txtPassword">Password</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="fname" name="firstname" placeholder="Input password..">
+                                                <input type="text"  name="txtPassword" placeholder="Input password..">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="lname">Phone Number</label>
+                                                <label for="txtPhoneNumber">Phone Number</label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="lname" name="lastname" placeholder="Input phone number..">
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-25">
-                                                <label for="lname">Date Of Birth</label>
-                                            </div>
-                                            <div class="col-75">
-                                                <input type="date" id="dob" name="dob">
+                                                <input type="text"  name="txtPhoneNumber" placeholder="Input phone number..">
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-25">
-                                                <label for="country">Gender</label>
+                                                <label for="txtDateOfBirth">Date Of Birth</label>
                                             </div>
                                             <div class="col-75">
-                                                <select id="country" name="country">
-                                                    <option value="australia">Female</option>
-                                                    <option value="canada">Male</option>
-                                                </select>
+                                                <input type="date" name="txtDateOfBirth">
                                             </div>
                                         </div>
+
 
 
                                         <div class="row">
@@ -474,6 +412,8 @@
                                 <span class="close-btn" onclick="closeCreatePopup()">X</span>
                             </div>
                         </div>
+
+
 
 
 
@@ -546,6 +486,68 @@
                             document.getElementById("deletePopup").style.display = "none";
                         }
                     </script>
+
+                    <script>
+                        function toggleSwitch() {
+                            var isChecked = document.getElementById("toggle").checked;
+                            // Thực hiện các thao tác khi toggle switch được bật hoặc tắt
+                            if (isChecked) {
+                                // Switch is checked (activated)
+                                // Your logic here when switch is activated
+                            } else {
+                                // Switch is unchecked (deactivated)
+                                // Your logic here when switch is deactivated
+                            }
+                        }
+                    </script>
+
+                    <style>
+
+
+                        /* The switch (checkbox input) */
+                        .switch {
+                            position: relative;
+                            display: inline-block;
+                            width: 40px;
+                            height: 20px;
+                        }
+
+                        .switch input {
+                            display: none;
+                        }
+
+                        .switch label {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 40px;
+                            height: 20px;
+                            background-color: #ccc;
+                            border-radius: 20px;
+                            cursor: pointer;
+                        }
+
+                        .switch label:after {
+                            content: '';
+                            position: absolute;
+                            top: 2px;
+                            left: 2px;
+                            width: 16px;
+                            height: 16px;
+                            background-color: #fff;
+                            border-radius: 50%;
+                            transition: 0.3s;
+                        }
+
+                        .switch input:checked + label {
+                            background-color: #4CAF50;
+                        }
+
+                        .switch input:checked + label:after {
+                            transform: translateX(20px);
+                        }
+
+                    </style>
                     </body>
 
                     </html>

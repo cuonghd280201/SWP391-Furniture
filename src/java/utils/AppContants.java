@@ -10,6 +10,12 @@ package utils;
  * @author Admin
  */
 public class AppContants {
+    
+       public class ForgotPaswordFeartures {
+
+        public static final String FORGOT_PASSWORD_PAGE = "forgotPasswordPage";
+        public static final String LOGIN_PAGE = "loginPage";
+    }
 
     public class DisplayHomePageFeature {
 
@@ -67,13 +73,14 @@ public class AppContants {
         public static final String ADMIN_UPDATE_CUSTOMER = "ListCustomerController";
         public static final String LIST_CONTRUCTION_PAGE = "listConstructionPage";
         public static final String LIST_ACCOUNT_STAFF = "managerStaffPage";
+        public static final String LIST_ACCOUNT_CUSTOMER = "managerCustomerPage";
 
     }
 
     public class DisplayInquiryFeartures {
 
         public static final String LIST_INQUIRY_PAGE = "listInquiryPage";
-        public static final String DISPLAY_SAVED_RECIPE_CONTROLLER = "displaySavedRecipeController";
+        public static final String DISPLAY_INQUIRY_CUS_CONTROLLER = "displayInquiryCustomerController";
     }
 
     public class DisplayDetailProject {
@@ -85,10 +92,13 @@ public class AppContants {
 
         public static final String MY_DETAIL_INQUIRY_PAGE = "myDetailInquiryPage";
     }
-    
+
     public class Staff {
-        public static final String DETAIL_INQUIRY_PAGE_STAFF = "detailInquiryPageStaff";
-}
+
+        public static final String DETAIL_INQUIRY_PAGE_STAFF = "displayDetailInquiryStaff";
+        public static final String LIST_INQUIRTY_PAGE_STAFF = "listInquiryStaffPage";
+        public static final String MY_DETAIL_INQUIRY_PAGE_STAFF = "detailInquiryPageStaff";
+    }
 
     public class UpdateUserProfile {
 

@@ -13,13 +13,25 @@ import java.io.Serializable;
  */
 public class InquiryErrorDTO implements Serializable{
     private String descriptionExceedCharsCount;
+    private String inquiryTitleRequired;
 
     public InquiryErrorDTO() {
     }
 
-    public InquiryErrorDTO(String descriptionExceedCharsCount) {
+    public InquiryErrorDTO(String descriptionExceedCharsCount, String inquiryTitleRequired) {
         this.descriptionExceedCharsCount = descriptionExceedCharsCount;
+        this.inquiryTitleRequired = inquiryTitleRequired;
     }
+
+    public String getInquiryTitleRequired() {
+        return inquiryTitleRequired;
+    }
+
+    public void setInquiryTitleRequired(String inquiryTitleRequired) {
+        this.inquiryTitleRequired = inquiryTitleRequired;
+    }
+
+ 
 
     public String getDescriptionExceedCharsCount() {
         return descriptionExceedCharsCount;

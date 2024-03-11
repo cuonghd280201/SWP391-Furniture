@@ -199,7 +199,6 @@
                                                         <th class="border-0">First Name</th>
                                                         <th class="border-0">Last Name</th>
                                                         <th class="border-0">Email</th>
-                                                        <th class="border-0">Password</th>
                                                         <th class="border-0">Phone Number</th>
                                                         <th class="border-0">Date Of Birth</th>
                                                         <th class="border-0">Image</th>
@@ -213,17 +212,20 @@
                                                             <td>${user.firstName}</td>
                                                             <td>${user.lastName}</td>
                                                             <td>${user.email}</td>
-                                                            <td>${user.password}</td>
                                                             <td>${user.phoneNumber}</td>
                                                             <td>${user.dataOfBirth}</td>
                                                             <td> <img src="${user.image}" class="rounded-circle media-img-auto"
-                                                                      style="width: 50px; height: 50px; margin-right: 10px"></td>                                                            <td>
-                                                                <!-- Update Button -->
+                                                                      style="width: 50px; height: 50px; margin-right: 10px"></td> 
+
+                                                            <td>                                                            
+                                                               <!-- Update Button -->
                                                                 <button class="update-btn" onclick="openPopup()">Update</button>
-                                                                <label class="switch">
-                                                                    <input type="checkbox" id="toggle_${user.userId}" onclick="toggleSwitch('${user.userId}')">
-                                                                    <span class="slider"></span>
-                                                                </label>
+
+                                                                <div class="switch">
+                                                                    <input type="checkbox" id="toggle" ${user.isActived ? "checked" : ""}>
+                                                                    <label for="toggle"></label>
+                                                                </div>
+
                                                             </td>                                                       
                                                         </tr>
                                                     </c:forEach>
@@ -415,11 +417,6 @@
 
 
 
-
-
-
-
-
                         <!-- ============================================================== -->
                     </div>
 
@@ -428,66 +425,45 @@
                         .switch {
                             position: relative;
                             display: inline-block;
-                            width: 60px;
-                            height: 34px;
+                            width: 40px;
+                            height: 20px;
                         }
 
-                        /* Hide default HTML checkbox */
                         .switch input {
-                            opacity: 0;
-                            width: 0;
-                            height: 0;
+                            display: none;
                         }
 
-                        /* The slider */
-                        .slider {
+                        .switch label {
                             position: absolute;
-                            cursor: pointer;
                             top: 0;
                             left: 0;
-                            right: 0;
-                            bottom: 0;
+                            width: 40px;
+                            height: 20px;
                             background-color: #ccc;
-                            -webkit-transition: .4s;
-                            transition: .4s;
-                            border-radius: 34px;
+                            border-radius: 20px;
+                            cursor: pointer;
                         }
 
-                        .slider:before {
+                        .switch label:after {
+                            content: '';
                             position: absolute;
-                            content: "";
-                            height: 26px;
-                            width: 26px;
-                            left: 4px;
-                            bottom: 4px;
-                            background-color: white;
-                            -webkit-transition: .4s;
-                            transition: .4s;
+                            top: 2px;
+                            left: 2px;
+                            width: 16px;
+                            height: 16px;
+                            background-color: #fff;
                             border-radius: 50%;
+                            transition: 0.3s;
                         }
 
-                        input:checked + .slider {
-                            background-color: #2196F3;
+                        .switch input:checked + label {
+                            background-color: #4CAF50;
                         }
 
-                        input:focus + .slider {
-                            box-shadow: 0 0 1px #2196F3;
+                        .switch input:checked + label:after {
+                            transform: translateX(20px);
                         }
 
-                        input:checked + .slider:before {
-                            -webkit-transform: translateX(26px);
-                            -ms-transform: translateX(26px);
-                            transform: translateX(26px);
-                        }
-
-                        /* Rounded sliders */
-                        .slider.round {
-                            border-radius: 34px;
-                        }
-
-                        .slider.round:before {
-                            border-radius: 50%;
-                        }
                     </style>
 
                     <!-- ============================================================== -->
@@ -517,15 +493,15 @@
                     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
                     <script>
-                                    function toggleSwitch(userId) {
-                                        var checkBox = document.getElementById("toggle_" + userId);
-                                        // Here you can add your logic to handle the toggle action, for example:
-                                        if (checkBox.checked) {
-                                            // Toggle is on
-                                            console.log("Toggle is ON for user ID: " + userId);
+                                    function toggleSwitch() {
+                                        var isChecked = document.getElementById("toggle").checked;
+                                        // Thực hiện các thao tác khi toggle switch được bật hoặc tắt
+                                        if (isChecked) {
+                                            // Switch is checked (activated)
+                                            // Your logic here when switch is activated
                                         } else {
-                                            // Toggle is off
-                                            console.log("Toggle is OFF for user ID: " + userId);
+                                            // Switch is unchecked (deactivated)
+                                            // Your logic here when switch is deactivated
                                         }
                                     }
                     </script>
@@ -565,6 +541,8 @@
                             document.getElementById("deletePopup").style.display = "none";
                         }
                     </script>
+
+
 
                     </body>
 
