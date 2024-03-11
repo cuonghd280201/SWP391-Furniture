@@ -4,6 +4,7 @@
     Author     : cdkhu
 --%>
 
+<%@page import="project2.ProjectErrorDTO"%>
 <%@page import="projectType.ProjectTypeDTO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -50,42 +51,8 @@
 
 
             <!-- Navbar Start -->
-            <div class="container-fluid nav-bar bg-transparent">
-                <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
-                    <a href="MainController?btnAction=Home" class="navbar-brand d-flex align-items-center text-center">
-                        <div class="icon p-2 me-2">
-                            <img class="img-fluid" src="img/icon-deal.png" alt="Icon" style="width: 30px; height: 30px;">
-                        </div>
-                        <h1 class="m-0 text-primary">Furniture</h1>
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto">
-                            <a href="MainController?btnAction=Home" class="nav-item nav-link">Home</a>
-                            <a href="MainController?btnAction=CountUser" class="nav-item nav-link">About</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Property</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="MainController?btnAction=Show" class="dropdown-item active">Project List</a>
-                                    <a href="property-type.html" class="dropdown-item">Project Type</a>
-                                    <a href="MainController?btnAction=Search Interior" class="dropdown-item">Create Project</a>
-                                </div>
-                            </div>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Error</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
-                        </div>
-                        <a href="" class="btn btn-primary px-3 d-none d-lg-flex">Add Property</a>
-                    </div>
-                </nav>
-            </div>
+            <%@include file="header.jsp" %>
+
             <!-- Navbar End -->
 
 
@@ -119,8 +86,27 @@
                     <form action="MainController" method="POST">
                         Project Name:
                         <input type="text" name="projectName" value=""/><br>
+                        <%
+                            ProjectErrorDTO errors = (ProjectErrorDTO) request.getAttribute("SAVE_PROJECT_ERROR");
+                            if (errors != null) {
+                                if (errors.getProjectNameErr() != "") {
+                        %>
+                        <p class="text-center text-danger"><%= errors.getProjectNameErr()%></p>
+                        <%
+                                }
+                            }
+                        %>
                         Project Scale:
                         <input type="text" name="scale" value=""/><br>
+                        <%
+                            if (errors != null) {
+                                if (errors.getScaleErr() != "") {
+                        %>
+                        <p class="text-center text-danger"><%= errors.getScaleErr()%></p>
+                        <%
+                                }
+                            }
+                        %>
                         Project Description
                         <input type="text" name="description" value=""/><br>
                         Project URL Image
@@ -144,33 +130,47 @@
                         <input type="submit" value="Save Project" name="btnAction" />
                         <input type="reset" value="Reset" />
                     </form>
+                    <%
+                        if (errors != null) {
+                            if (errors.getProjectNameExisted() != "") {
+                    %>
+                    <p class="text-center text-danger"><%= errors.getProjectNameExisted()%></p>
+                    <%
+                        }
+                        if (errors.getSessionRunOut() != "") {
+                    %>
+                    <p class="text-center text-danger"><%= errors.getSessionRunOut()%></p>
+                    <%
+                            }
+                        }
+                    %>
                 </div>
             </div>
             <!-- Property List End -->
 
 
             <!-- Call to Action Start -->
-<!--            <div class="container-xxl py-5">
-                <div class="container">
-                    <div class="bg-light rounded p-3">
-                        <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
-                            <div class="row g-5 align-items-center">
-                                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                                    <img class="img-fluid rounded w-100" src="img/call-to-action.jpg" alt="">
-                                </div>
-                                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                                    <div class="mb-4">
-                                        <h1 class="mb-3">Contact With Our Certified Agent</h1>
-                                        <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>
+            <!--            <div class="container-xxl py-5">
+                            <div class="container">
+                                <div class="bg-light rounded p-3">
+                                    <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
+                                        <div class="row g-5 align-items-center">
+                                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                                                <img class="img-fluid rounded w-100" src="img/call-to-action.jpg" alt="">
+                                            </div>
+                                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                                                <div class="mb-4">
+                                                    <h1 class="mb-3">Contact With Our Certified Agent</h1>
+                                                    <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>
+                                                </div>
+                                                <a href="" class="btn btn-primary py-3 px-4 me-2"><i class="fa fa-phone-alt me-2"></i>Make A Call</a>
+                                                <a href="" class="btn btn-dark py-3 px-4"><i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <a href="" class="btn btn-primary py-3 px-4 me-2"><i class="fa fa-phone-alt me-2"></i>Make A Call</a>
-                                    <a href="" class="btn btn-dark py-3 px-4"><i class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
+                        </div>-->
             <!-- Call to Action End -->
 
 

@@ -22,8 +22,20 @@ public class MainController extends HttpServlet {
     private final String PROJECT_DETAILS_CONTROLLER = "ProjectDetailsController";
     private final String VIEW_PROJECT_INTERIOR_CONTROLLER = "ProjectInteriorDetailController";
     private final String ADD_CHOOSE_INTERIOR_CONTROLLER = "AddChooseInteriorController";
-    private final String SEARCH_INTERIOR_CONTROLLER = "SearchInteriorController";
+    private final String SEARCH_CHOOSE_INTERIOR_CONTROLLER = "SearchInteriorController";
     private final String SAVE_PROJECT_CONTROLLER = "SaveProjectController";
+    
+    private final String SEARCH_MATERIAL_CONTROLLER = "SearchMaterialController";
+    private final String CREATE_MATERIAL_CONTROLLER = "CreateMaterialController";
+    private final String EDIT_MATERIAL_CONTROLLER = "EditMaterialController";
+    private final String DEACTIVE_MATERIAL_CONTROLLER = "DeactiveMaterialController";
+    private final String DETAIL_MATERIAL_CONTROLLER = "DetailMaterialController";
+    
+    private final String SEARCH_INTERIOR_CONTROLLER = "SearchInteriorController";
+    private final String CREATE_INTERIOR_CONTROLLER = "CreateInteriorController";
+    private final String EDIT_INTERIOR_CONTROLLER = "EditInteriorController";
+    private final String DEACTIVE_INTERIOR_CONTROLLER = "DeactiveInteriorController";
+    private final String DETAIL_INTERIOR_CONTROLLER = "DetailInteriorController";
 
     private final String CONSTRUCTION_CONTROLLER = "ContructionController";
     private final String CREATE_INQUIRY_CONTROLLER = "CreateInquiryController";
@@ -31,7 +43,7 @@ public class MainController extends HttpServlet {
     private final String DISPLAY_USER_PROFILE_CONTROLLER = "DisplayUserProfile";
 
     private final String HOME_PAGE_CONTROLLER = "DisplayHomePage";
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -85,6 +97,18 @@ public class MainController extends HttpServlet {
                     break;
                 case "Save Project":
                     url = SAVE_PROJECT_CONTROLLER;
+                    break;
+                case "Search Material":
+                    url = SEARCH_MATERIAL_CONTROLLER;
+                    break;
+                case "Create Material":
+                    url = CREATE_MATERIAL_CONTROLLER;
+                    break;
+                case "Edit Material":
+                    url = EDIT_MATERIAL_CONTROLLER;
+                    break;
+                case "Deactivate Material":
+                    url = DEACTIVE_MATERIAL_CONTROLLER;
                     break;    
                 default:
                     break;

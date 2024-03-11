@@ -50,43 +50,8 @@
 
 
             <!-- Navbar Start -->
-            <div class="container-fluid nav-bar bg-transparent">
-                <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
-                    <a href="MainController?btnAction=Home" class="navbar-brand d-flex align-items-center text-center">
-                        <div class="icon p-2 me-2">
-                            <img class="img-fluid" src="img/icon-deal.png" alt="Icon" style="width: 30px; height: 30px;">
-                        </div>
-                        <h1 class="m-0 text-primary">Furniture</h1>
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto">
-                            <a href="MainController?btnAction=Home" class="nav-item nav-link">Home</a>
-                            <a href="MainController?btnAction=CountUser" class="nav-item nav-link">About</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Project</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="MainController?btnAction=Show" class="dropdown-item active">Project List</a>
-                                    <a href="property-type.html" class="dropdown-item">Project Type</a>
-                                    <a href="MainController?btnAction=Search Interior" class="dropdown-item">Create Project</a>
-                                </div>
-                            </div>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Error</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
-                        </div>
-                        <a href="" class="btn btn-primary px-3 d-none d-lg-flex">Add Property</a>
-                    </div>
-                </nav>
-            </div>
-            <!-- Navbar End -->
+                      <%@include file="header.jsp" %>
+>
 
 
             <!-- Header Start -->

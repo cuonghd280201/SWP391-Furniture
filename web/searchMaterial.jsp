@@ -1,9 +1,10 @@
 <%-- 
-    Document   : manageProjectType
-    Created on : Mar 5, 2024, 1:02:41 AM
-    Author     : Admin
+    Document   : searchMaterial
+    Created on : Mar 11, 2024, 4:31:27 PM
+    Author     : cdkhu
 --%>
 
+<%@page import="material.MaterialDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="interior.InteriorDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -232,7 +233,7 @@
                                     <div class="page-breadcrumb">
                                         <nav aria-label="breadcrumb">
                                             <ol class="breadcrumb">
-                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Search Interior for Project</a></li>
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Search Material</a></li>
                                             </ol>
                                         </nav>
                                     </div>
@@ -244,7 +245,7 @@
 
 
                         <%
-                            String searchValue = request.getParameter("txtsearchinteriorName");
+                            String searchValue = request.getParameter("txtsearchMaterialName");
                         %>
 
 
@@ -262,23 +263,32 @@
                                 <div class="card">
                                     <h4 class="card-header">Search Interior</h4>
                                     <form action="MainController" method="POST">
+                                        <button type="submit" value="Create Material" name="btnAction" class="btn btn-dark border-0">Create New Material</button>
+                                    </form>
+                                    <form action="MainController" method="POST">
                                         <%
                                             if (searchValue != null) {
                                         %>
-                                        <input type="text" name="txtsearchinteriorName" value="<%= request.getParameter("txtsearchinteriorName")%>" class="form-control border-0" placeholder="Search Keyword">
+                                        <input type="text" name="txtsearchMaterialName" value="<%= request.getParameter("txtsearchMaterialName")%>" class="form-control border-0" placeholder="Search Keyword">
                                         <%
                                         } else {
                                             searchValue = "";
                                         %>
-                                        <input type="text" name="txtsearchinteriorName" value="" class="form-control border-0" placeholder="Search Keyword">
+                                        <input type="text" name="txtsearchMaterialName" value="" class="form-control border-0" placeholder="Search Keyword">
                                         <%
                                             }
                                         %>
-                                        <button type="submit" value="Search Interior" name="btnAction" class="btn btn-dark border-0">Search</button>
+                                        <button type="submit" value="Search Material" name="btnAction" class="btn btn-dark border-0">Search</button>
                                     </form>
                                     <%
+                                        String updateNoti = (String) request.getAttribute("MATERIAL_STATUS_UPDATE_NOTI");
+                                        if (updateNoti != null) {
+                                    %>
+                                    <h4 style="color:Red;" ><%= updateNoti%></h4>
+                                    <%
+                                        }
                                         if (searchValue != null) {
-                                            List<InteriorDTO> listSearch = (List<InteriorDTO>) request.getAttribute("INTERIOR_LIST_SEARCH");
+                                            List<MaterialDTO> listSearch = (List<MaterialDTO>) request.getAttribute("MATERIAL_LIST_SEARCH");
                                             if (listSearch != null && !listSearch.isEmpty()) {
                                     %>
 
@@ -287,32 +297,26 @@
                                                                             <button class="create-btn" onclick="openCreatePopup()">Create</button>
                                                                         </div>-->
 
-                                    
+
                                     <div class="card-body p-0">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
                                                         <th class="border-0">No</th>
-                                                        <th class="border-0">interiorName</th>
-                                                        <th class="border-0">image</th>
-                                                        <th class="border-0">size</th>
-                                                        <th class="border-0">mass</th>
-                                                        <th class="border-0">materialID</th>
-                                                        <th class="border-0">description</th>
-                                                        <th class="border-0">createAt</th>
-                                                        <th class="border-0">updateAt</th>
-                                                        <th class="border-0">unit</th>
-                                                        <th class="border-0">unitPrice</th>
-                                                        <th class="border-0">Money</th>
-                                                        <th class="border-0">Add</th>
+                                                        <th class="border-0">Material Name</th>
+                                                        <th class="border-0">Value Level</th>
+                                                        <th class="border-0">Description</th>
+                                                        <th class="border-0">Status</th>
+                                                        <th class="border-0">Edit</th>
+                                                        <th class="border-0">Deactivate</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
 
                                                     <%
                                                         int count = 0;
-                                                        for (InteriorDTO dto : listSearch) {
+                                                        for (MaterialDTO dto : listSearch) {
                                                     %>
                                                 <form action="MainController" method="POST">
                                                     <tr>
@@ -320,45 +324,27 @@
                                                             <%= ++count%>
                                                         </td>
                                                         <td>
-                                                            <%= dto.getInteriorName()%>
+                                                            <%= dto.getMaterialName()%>
 
                                                         </td>
                                                         <td>
-                                                            <img class="media-img-auto" style="width: 50px; height: 50px; margin-right: 10px" src="<%= dto.getImage()%>">
+                                                            <%= dto.getValueLevel()%>
                                                         </td>
                                                         <td>
-                                                            <%= dto.getSize()%>
+                                                            <%= dto.getDesciprtion()%>
                                                         </td>
                                                         <td>
-                                                            <%= dto.getMass()%>
+                                                            <%= dto.getStatus()%>
                                                         </td>
                                                         <td>
-                                                            <%= dto.getMaterialID()%>
+                                                            <input type="submit" value="Edit Material" name="btnAction"/>
+                                                            <input type="hidden" name="materialID" value="<%= dto.getMaterialID()%>" />
+                                                            <input type="hidden" name="txtsearchMaterialName" value="<%= searchValue%>" />
                                                         </td>
                                                         <td>
-                                                            <%= dto.getDescription()%>
-                                                        </td>
-                                                        <td>
-                                                            <%= dto.getCreateAt()%>
-                                                        </td>
-                                                        <td>
-                                                            <%= dto.getUpdateAt()%>
-                                                        </td>
-                                                        <td>
-                                                            <%= dto.getUnit()%>
-                                                        </td>
-                                                        <td>
-                                                            <%= dto.getUnitPrice()%>
-                                                        </td>
-                                                        <td>
-                                                            <%
-                                                                double money = dto.getUnit() * dto.getUnitPrice();
-                                                            %>
-                                                            <%= money%>
-                                                        </td>
-                                                        <td>
-                                                            <input type="submit" value="Add Interior" name="btnAction"/>
-                                                            <input type="hidden" name="interiorID" value="<%= dto.getInteriorID()%>" />
+                                                            <input type="submit" value="Deactivate Material" name="btnAction"/>
+                                                            <input type="hidden" name="materialID" value="<%= dto.getMaterialID()%>" />
+                                                            <input type="hidden" name="txtsearchMaterialName" value="<%= searchValue%>" />
                                                         </td>
                                                     </tr>
                                                 </form>
@@ -366,111 +352,18 @@
                                                     }
                                                 %>
 
-                                                
+
                                                 </tbody>
                                             </table>
-                                                <%
-                                } else {
-                                %>
-                                <h1>No interior found!</h1>
-                                <%
-                                        }
-                                    }
+                                            <%
+                                            } else {
+                                            %>
+                                            <h2 class="card-header">No interior found!</h2>
+                                            <%
+                                                    }
+                                                }
+                                            %>
 
-                                    double totalMoney = 0;
-                                    List<InteriorDTO> listChoose = (List<InteriorDTO>) session.getAttribute("INTERIOR_CHOOSE_LIST");
-                                    if (listChoose != null && !listChoose.isEmpty()) {
-                                %>
-                                </br>
-                                </br>
-                                <h4 class="card-header">Choose Interior</h4>
-                                <table class="table">
-                                    <thead class="bg-light">
-                                        <tr class="border-0">
-                                            <th class="border-0">No</th>
-                                            <th class="border-0">interiorName</th>
-                                            <th class="border-0">image</th>
-                                            <th class="border-0">size</th>
-                                            <th class="border-0">mass</th>
-                                            <th class="border-0">materialID</th>
-                                            <th class="border-0">description</th>
-                                            <th class="border-0">createAt</th>
-                                            <th class="border-0">updateAt</th>
-                                            <th class="border-0">unit</th>
-                                            <th class="border-0">unitPrice</th>
-                                            <th class="border-0">Money</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <%
-                                            int count = 0;
-                                            for (InteriorDTO dto : listChoose) {
-                                        %>
-                                        <tr>
-                                            <td>
-                                                <%= ++count%>
-                                            </td>
-                                            <td>
-                                                <%= dto.getInteriorName()%>
-                                            </td>
-                                            <td>
-                                                <img class="media-img-auto" style="width: 50px; height: 50px; margin-right: 10px" src="<%= dto.getImage()%>">
-                                            </td>
-                                            <td>
-                                                <%= dto.getSize()%>
-                                            </td>
-                                            <td>
-                                                <%= dto.getMass()%>
-                                            </td>
-                                            <td>
-                                                <%= dto.getMaterialID()%>
-                                            </td>
-                                            <td>
-                                                <%= dto.getDescription()%>
-                                            </td>
-                                            <td>
-                                                <%= dto.getCreateAt()%>
-                                            </td>
-                                            <td>
-                                                <%= dto.getUpdateAt()%>
-                                            </td>
-                                            <td>
-                                                <%= dto.getUnit()%>
-                                            </td>
-                                            <td>
-                                                <%= dto.getUnitPrice()%>
-                                            </td>
-                                            <td>
-                                                <%
-                                                    double money = dto.getUnit() * dto.getUnitPrice();
-                                                    totalMoney += totalMoney + money;
-                                                %>
-                                                <%= money%>
-                                            </td>
-
-                                        </tr>
-                                        <%
-                                            }
-                                        %>
-                                        <tr>
-                                            <th>
-                                                Total:
-                                            </th>
-                                            <td>
-                                                <%= totalMoney%>
-                                            </td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                                <br/>
-
-                                <%
-                                    }
-                                %>
-                                <form action="MainController" method="POST">
-                                    <input type="submit" value="Save Project" name="btnAction"/>
-                                </form>
 
                                         </div>
 
@@ -653,6 +546,7 @@
                     </body>
 
                     </html>
+
 
 
 

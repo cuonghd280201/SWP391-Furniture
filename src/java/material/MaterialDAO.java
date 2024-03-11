@@ -35,7 +35,8 @@ public class MaterialDAO {
                     String materialName = rs.getString("materialName");
                     double vauleLevel = rs.getDouble("valueLevel");
                     String description = rs.getString("desciprtion");
-                    dto = new MaterialDTO(materialID, materialName, vauleLevel, description);
+                    int status = rs.getInt("status");
+                    dto = new MaterialDTO(materialID, materialName, vauleLevel, description, status);
                 }
             }
         }catch(Exception e){
@@ -48,7 +49,7 @@ public class MaterialDAO {
         return dto;
     }
     
-    public List<MaterialDTO> getListMaterial() throws SQLException{
+    public List<MaterialDTO> listMaterial(String searchMaterialName) throws SQLException{
         List<MaterialDTO> list = null;
         Connection con = null;
         PreparedStatement stm = null;
@@ -56,8 +57,9 @@ public class MaterialDAO {
         try{
             con = DBUtils.getConnection();
             if(con != null){
-                String sql = "SELECT * FROM Material";
+                String sql = "SELECT * FROM Material WHERE materialName like ?";
                 stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + searchMaterialName + "%");
                 rs = stm.executeQuery();
                 list = new ArrayList<>();
                 while(rs.next()){
@@ -65,7 +67,8 @@ public class MaterialDAO {
                     String materialName = rs.getString("materialName");
                     double vauleLevel = rs.getDouble("valueLevel");
                     String description = rs.getString("desciprtion");
-                    MaterialDTO dto = new MaterialDTO(materialID, materialName, vauleLevel, description);
+                    int status = rs.getInt("status");
+                    MaterialDTO dto = new MaterialDTO(materialID, materialName, vauleLevel, description, status);
                     list.add(dto);
                 }
             }
@@ -77,5 +80,86 @@ public class MaterialDAO {
             if(con != null) con.close();
         }
         return list;
+    }
+    
+    public int getMaterialByName(String materialName) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int checkStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "SELECT * FROM Material WHERE materialName = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, materialName);
+                rs = stm.executeQuery();
+                if(rs.next()){
+                    checkStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(rs != null) rs.close();
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return checkStatus;
+    }
+    
+    public int createMaterial(String materialName, double valueLevel, String desciprtion) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int createStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "INSERT INTO Material VALUES (?,?,?,?)";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, materialName);
+                stm.setDouble(2, valueLevel);
+                stm.setString(3, desciprtion);
+                stm.setInt(4, 1);
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    createStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return createStatus;
+    }
+    
+    public int updateMaterial(MaterialDTO material) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int updateStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "UPDATE Material SET materialName = ?, valueLevel = ?, desciprtion = ?, status = ? WHERE materialID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, material.getMaterialName());
+                stm.setDouble(2, material.getValueLevel());
+                stm.setString(3, material.getDesciprtion());
+                stm.setInt(4, material.getStatus());
+                stm.setInt(5, material.getMaterialID());
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    updateStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return updateStatus;
     }
 }

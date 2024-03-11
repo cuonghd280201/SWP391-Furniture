@@ -63,12 +63,12 @@ public class SaveProjectController extends HttpServlet {
             try{
                 int projectTypeID = Integer.parseInt(projectTypeID_string);
                 
-                if(projectName.trim().length() < 1 || projectName.trim().length() > 50){
+                if(projectName.trim().length() <= 1 || projectName.trim().length() > 50){
                     errCheck = true;
                     projectErr.setProjectNameErr("Project Name lenght must from 1 to 50 chars");
                 }
             
-                if(scale.trim().length() < 1 || scale.trim().length() > 50){
+                if(scale.trim().length() <= 1 || scale.trim().length() > 50){
                     errCheck = true;
                     projectErr.setScaleErr("Scale lenght must from 1 to 50 chars");
                 }

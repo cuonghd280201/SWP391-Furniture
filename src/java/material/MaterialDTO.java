@@ -14,15 +14,17 @@ public class MaterialDTO {
     private String materialName;
     private double valueLevel;
     private String desciprtion;
+    private int status;
 
     public MaterialDTO() {
     }
 
-    public MaterialDTO(int materialID, String materialName, double valueLevel, String desciprtion) {
+    public MaterialDTO(int materialID, String materialName, double valueLevel, String desciprtion, int status) {
         this.materialID = materialID;
         this.materialName = materialName;
         this.valueLevel = valueLevel;
         this.desciprtion = desciprtion;
+        this.status = status;
     }
 
     public int getMaterialID() {
@@ -55,6 +57,14 @@ public class MaterialDTO {
 
     public void setDesciprtion(String desciprtion) {
         this.desciprtion = desciprtion;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
     
     
