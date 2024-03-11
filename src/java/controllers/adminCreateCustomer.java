@@ -5,11 +5,15 @@
  */
 package controllers;
 
-import inquiry.InquiryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import notifications.NotificationDAO;
+import users.UserDAO;
 import users.UserDTO;
 import utils.AppContants;
 
@@ -25,8 +29,8 @@ import utils.AppContants;
  *
  * @author Admin
  */
-@WebServlet(name = "ApprovedInquiryController", urlPatterns = {"/ApprovedInquiryController"})
-public class ApprovedInquiryController extends HttpServlet {
+@WebServlet(name = "adminCreateCustomer", urlPatterns = {"/adminCreateCustomer"})
+public class adminCreateCustomer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,36 +42,51 @@ public class ApprovedInquiryController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         ServletContext context = getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITEMAPS");
-        HttpSession session = request.getSession();
-        UserDTO user = (UserDTO) session.getAttribute("USER");
-        int userID = user.getUserId();
-
         // End get site map
+
         // Mapping url        
         String url = siteMaps.getProperty(AppContants.CreateInquiryFeature.ERROR_PAGE);
-        int inquiryID = Integer.parseInt(request.getParameter("inquiryID"));
-        try {
-            //1. call DAO
-            InquiryDAO inquiryDAO = new InquiryDAO();
-            boolean result = inquiryDAO.approvedInquiry(inquiryID);
-            if (result) {
-                NotificationDAO notificationDAO = new NotificationDAO();
-                notificationDAO.insertNotificationStaff(userID, "This inquiry are approved by web furniture");
-                request.getSession().setAttribute("SAVE_NOTI", "success"); // Set success attribute
-                // call search function again by using url rewriting
-                url = siteMaps.getProperty(AppContants.Staff.LIST_INQUIRTY_PAGE_STAFF);
-            }
+        //Get parameters
+        HttpSession session = request.getSession();
+        UserDTO user = (UserDTO) session.getAttribute("USER");
 
+        if (user == null) {
+            // Handle case when user is not logged in
+            url = siteMaps.getProperty(AppContants.LoginFeatures.LOGIN_PAGE);
+            response.sendRedirect(url);
+            return;
+        }
+
+        try {
+            String firstName = request.getParameter("txtFirstName");
+            String lastName = request.getParameter("txtLastName");
+            String email = request.getParameter("txtEmail");
+            String password = request.getParameter("txtPassword");
+            String phoneNumber = request.getParameter("txtPhoneNumber");
+            String txtDateOfBirth = request.getParameter("txtDateOfBirth");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateOfBirthUtil = dateFormat.parse(txtDateOfBirth);
+            java.sql.Date dateOfBirthSql = new java.sql.Date(dateOfBirthUtil.getTime());
+
+            UserDTO userDTO = new UserDTO(firstName, lastName, email, password, phoneNumber, dateOfBirthSql);
+            UserDAO userDAO = new UserDAO();
+            boolean resultInsertInquiry = userDAO.createStaff(userDTO);
+            if (resultInsertInquiry) {
+                url = siteMaps.getProperty(AppContants.Admin.LIST_ACCOUNT_CUSTOMER);
+            }
         } catch (SQLException ex) {
-            log("RemoveConstruction Controller _ SQL " + ex.getMessage());
+            Logger.getLogger(CreateInquiryController.class.getName()).log(Level.SEVERE, null, ex);
+            //            log("CreateNewRecipe Controller _ SQL " + ex.getMessage());
         } finally {
             response.sendRedirect(url);
         }
     }
+
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -81,7 +100,11 @@ public class ApprovedInquiryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(adminCreateCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -95,7 +118,11 @@ public class ApprovedInquiryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(adminCreateCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

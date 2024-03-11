@@ -112,6 +112,42 @@
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
                     </div>
+                    <li class="nav-item dropdown notification">
+                        <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                        <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
+                            <li>
+                                <div class="notification-title"> Notification</div>
+                                <div class="notification-list">
+                                    <c:import url="GetNotification"></c:import>
+                                    <c:set var="noti" value="${sessionScope.NOTIFICATION_RESULT}"/>
+                                    <c:if test="${not empty noti}">
+                                        <c:forEach var="notiDto" items="${noti}" varStatus="counter">
+
+                                            <div class="list-group">
+                                                <a href="#" class="list-group-item list-group-item-action active">
+                                                    <div class="notification-info">
+                                                        <div class="notification-list-user-img"><img src="img/inquiry.jpg" alt="" class="avatar-md img-thumbnail rounded-circle" /></div>
+                                                        <div class="notification-list-user-block"><span class="notification-list-user-name">${notiDto.notificationContent}</span>
+                                                            <div class="notification-date">${notiDto.createAt}</div>                                                       
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </c:forEach>
+
+                                    </c:if>
+                                    <c:if test="${empty noti}">
+                                        <div style="border-bottom: solid 1px black">
+                                            <p>No notification yet</p>
+                                        </div>
+                                    </c:if>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="list-footer"> <a href="#">View all notifications</a></div>
+                            </li>
+                        </ul>
+                    </li>
                     <c:choose>
                         <c:when test="${empty sessionScope.USER}">
                             <!-- If no user is logged in -->
@@ -122,19 +158,19 @@
                         <c:otherwise>
                             <ul> 
                                 <li class="nav-item dropdown nav-user">
-                                <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="${sessionScope.USER.image}" alt="My Person" class="rounded-circle media-img-auto" style="width: 50px; height: 50px; margin-right: 10px; cursor: pointer;" onclick="toggleDropdown('dropdown-user')">
-                                </a>                           
-                                <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
-                                    <div class="nav-user-info">
-                                        <b>${sessionScope.USER.firstName} ${sessionScope.USER.lastName}</b>
+                                    <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="${sessionScope.USER.image}" alt="My Person" class="rounded-circle media-img-auto" style="width: 50px; height: 50px; margin-right: 10px; cursor: pointer;" onclick="toggleDropdown('dropdown-user')">
+                                    </a>                           
+                                    <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                                        <div class="nav-user-info">
+                                            <b>${sessionScope.USER.firstName} ${sessionScope.USER.lastName}</b>
 
+                                        </div>
+                                        <a class="dropdown-item" href="displayUserProfileController"><i class="fas fa-user mr-2"></i>Account</a>
+                                        <a class="dropdown-item" href="removeAccountController" onclick="return confirm('Are you sure? Do you want to delete this item?');">Inactive account</a>
+                                        <a class="dropdown-item" href="logoutController"><i class="fas fa-power-off mr-2"></i>Logout</a>
                                     </div>
-                                    <a class="dropdown-item" href="displayUserProfileController"><i class="fas fa-user mr-2"></i>Account</a>
-                                    <a class="dropdown-item" href="removeAccountController" onclick="return confirm('Are you sure? Do you want to delete this item?');">Inactive account</a>
-                                    <a class="dropdown-item" href="logoutController"><i class="fas fa-power-off mr-2"></i>Logout</a>
-                                </div>
-                            </li>
+                                </li>
                             </ul>
                         </c:otherwise>
                     </c:choose>
@@ -153,9 +189,9 @@
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
         <script>
-                                        function openModal() {
-                                            $('#myModal').modal('show');
-                                        }
+                                            function openModal() {
+                                                $('#myModal').modal('show');
+                                            }
         </script>
         <script>
             function toggleDropdown(id) {

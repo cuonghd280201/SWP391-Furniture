@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import utils.AppContants;
 import inquiry.ConstructionDAO;
 import inquiry.Construction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -52,14 +54,12 @@ public class DisplayDetailConstruction extends HttpServlet {
                 ConstructionDAO constructionDAO = new ConstructionDAO();
                 Construction constructionDto = constructionDAO.geConstructionDetial(constructionID);
                 request.setAttribute("DETAIL_INFO", constructionDto);  
-                url = siteMaps.getProperty(AppContants.Admin.LIST_CONTRUCTION_PAGE);
 
             }
-        } catch (SQLException ex) {
-            log("DisplayEditRecipe Controller _ SQL " + ex.getMessage());
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(DisplayDetailConstruction.class.getName()).log(Level.SEVERE, null, ex);
+            // Forwarding the request to an error page
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

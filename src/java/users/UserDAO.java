@@ -25,6 +25,201 @@ import users.UserDTO;
  * @author Admin
  */
 public class UserDAO {
+    
+    
+    public boolean uploadPasswordEP(String email, String phonenumber, String newPassword)
+            throws SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            //1. make connection
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                //2. create sql string
+                String sql = "update tblUser set password=? where email=? and phoneNumber=?";
+                //3. create statement obj
+                stm = con.prepareStatement(sql);
+                stm.setString(1, newPassword);
+                stm.setString(2, email);
+                stm.setString(3, phonenumber);
+
+                //4. execute query
+                int affectedRows = stm.executeUpdate();
+                //5 process result
+                if (affectedRows > 0) {
+                    result = true;
+                }// end process rs
+            }// end check con not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
+    
+    
+    public boolean checkEmailAndPhonenumber(String email, String phonenumber) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        boolean set = false;
+        try {
+            //1. make connection
+            connection = DBUtils.makeConnection();
+            if (connection != null) {
+                //2. create sql string
+                String sql = "select userID from tblUser where email=? and phoneNumber=?";
+                //3. create statement obj
+                stm = connection.prepareStatement(sql); // tao ra obj rong
+                stm.setString(1, email);
+                stm.setString(2, phonenumber);
+                //4. execute query
+                rs = stm.executeQuery();
+                //5 process result
+                if (rs.next()) {
+                    set = true;
+                } else {
+                    set = false;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return set;
+
+    }
+    
+    public boolean checkPasswordEP(String email, String phonenumber, String newPassword) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        boolean set = false;
+        try {
+            //1. make connection
+            connection = DBUtils.makeConnection();
+            if (connection != null) {
+                //2. create sql string
+                String sql = "select userID from tblUser where email=? and phoneNumber=? and password=?";
+                //3. create statement obj
+                stm = connection.prepareStatement(sql); // tao ra obj rong
+                stm.setString(1, email);
+                stm.setString(2, phonenumber);
+                stm.setString(3, newPassword);
+                //4. execute query
+                rs = stm.executeQuery();
+                //5 process result
+                if (rs.next()) {
+                    set = true;
+                } else {
+                    set = false;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return set;
+
+    }
+
+    
+    public List<Integer> getUsers(int loginValue)
+            throws SQLException, NamingException {
+        Connection connection = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int followerId;
+        List<Integer> result = null;
+        try {
+            //1. Make connection
+            connection = DBUtils.makeConnection();
+            if (connection != null) {
+                //2. Create SQL String
+                String sql = "select userID\n"
+                        + "from tblUser\n"
+                        + "where userID = ?";
+                //3. Create Statement Object
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, loginValue);
+                //4. Execute Query
+                rs = stm.executeQuery();
+                //5. Process result 
+                while (rs.next()) {
+                    followerId = rs.getInt("user_id");
+                    if (result == null){
+                        result = new ArrayList<>();
+                    }
+                    result.add(followerId);
+                }
+                return result;
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return result;
+    }
+
+    
+    public boolean deleteUser(int userID)
+            throws SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            //1. make connection
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                //2. create sql string
+                String sql = "update tblUser set is_actived = 0 where userID = ?";
+                //3. create statement obj
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, userID);
+                //4. execute query
+                int affectedRows = stm.executeUpdate();
+                //5 process result
+                if (affectedRows > 0) {
+                    result = true;
+                }// end process rs
+            }// end check con not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
 
     public boolean createStaff(UserDTO userDTO)
             throws SQLException {
@@ -68,6 +263,50 @@ public class UserDAO {
         }
         return result;
     }
+    
+    
+     public boolean createCustomer(UserDTO userDTO)
+            throws SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            //1.  make connection
+            con = DBUtils.makeConnection();
+            Date now = Date.valueOf(LocalDate.now());
+
+            if (con != null) {
+                //2. create sql string
+                String sql = "INSERT INTO tblUser (firstName , lastName, email, password, phoneNumber, dataOfBirth, create_At, roleID, is_actived) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                //3. create statement obj
+                stm = con.prepareStatement(sql);
+                stm.setString(1, userDTO.getFirstName());
+                stm.setString(2, userDTO.getLastName());
+                stm.setString(3, userDTO.getEmail());
+                stm.setString(4, userDTO.getPassword());
+                stm.setString(5, userDTO.getPhoneNumber());
+                stm.setDate(6, userDTO.getDataOfBirth());
+                stm.setDate(7, now);
+                stm.setInt(8, 1);
+                stm.setInt(9, 0);
+                //4. execute query
+                int affectedRows = stm.executeUpdate();
+                //5 process result
+                if (affectedRows > 0) {
+                    result = true;
+                }// end process rs
+            }// end check con not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
 
     public UserDTO displayUserProfile(int loginValue)
             throws SQLException, NamingException {
@@ -80,7 +319,7 @@ public class UserDAO {
             connection = DBUtils.makeConnection();
             if (connection != null) {
                 //2. Create SQL String
-                String sql = "select firstName, lastName, email, password, phoneNumber, dataOfBirth, image, status, roleID, notificationID, is_actived \n"
+                String sql = "select firstName, lastName, email, password, phoneNumber, dataOfBirth, image, status, roleID, is_actived \n"
                         + " from tblUser \n"
                         + " where tblUser.userID = ?";
                 //3. Create Statement Object
@@ -454,32 +693,106 @@ public class UserDAO {
         return list;
     }
 
-    public List<UserDTO> selectAllUsers() {
-        List<UserDTO> list = new ArrayList<>();
-        String query = "SELECT * FROM tblUser JOIN role ON tblUser.roleID = role.roleID WHERE role.roleID = 1";
-        try (Connection con = DBUtils.makeConnection();
-                PreparedStatement stm = con.prepareStatement(query);
-                ResultSet rs = stm.executeQuery()) {
-            while (rs.next()) {
-                UserDTO user = new UserDTO();
-                user.setUserId(rs.getInt("UserId"));
-                user.setFirstName(rs.getString("FirstName"));
-                user.setLastName(rs.getString("LastName"));
-                user.setEmail(rs.getString("Email"));
-                user.setPassword(rs.getString("Password"));
-                user.setPhoneNumber(rs.getString("PhoneNumber"));
-                user.setDataOfBirth(rs.getDate("DataOfBirth"));
-                user.setImage(rs.getString("Image"));
-                user.setRoleId(rs.getString("RoleId"));
-                list.add(user);
+    public List<UserDTO> selectAllUsers() throws SQLException {
+        List<UserDTO> inquiriesList = null;
+        Connection connection = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtils.makeConnection();
+            if (connection != null) {
+                String sql = "  SELECT userID, firstName, lastName, email, password , phoneNumber, dataOfBirth, image, status , roleID, is_actived, create_At FROM tblUser WHERE roleID = 1";
+                stm = connection.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int userID = rs.getInt("UserID");
+                    String firstName = rs.getString("FirstName");
+                    String lastName = rs.getString("LastName");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    Date dataOfBirth = rs.getDate("DataOfBirth");
+                    String image = rs.getString("Image");
+                    String roleID = rs.getString("RoleID");
+                    Date create_At = rs.getDate("Create_At");
+                    boolean is_actived = rs.getBoolean("Is_actived");
+
+                    UserDTO userDTO = new UserDTO(userID, firstName, lastName, email, password, phoneNumber, dataOfBirth, image, roleID, is_actived, create_At);
+                    if (inquiriesList == null) {
+                        inquiriesList = new ArrayList<>();
+                    }
+                    inquiriesList.add(userDTO);
+                }
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
-        return list;
+        return inquiriesList;
+    
     }
 
-    public List<UserDTO> selectAllStaffs() {
+    public List<UserDTO> selectAllStaffs() throws SQLException {
+        List<UserDTO> inquiriesList = null;
+        Connection connection = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtils.makeConnection();
+            if (connection != null) {
+                String sql = "  SELECT userID, firstName, lastName, email, password , phoneNumber, dataOfBirth, image, status , roleID, is_actived, create_At FROM tblUser WHERE roleID = 2";
+                stm = connection.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int userID = rs.getInt("UserID");
+                    String firstName = rs.getString("FirstName");
+                    String lastName = rs.getString("LastName");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    Date dataOfBirth = rs.getDate("DataOfBirth");
+                    String image = rs.getString("Image");
+                    String roleID = rs.getString("RoleID");
+                    Date create_At = rs.getDate("Create_At");
+                    boolean is_actived = rs.getBoolean("Is_actived");
+
+                    UserDTO userDTO = new UserDTO(userID, firstName, lastName, email, password, phoneNumber, dataOfBirth, image, roleID, is_actived, create_At);
+                    if (inquiriesList == null) {
+                        inquiriesList = new ArrayList<>();
+                    }
+                    inquiriesList.add(userDTO);
+                }
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return inquiriesList;
+    }
+
+    public List<UserDTO> selectAllStaffs1() {
         List<UserDTO> list = new ArrayList<>();
         String query = "SELECT * FROM tblUser JOIN role ON tblUser.roleID = role.roleID WHERE role.roleID = 2";
         try (Connection con = DBUtils.makeConnection();
@@ -496,6 +809,7 @@ public class UserDAO {
                 user.setDataOfBirth(rs.getDate("DataOfBirth"));
                 user.setImage(rs.getString("Image"));
                 user.setRoleId(rs.getString("RoleId"));
+                user.setIsActived(rs.getBoolean("IsActived"));
                 list.add(user);
             }
         } catch (SQLException ex) {

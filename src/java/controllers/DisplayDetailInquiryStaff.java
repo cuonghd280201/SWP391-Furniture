@@ -45,7 +45,7 @@ public class DisplayDetailInquiryStaff extends HttpServlet {
         Properties siteMaps = (Properties) context.getAttribute("SITEMAPS");
         // End get site map
         // Mapping url
-        String url = siteMaps.getProperty(AppContants.Staff.DETAIL_INQUIRY_PAGE_STAFF);
+        String url = siteMaps.getProperty(AppContants.Staff.MY_DETAIL_INQUIRY_PAGE_STAFF);
         try {
             // get userID from Session scope
             HttpSession session = request.getSession();
