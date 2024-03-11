@@ -27,7 +27,7 @@ public class ProjectDetailsDAO {
         try{
             con = DBUtils.getConnection();
             if(con != null){
-                String sql = "SELECT Project.projectID, Project.projectName, Project.scale, Project.description, Project.image, Project.createAt, Project.updateAt, " +
+                String sql = "SELECT Project.projectID, Project.projectName, Project.scale, Project.description, Project.createAt, Project.updateAt, " +
                 "Project.price, Project.userID, tblUser.firstName, tblUser.lastName, Project.projectTypeID, ProjectType.projectTypeName, Project.status " +
                 "FROM Project " +
                 "INNER JOIN ProjectType ON Project.projectTypeID = ProjectType.projectTypeID " +
@@ -42,7 +42,7 @@ public class ProjectDetailsDAO {
                     String projectName = rs.getString("projectName");
                     String scale = rs.getString("scale");
                     String description = rs.getString("description");
-                    String image = rs.getString("image");
+                    String image = "";
                     Timestamp createAt = rs.getTimestamp("createAt");
                     Timestamp updateAt = rs.getTimestamp("updateAt");
                     double price = rs.getDouble("price");

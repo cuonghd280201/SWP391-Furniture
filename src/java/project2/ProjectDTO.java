@@ -17,7 +17,7 @@ public class ProjectDTO {
     private String projectName;
     private String scale;
     private String description;
-    private String image;
+//    private String image;
     private Timestamp createAt;
     private Timestamp updateAt;
     private int status;
@@ -28,12 +28,12 @@ public class ProjectDTO {
     public ProjectDTO() {
     }
 
-    public ProjectDTO(int projectID, String projectName, String scale, String description, String image, Timestamp createAt, Timestamp updateAt, int status, double price, int userID, int projectTypeID) {
+    public ProjectDTO(int projectID, String projectName, String scale, String description, Timestamp createAt, Timestamp updateAt, int status, double price, int userID, int projectTypeID) {
         this.projectID = projectID;
         this.projectName = projectName;
         this.scale = scale;
         this.description = description;
-        this.image = image;
+//        this.image = image;
         this.createAt = createAt;
         this.updateAt = updateAt;
         this.status = status;
@@ -74,13 +74,13 @@ public class ProjectDTO {
         this.description = description;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
 
     public Timestamp getCreateAt() {
         return createAt;
