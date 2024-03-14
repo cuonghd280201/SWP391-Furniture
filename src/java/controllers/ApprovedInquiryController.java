@@ -57,7 +57,7 @@ public class ApprovedInquiryController extends HttpServlet {
             if (result) {
                 NotificationDAO notificationDAO = new NotificationDAO();
                 notificationDAO.insertNotificationStaff(userID, "This inquiry are approved by web furniture");
-                request.getSession().setAttribute("SAVE_NOTI", "success"); // Set success attribute
+                request.getSession().setAttribute("SAVE_NOTI", "success");
                 // call search function again by using url rewriting
                 url = siteMaps.getProperty(AppContants.Staff.LIST_INQUIRTY_PAGE_STAFF);
             }

@@ -301,8 +301,6 @@
                                                 %>
                                                 <h4 class="card-header">Project Description:</h4>
                                                 <input type="text" name="description" value="" class="form-control border-0" placeholder="Table"/><br>
-                                                <h4 class="card-header">Project URL Image:</h4>
-                                                <input type="text" name="image" value="" class="form-control border-0" placeholder="Table"/><br>
                                                 <h4 class="card-header">Project Type:</h4>
                                                 <select name="projectTypeID">
                                                     <%

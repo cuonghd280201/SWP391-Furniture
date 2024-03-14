@@ -2,6 +2,34 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/CK10/SWP391-Furniture/web/index.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/utils/AppContants.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/siderBarStaff.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/css/style.css</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/ConstructionDAO.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/header.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/managerCustomer.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/project-list.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/SigUpController.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/contract.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/DisplayDetailProject.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/DeleteConstructionController.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/detailProject.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/users/UserDTO.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/adminRemoveAccount.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/comment.css</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/manageConstruction.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/comments/CommentDTO.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/LoginController.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/siderBar.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/controllers/DeleteCommentController.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/inquiry/InquiryDAO.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/login.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/register.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/detailInquiryStaff.jsp</file>
+            <file>file:/C:/CK10/SWP391-Furniture/src/java/users/UserDAO.java</file>
+            <file>file:/C:/CK10/SWP391-Furniture/web/project-detail.jsp</file>
+        </group>
     </open-files>
 </project-private>

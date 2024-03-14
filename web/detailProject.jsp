@@ -113,6 +113,10 @@
                 </div>
             </nav>
 
+            <c:set var="currentUser" value="${sessionScope.USER}"></c:set>
+            <c:set var="commentsList" value="${requestScope.COMMENTS_LIST}" />
+            <c:set var="recipeDto" value="${requestScope.DETAIL_PROJECT}" />
+
             <c:set var="image" value="${DETAIL_PROJECT.imageDTO}"/>
 
             <div class="container-xxl py-5">
@@ -127,7 +131,7 @@
                             <h1 class="mb-4">${DETAIL_PROJECT.projectName}</h1>
                             <p class="mb-4">${DETAIL_PROJECT.description}</p>
                             <p><i class="fa fa-balance-scale text-primary me-3"></i>${DETAIL_PROJECT.scale}</p>
-                            <p><i class="fa fa-clock text-primary me-2"></i>${DETAIL_PROJECT.createAt}</p>
+                            <p><i class="fa fa-clock text-primary me-2"></i>${recipeDto.createAt}</p>
                             <p>
 
                                 <c:set var="formattedPrice">
@@ -149,7 +153,7 @@
                             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="property-item rounded overflow-hidden">
                                     <div class="position-relative overflow-hidden">
-                                        <a href=""><img class="img-fluid" src="img/property-1.jpg" alt=""></a>
+                                        <a href=""><img class="img-fluid" src="img/detail1.jpg" alt=""></a>
                                     </div>
 
                                 </div>
@@ -157,7 +161,7 @@
                             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                                 <div class="property-item rounded overflow-hidden">
                                     <div class="position-relative overflow-hidden">
-                                        <a href=""><img class="img-fluid" src="img/property-2.jpg" alt=""></a>
+                                        <a href=""><img class="img-fluid" src="img/detail2.jpg" alt=""></a>
 
                                     </div>
                                 </div>
@@ -165,7 +169,7 @@
                             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                                 <div class="property-item rounded overflow-hidden">
                                     <div class="position-relative overflow-hidden">
-                                        <a href=""><img class="img-fluid" src="img/property-3.jpg" alt=""></a>
+                                        <a href=""><img class="img-fluid" src="img/detail3.jpg" alt=""></a>
 
                                     </div>
 
@@ -174,7 +178,7 @@
                             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="property-item rounded overflow-hidden">
                                     <div class="position-relative overflow-hidden">
-                                        <a href=""><img class="img-fluid" src="img/property-4.jpg" alt=""></a>
+                                        <a href=""><img class="img-fluid" src="img/detail4.png" alt=""></a>
 
                                     </div>
 
@@ -183,7 +187,7 @@
                             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                                 <div class="property-item rounded overflow-hidden">
                                     <div class="position-relative overflow-hidden">
-                                        <a href=""><img class="img-fluid" src="img/property-5.jpg" alt=""></a>
+                                        <a href=""><img class="img-fluid" src="img/detail5.jpg" alt=""></a>
 
                                     </div>
 
@@ -191,6 +195,13 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- Start Comment -->
+
+                    <%@include file="comment.jsp" %>
+
+                    <!-- End Comment -->
 
                     <!-- Footer Start -->
                     <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -220,25 +231,29 @@
                                     <h5 class="text-white mb-4">Photo Gallery</h5>
                                     <div class="row g-2 pt-2">
                                         <div class="col-4">
-                                            <img class="img-fluid rounded bg-light p-1" src="img/property-1.jpg" alt="">
+                                            <img class="img-fluid rounded bg-light p-1" src="img/detail1.jpg" alt="">
                                         </div>
                                         <div class="col-4">
-                                            <img class="img-fluid rounded bg-light p-1" src="img/property-2.jpg" alt="">
+                                            <img class="img-fluid rounded bg-light p-1" src="img/detail2.jpg" alt="">
                                         </div>
                                         <div class="col-4">
-                                            <img class="img-fluid rounded bg-light p-1" src="img/property-3.jpg" alt="">
+                                            <img class="img-fluid rounded bg-light p-1" src="img/detail3.jpg" alt="">
                                         </div>
                                         <div class="col-4">
-                                            <img class="img-fluid rounded bg-light p-1" src="img/property-4.jpg" alt="">
+                                            <img class="img-fluid rounded bg-light p-1" src="img/detail4.png" alt="">
                                         </div>
                                         <div class="col-4">
-                                            <img class="img-fluid rounded bg-light p-1" src="img/property-5.jpg" alt="">
+                                            <img class="img-fluid rounded bg-light p-1" src="img/detail5.jpg" alt="">
                                         </div>
                                         <div class="col-4">
-                                            <img class="img-fluid rounded bg-light p-1" src="img/property-6.jpg" alt="">
+                                            <img class="img-fluid rounded bg-light p-1" src="img/home1.jpg" alt="">
                                         </div>
                                     </div>
                                 </div>
+
+
+
+
                                 <div class="col-lg-3 col-md-6">
                                     <h5 class="text-white mb-4">Newsletter</h5>
                                     <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
@@ -285,6 +300,7 @@
                     <script src="lib/easing/easing.min.js"></script>
                     <script src="lib/waypoints/waypoints.min.js"></script>
                     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+                    <script src="js/comment.js"></script>
 
                     <!-- Template Javascript -->
                     <script src="js/main.js"></script>

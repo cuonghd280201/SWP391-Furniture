@@ -98,9 +98,9 @@
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                     <div class="card border-3 border-top border-top-primary">
                                         <div class="card-body">
-                                            <h5 class="text-muted">Total Qoutation</h5>
+                                            <h5 class="text-muted">Total OrderDetail</h5>
                                             <div class="metric-value d-inline-block">
-                                                <h1 class="mb-1"></h1>
+                                                <h1 class="mb-1">${sessionScope.numberOfOrders}</h1>
                                             </div>
                                             <div class="metric-label d-inline-block float-right text-info font-weight-bold">
                                                 <span class="icon-circle-small icon-box-xs text-info bg-info-light bg-info-light "></span><span class="ml-1">qoutations</span>

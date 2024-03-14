@@ -95,7 +95,6 @@
                                 <!--FORGOT PASSWORD FORM-->
                                 <c:set var="error" value="${requestScope.FORGOTPASSWOD_ERR}"></c:set>
                                     <form class="login-form" action="forgotPasswordController"  method="post">
-
                                         <input value="${param.txtEmail}" class="main-input-box" name="txtEmail" type="email" placeholder="Email" required
                                            oninvalid="this.setCustomValidity('Enter Email Here')"
                                            oninput="this.setCustomValidity('')"/>

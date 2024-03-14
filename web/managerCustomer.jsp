@@ -133,20 +133,46 @@
 
 
         <body>
-            <!-- ============================================================== -->
-            <!-- main wrapper -->
-            <!-- ============================================================== -->
-            <div class="dashboard-main-wrapper">
-                <!-- ============================================================== -->
-                <!-- navbar -->
-                <!-- ============================================================== -->
 
-                <!-- ============================================================== -->
-                <!-- end navbar -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- left sidebar -->
-                <!-- ============================================================== -->
+        <c:if test="${sessionScope.SAVE_NOTI != null}">
+            <%-- Script for displaying SweetAlert2 notification --%>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+            <script>
+                // Function to display SweetAlert2 notification
+                function showNotification(message, type) {
+                    Swal.fire({
+                        icon: type,
+                        title: message,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+
+                // Check if notification attribute is set and call the function
+                var saveNoti = "${sessionScope.SAVE_NOTI}";
+                if (saveNoti && saveNoti === "success") {
+                    showNotification("ReAtice Account Success fully", "success");
+                    // Remove the success notification attribute from the session
+                ${sessionScope.remove("SAVE_NOTI")};
+                }
+            </script>
+        </c:if>
+
+
+        <!-- ============================================================== -->
+        <!-- main wrapper -->
+        <!-- ============================================================== -->
+        <div class="dashboard-main-wrapper">
+            <!-- ============================================================== -->
+            <!-- navbar -->
+            <!-- ============================================================== -->
+
+            <!-- ============================================================== -->
+            <!-- end navbar -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- left sidebar -->
+            <!-- ============================================================== -->
             <%@include file="siderBar.jsp" %>
 
             <!-- ============================================================== -->
@@ -175,6 +201,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <!-- ============================================================== -->
                         <!-- end pageheader  -->
                         <!-- ============================================================== -->
@@ -187,10 +215,6 @@
                             <!-- ============================================================== -->
                             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <div class="card">
-                                    <div class="mb-3">
-                                        <button class="create-btn" onclick="openCreatePopup()">Create</button>
-                                    </div>
-
                                     <h5 class="card-header">Manage Customer</h5>
                                     <div class="card-body p-0">
                                         <div class="table-responsive">
@@ -204,7 +228,7 @@
                                                         <th class="border-0">Phone Number</th>
                                                         <th class="border-0">Date Of Birth</th>
                                                         <th class="border-0">Image</th>
-                                                        <th class="border-0">Active</th>
+
 
                                                         <th class="border-0">Action</th>
                                                     </tr>
@@ -218,21 +242,23 @@
                                                             <td>${user.email}</td>
                                                             <td>${user.phoneNumber}</td>
                                                             <td>${user.dataOfBirth}</td>
-
                                                             <td> <img src="${user.image}" class="rounded-circle media-img-auto"
                                                                       style="width: 50px; height: 50px; margin-right: 10px"></td> 
-                                                            <td>${user.isActived}</td>
 
                                                             <td>
-                                                                <!-- Update Button -->
-                                                                <button class="update-btn" onclick="openPopup()">Update</button>
+                                                                <!-- Update Button                                                                 <button class="update-btn" onclick="openPopup()">Update</button>
+ -->
 
                                                                 <!-- Delete Switch -->
-                                                                <div class="switch">
-                                                                    <input type="checkbox" id="toggle" ${user.isActived ? "checked" : ""}>
-                                                                    <label for="toggle"></label>
-                                                                </div>
 
+                                                                <div class="switch">
+                                                                    <form id="switchForm_${user.userId}" action="adminRemoveAccount" method="post">
+                                                                        <input type="hidden" name="userID" value="${user.userId}">
+                                                                        <input type="hidden" name="toggleValue" id="toggleValue_${user.userId}" value="${user.status ? 'on' : 'off'}">
+                                                                        <input type="checkbox" id="toggle_${user.userId}" ${user.status ? "checked" : ""} onclick="updateAction(${user.userId})">
+                                                                        <label for="toggle_${user.userId}"></label>
+                                                                    </form>
+                                                                </div>
                                                             </td>                                              
                                                         </tr>
                                                     </c:forEach>
@@ -449,17 +475,31 @@
                     <script src="assets/libs/js/dashboard-ecommerce.js"></script>
                     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-
                     <script>
-                                    // Function to open the popup
-                                    function openPopup() {
-                                        document.getElementById("updatePopup").style.display = "block";
+                                    function updateAction(userId) {
+                                        var confirmation = confirm("Are you sure you want to remove this account?");
+                                        if (confirmation) {
+                                            var form = document.getElementById("switchForm_" + userId);
+                                            var toggleValue = document.getElementById("toggleValue_" + userId);
+                                            toggleValue.value = toggleValue.value === "on" ? "off" : "on";
+                                            form.submit();
+                                        }
                                     }
+                                    function showSuccessPopup() {
+                                        alert("Account has been successfully deleted.");
+                                        // You can customize this to show a more visually appealing popup using libraries like Bootstrap modal
+                                    }
+                    </script>
+                    <script>
+                        // Function to open the popup
+                        function openPopup() {
+                            document.getElementById("updatePopup").style.display = "block";
+                        }
 
-                                    // Function to close the popup
-                                    function closePopup() {
-                                        document.getElementById("updatePopup").style.display = "none";
-                                    }
+                        // Function to close the popup
+                        function closePopup() {
+                            document.getElementById("updatePopup").style.display = "none";
+                        }
                     </script>
 
                     <script>

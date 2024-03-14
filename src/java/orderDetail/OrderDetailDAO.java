@@ -7,7 +7,10 @@ package orderDetail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.DBUtils;
 
 /**
@@ -42,5 +45,23 @@ public class OrderDetailDAO {
             if(con != null) con.close();
         }
         return createStatus;
+    }
+    
+    public int countAllProjects() {
+        int numberOfOrders = 0;
+        String query = "SELECT COUNT(*) AS NumberOfOrders FROM OrderDetail";
+        try (Connection con = DBUtils.makeConnection();
+                PreparedStatement stm = con.prepareStatement(query);
+                ResultSet rs = stm.executeQuery()) {
+
+            if (rs.next()) {
+                numberOfOrders = rs.getInt("NumberOfOrders");
+            }
+
+        } catch (SQLException ex) {
+            // Improve error logging here
+            Logger.getLogger(OrderDetailDAO.class.getName()).log(Level.SEVERE, "Error counting users", ex);
+        }
+        return numberOfOrders;
     }
 }

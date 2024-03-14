@@ -19,8 +19,8 @@ import utils.DBUtils;
  * @author Admin
  */
 public class ConstructionDAO {
-    
-     public boolean removeContruction(int constructionID)
+
+    public boolean removeContruction(int constructionID)
             throws SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -30,7 +30,7 @@ public class ConstructionDAO {
             con = DBUtils.makeConnection();
             if (con != null) {
                 //2. create sql string
-                String sql = "DELETE FROM Construction Where constructionID = ?;";
+                String sql = "Update Construction set constructionStatus = 0 Where constructionID = ?;";
                 //3. create statement obj
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, constructionID);
@@ -52,8 +52,7 @@ public class ConstructionDAO {
         return result;
     }
 
-    
-     public Construction geConstructionDetial(int constructionID)
+    public Construction geConstructionDetial(int constructionID)
             throws SQLException {
         Connection connection = null;
         PreparedStatement stm = null;
@@ -75,7 +74,7 @@ public class ConstructionDAO {
                     // get recipe DTO info
                     String constructionName = rs.getString("constructionName");
                     String constructionDescription = rs.getString("constructionDescription");
-                    
+
                     Construction recipeDto = new Construction(constructionName, constructionDescription);
                     result = recipeDto;
                 }
@@ -94,8 +93,7 @@ public class ConstructionDAO {
         return result;
     }
 
-    
-     public boolean updateContruction(Construction construction, int constructionID)
+    public boolean updateContruction(Construction construction, int constructionID)
             throws SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -128,8 +126,8 @@ public class ConstructionDAO {
         }
         return result;
     }
-    
-     public boolean insertContruction(Construction construction)
+
+    public boolean insertContruction(Construction construction)
             throws SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -140,12 +138,13 @@ public class ConstructionDAO {
             if (con != null) {
                 //2. create sql string
                 String sql = "INSERT INTO Construction \n"
-                        + "(constructionName,constructionDescription) \n"
-                        + "    VALUES (?, ?);";
+                        + "(constructionName,constructionDescription, constructionStatus) \n"
+                        + "    VALUES (?, ?, ?);";
                 //3. create statement obj
                 stm = con.prepareStatement(sql);
                 stm.setString(1, construction.getConstructionName());
                 stm.setString(2, construction.getConstructionDescription());
+                stm.setInt(3, 1);
                 //4. execute query
                 int affectedRows = stm.executeUpdate();
                 //5 process result
@@ -164,7 +163,6 @@ public class ConstructionDAO {
         return result;
     }
 
-
     private List<Construction> constructionDtoList;
 
     public List<Construction> getConstructionsDtoList() {
@@ -182,7 +180,7 @@ public class ConstructionDAO {
             con = DBUtils.makeConnection();
             if (con != null) {
                 //2. create sql string
-                String sql = "SELECT constructionID, constructionName , constructionDescription FROM Construction";
+                String sql = "SELECT constructionID, constructionName , constructionDescription, constructionStatus FROM Construction";
                 //3. create statement obj
                 stm = con.createStatement();
                 //4. execute query
@@ -193,7 +191,8 @@ public class ConstructionDAO {
                     int constructionID = rs.getInt("constructionID");
                     String constructionName = rs.getString("constructionName");
                     String constructionDescription = rs.getString("constructionDescription");
-                    Construction constructionDto = new Construction(constructionID, constructionName, constructionDescription);
+                    boolean constructionStatus = rs.getBoolean("constructionStatus");
+                    Construction constructionDto = new Construction(constructionID, constructionName, constructionDescription, constructionStatus);
                     // check categoryDto list not null
                     if (this.constructionDtoList == null) {
                         this.constructionDtoList = new ArrayList<>();
@@ -226,7 +225,7 @@ public class ConstructionDAO {
             stm = con.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
-                Construction construction = new Construction(rs.getInt("constructionID"), rs.getString("constructionName"), rs.getString("constructionDescription"));
+                Construction construction = new Construction(rs.getInt("constructionID"), rs.getString("constructionName"), rs.getString("constructionDescription"), rs.getBoolean("constructionStatus"));
                 list.add(construction);
             }
         } catch (SQLException ex) {

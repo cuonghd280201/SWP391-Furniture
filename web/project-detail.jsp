@@ -50,8 +50,8 @@
 
 
             <!-- Navbar Start -->
-                      <%@include file="header.jsp" %>
->
+            <%@include file="header.jsp" %>
+            >
 
 
             <!-- Header Start -->
@@ -75,43 +75,43 @@
             <!-- Header End -->
 
 
-<!--             Search Start 
-
-            <form action="MainController" method="POST">
-                <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
-                    <div class="container">
-                        <div class="row g-2">
-                            <div class="col-md-10">
-                                <div class="row g-2">
-                                    <div class="col-md-4">
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select class="form-select border-0 py-3">
-                                            <option selected>Property Type</option>
-                                            <option value="1">Property Type 1</option>
-                                            <option value="2">Property Type 2</option>
-                                            <option value="3">Property Type 3</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select class="form-select border-0 py-3">
-                                            <option selected>Location</option>
-                                            <option value="1">Location 1</option>
-                                            <option value="2">Location 2</option>
-                                            <option value="3">Location 3</option>
-                                        </select>
+            <!--             Search Start 
+            
+                        <form action="MainController" method="POST">
+                            <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+                                <div class="container">
+                                    <div class="row g-2">
+                                        <div class="col-md-10">
+                                            <div class="row g-2">
+                                                <div class="col-md-4">
+            
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <select class="form-select border-0 py-3">
+                                                        <option selected>Property Type</option>
+                                                        <option value="1">Property Type 1</option>
+                                                        <option value="2">Property Type 2</option>
+                                                        <option value="3">Property Type 3</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <select class="form-select border-0 py-3">
+                                                        <option selected>Location</option>
+                                                        <option value="1">Location 1</option>
+                                                        <option value="2">Location 2</option>
+                                                        <option value="3">Location 3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" value="Show" name="btnAction" class="btn btn-dark border-0 w-100 py-3">Search</button>
+                                            <input type="submit" value="Show" name="btnAction" class="btn btn-dark border-0 w-100 py-3"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <button type="submit" value="Show" name="btnAction" class="btn btn-dark border-0 w-100 py-3">Search</button>
-                                <input type="submit" value="Show" name="btnAction" class="btn btn-dark border-0 w-100 py-3"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>-->
+                        </form>-->
 
             <!-- Search End -->
 
@@ -124,7 +124,6 @@
                         <div class="col-lg-6">
                             <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
                                 <h1 class="mb-3">Project Details</h1>
-                                <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit diam justo sed rebum.</p>
                             </div>
                         </div>
 
@@ -199,7 +198,7 @@
                                             </td>
                                             <td>
                                                 <%
-                                                    double money = dto.getInteriorQuantity()* dto.getUnitPrice() * dto.getValueLevel();
+                                                    double money = dto.getInteriorQuantity() * dto.getUnitPrice() * dto.getValueLevel();
                                                     totalMoney += money;
                                                 %>
                                                 <%= money%>
@@ -218,21 +217,31 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="col-12 text-center">
-                                    <a class="btn btn-primary py-3 px-5" href="">Browse More Project</a>
-                                </div>
+                           <!--     <div class="col-12 text-center">
+                                  <form action="${initParam['posturl']}" method="get">
+                                        <input type="hidden" name="return" value="${initParam['returnurl']}">
+                                        <input type="hidden" name="bussiness" value="${initParam['business']}">
+                                        <input class="btn btn-primary py-3 px-5" type="submit" value="Payment">
+                                       
+                                    </form>
+                                </div>-->
+                                         
+                        <div id="paypal-payment-button">
+                            <%-- Your PayPal payment button code will go here --%>
+                        </div>
+                   
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <%
-                }else{
+            } else {
             %>
             <h1>this project did not have interior yet!</h1>
             <%
-                    }
-                
+                }
+
             %>
             <!-- Property List End -->
 
@@ -347,6 +356,8 @@
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
 
+                <script src="https://www.paypal.com/sdk/js?client-id=AdOtj2PGjcxwMu9VDhRWGrBGQo5mYpMoYQwzF7JagjzPyXq0Ft6E6TM8TOuiDPgQV7zeh-JFDKTfDXbV&disable-funding=credit,card"></script>
+
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -354,6 +365,33 @@
         <script src="lib/easing/easing.min.js"></script>
         <script src="lib/waypoints/waypoints.min.js"></script>
         <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        
+         <script>
+        paypal.Buttons({
+            style : {
+                color: 'blue',
+                shape: 'pill'
+            },
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units : [{
+                        amount: {
+                            value: '0.1'
+                        }
+                    }]
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    console.log(details);
+                    window.location.replace("http://localhost:8084/FunitureQoute/paymentsuccess.jsp");
+                });
+            },
+            onCancel: function (data) {
+                window.location.replace("http://localhost:8084/FunitureQoute/MainController?btnAction=Show");
+            }
+        }).render('#paypal-payment-button');
+    </script>
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>

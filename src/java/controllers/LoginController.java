@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import users.UserDAO;
 import users.UserDTO;
+import users.LoginError;
+
 import utils.AppContants;
 import utils.SHA256;
 
@@ -51,40 +54,55 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException, SQLException, NoSuchAlgorithmException {
         response.setContentType("text/html;charset=UTF-8");
         ServletContext context = getServletContext();
-
         Properties siteMaps = (Properties) context.getAttribute("SITEMAPS");
+        String url = siteMaps.getProperty(AppContants.LoginFeatures.LOGIN_PAGE);
+        LoginError errors = new LoginError();
+        boolean foundErr = false;
+        try {
+            UserDAO dao = new UserDAO();
 
-        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String email = request.getParameter("txtemail");
             String password = request.getParameter("txtpassword");
-            byte[] getSha= SHA256.getSHA(password);
-            String passSHA= SHA256.toHexString(getSha);
-            String url = LOGIN_FAIL;
-
-            UserDAO dao = new UserDAO();
-            UserDTO user = dao.checkLogin(email, passSHA);
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("USER", user);
-                session.setAttribute("LOGIN_USER", user);
-                String role = user.getRoleId();
-                if ("1".equals(role)) {
-                    url = SEARCH_PAGE;
-                } else if ("2".equals(role)) {
-                    url = STAFF_PAGE;
-                } else if ("3".equals(role)) {
-                    url = DASHBOARD_PAGE;
-
-                } else {
-                    session.setAttribute("ERROR_MESSAGE", "Your role is not support!");
-                }
-                Cookie cookie = new Cookie(email, password);
-                cookie.setMaxAge(120 * 1);
-                response.addCookie(cookie);
+            byte[] getSha = SHA256.getSHA(password);
+            String passSHA = SHA256.toHexString(getSha);
+            boolean checkAccIsActive = dao.checkAccountIsActive(email, passSHA);
+            if (checkAccIsActive == false) {
+                foundErr = true;
+                errors.setAccIsactive("Account not active!");
             }
-            response.sendRedirect(url);
+            if (foundErr) {
+                request.setAttribute("LOGIN_ERR", errors);
+            } else {
+                UserDTO user = dao.checkLogin(email, passSHA);
+                if (user != null) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("USER", user);
+                    session.setAttribute("LOGIN_USER", user);
+                    String role = user.getRoleId();
+                    if ("1".equals(role)) {
+                        url = siteMaps.getProperty(AppContants.UpdateUserProfile.SEARCH_PAGE);
+                    } else if ("2".equals(role)) {
+                        url = siteMaps.getProperty(AppContants.UpdateUserProfile.STAFF_PAGE);
+                    } else if ("3".equals(role)) {
+                        url = siteMaps.getProperty(AppContants.UpdateUserProfile.DASHBOARD_PAGE);
+                    }
+                } else {
+                    errors.setAccountNotFound("Wrong email and password! Try again");
+                    request.setAttribute("LOGIN_ERR", errors);
+                }
 
+            //    Cookie cookie = new Cookie(email, password);
+                //    cookie.setMaxAge(120 * 1);
+                //    response.addCookie(cookie);
+            }
+        } catch (SQLException ex) {
+            log("LoginController _ SQL " + ex.getMessage());
+
+        } finally {
+//            response.sendRedirect(url);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 
