@@ -5,8 +5,6 @@
  */
 package controllers;
 
-import interriorDetails.InteriorDetailsDAO;
-import interriorDetails.InteriorDetailsDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -16,31 +14,32 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import projectDetails.ProjectDetailsDAO;
+import projectDetails.ProjectDetailsDTO;
 
 /**
  *
  * @author cdkhu
  */
-@WebServlet(name = "SearchInteriorController", urlPatterns = {"/SearchInteriorController"})
-public class SearchInteriorController extends HttpServlet {
+@WebServlet(name = "SearchProjectController", urlPatterns = {"/SearchProjectController"})
+public class SearchProjectController extends HttpServlet {
 
-    private final String INTERIOR_MANAGE_PAGE = "searchInterior.jsp";
+    private final String PROJECT_MANAGE_PAGE = "searchProject.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String searchInteriorName = request.getParameter("txtsearchInteriorName");
-            String url = INTERIOR_MANAGE_PAGE;
+            String searchProjectName = request.getParameter("txtsearchProjectName");
+            String url = PROJECT_MANAGE_PAGE;
             try{
-                if(searchInteriorName == null){
-                    searchInteriorName = "";
+                if(searchProjectName == null){
+                    searchProjectName = "";
                 }
-                InteriorDetailsDAO dao = new InteriorDetailsDAO();
-                List<InteriorDetailsDTO> list = dao.listInterior(searchInteriorName);
-                request.setAttribute("INTERIOR_LIST_SEARCH", list);
-                url = INTERIOR_MANAGE_PAGE;
+                ProjectDetailsDAO dao = new ProjectDetailsDAO();
+                List<ProjectDetailsDTO> list = dao.listProjectDetails(searchProjectName);
+                request.setAttribute("PROJECT_LIST_SEARCH", list);
+                url = PROJECT_MANAGE_PAGE;
             }catch(Exception e){
                 
             }finally{

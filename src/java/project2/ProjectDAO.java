@@ -190,4 +190,29 @@ public class ProjectDAO {
         }
         return createStatus;
     }
+    
+    public int updateProjectUpdateAt(int projectID ,Timestamp updateAt) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int updateStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "UPDATE Project SET updateAt = ? WHERE projectID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setTimestamp(1, updateAt);
+                stm.setInt(2, projectID);
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    updateStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return updateStatus;
+    }
 }

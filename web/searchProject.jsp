@@ -1,10 +1,11 @@
 <%-- 
-    Document   : createMaterial
-    Created on : Mar 11, 2024, 6:41:49 PM
+    Document   : searchMaterial
+    Created on : Mar 11, 2024, 4:31:27 PM
     Author     : cdkhu
 --%>
 
-<%@page import="material.MaterialErrorDTO"%>
+<%@page import="projectDetails.ProjectDetailsDTO"%>
+<%@page import="interriorDetails.InteriorDetailsDTO"%>
 <%@page import="material.MaterialDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="interior.InteriorDTO"%>
@@ -234,7 +235,7 @@
                                     <div class="page-breadcrumb">
                                         <nav aria-label="breadcrumb">
                                             <ol class="breadcrumb">
-                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Detail Material</a></li>
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Search Interior</a></li>
                                             </ol>
                                         </nav>
                                     </div>
@@ -245,7 +246,9 @@
                         <!-- end pageheader  -->
 
 
-
+                        <%
+                            String searchValue = request.getParameter("txtsearchInteriorName");
+                        %>
 
 
 
@@ -260,9 +263,36 @@
 
                             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <div class="card">
-                                    <h3 class="card-header">Detail Interior</h3>
-
-
+                                    <h4 class="card-header">Search Project</h4>
+<!--                                    <form action="MainController" method="POST">
+                                        <button type="submit" value="Create Interior" name="btnAction" class="btn btn-dark border-0">Search Project</button>
+                                    </form>-->
+                                    <form action="MainController" method="POST">
+                                        <%
+                                            if (searchValue != null) {
+                                        %>
+                                        <input type="text" name="txtsearchProjectName" value="<%= request.getParameter("txtsearchProjectName")%>" class="form-control border-0" placeholder="Search Keyword">
+                                        <%
+                                        } else {
+                                            searchValue = "";
+                                        %>
+                                        <input type="text" name="txtsearchProjectName" value="" class="form-control border-0" placeholder="Search Keyword">
+                                        <%
+                                            }
+                                        %>
+                                        <button type="submit" value="Search Project" name="btnAction" class="btn btn-dark border-0">Search</button>
+                                    </form>
+                                    <%
+                                        String updateNoti = (String) request.getAttribute("INTERIOR_STATUS_UPDATE_NOTI");
+                                        if (updateNoti != null) {
+                                    %>
+                                    <h4 style="color:Red;" ><%= updateNoti%></h4>
+                                    <%
+                                        }
+                                        if (searchValue != null) {
+                                            List<ProjectDetailsDTO> listSearch = (List<ProjectDetailsDTO>) request.getAttribute("PROJECT_LIST_SEARCH");
+                                            if (listSearch != null && !listSearch.isEmpty()) {
+                                    %>
 
 
                                     <!--                                    <div class="mb-3">
@@ -272,87 +302,89 @@
 
                                     <div class="card-body p-0">
                                         <div class="table-responsive">
-                                            <%
-                                                MaterialDTO material = (MaterialDTO) request.getAttribute("MATERIAL_DETAIL");
-                                            %>
-                                            <form action="MainController" method="POST">
-                                                <h4 class="card-header">Material Name:</h4>
-                                                <%
-                                                    if (material != null) {
-                                                %>
-                                                <input type="hidden" name="materialID" value="<%= material.getMaterialID()%>"/>
-                                                <input type="text" name="materialName" value="<%= material.getMaterialName()%>" class="form-control border-0" placeholder="Table"/><br>
-                                                <%
-                                                } else {
-                                                %>
-                                                <input type="text" name="materialName" value="" class="form-control border-0" placeholder="Table"/><br>
-                                                <%
-                                                    }
-                                                    MaterialErrorDTO errors = (MaterialErrorDTO) request.getAttribute("DETAIL_MATERIAL_ERROR");
-                                                    if (errors != null) {
-                                                        if (errors.getMaterialNameErr() != "") {
-                                                %>
-                                                <p class="text-center text-danger"><%= errors.getMaterialNameErr()%></p>
-                                                <%
-                                                        }
-                                                    }
-                                                %>
-                                                <h4 class="card-header">Value Level:</h4>
-                                                <%
-                                                    if (material != null) {
-                                                %>
-                                                <input type="number" name="valueLevel" step="0.01" value="<%= material.getValueLevel()%>" class="form-control border-0" placeholder="1.5"/><br>
-                                                <%
-                                                } else {
-                                                %>
-                                                <input type="number" name="valueLevel" step="0.01" value="" class="form-control border-0" placeholder="1.5"/><br>
-                                                <%
-                                                    }
-                                                    if (errors != null) {
-                                                        if (errors.getValueLevelErr() != "") {
-                                                %>
-                                                <p class="text-center text-danger"><%= errors.getValueLevelErr()%></p>
-                                                <%
-                                                        }
-                                                    }
-                                                %>
-                                                <h4 class="card-header">Description:</h4>
-                                                <%
-                                                    if (material != null) {
-                                                %>
-                                                <input type="text" name="desciprtion" value="<%= material.getDesciprtion()%>" class="form-control border-0" placeholder="A table for multi purpose"/><br>
-                                                <%
-                                                } else {
-                                                %>
-                                                <input type="text" name="desciprtion" value="" class="form-control border-0" placeholder="A table for multi purpose"/><br>
-                                                <%
-                                                    }
-                                                    if (material != null && material.getMaterialID() != 0) {
+                                            <table class="table">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0">No</th>
+                                                        <th class="border-0">Project Name</th>
+                                                        <th class="border-0">Project Type</th>
+                                                        <th class="border-0">Scale</th>
+                                                        <th class="border-0">Creator</th>
+                                                        <th class="border-0">Create At</th>
+                                                        <th class="border-0">Update At</th>
+                                                        <th class="border-0">Description</th>
+                                                        <th class="border-0">Status</th>
+                                                        <th class="border-0">Detail</th>
+                                                        <th class="border-0">Edit</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                                %>
-                                                <button type="submit" value="Edit Material" name="btnAction" class="btn btn-dark border-0">Update</button>
-                                                <%            
-                                                    } else {
-                                                %>
-                                                <button type="submit" value="Create Material" name="btnAction" class="btn btn-dark border-0">Create</button>
+                                                    <%
+                                                        int count = 0;
+                                                        for (ProjectDetailsDTO dto : listSearch) {
+                                                    %>
+                                                <form action="MainController" method="POST">
+                                                    <tr>
+                                                        <td>
+                                                            <%= ++count%>
+                                                        </td>
+                                                        <td>
+                                                            <%= dto.getProjectName()%>
+                                                        </td>
+                                                        <td>
+                                                            <%= dto.getProjectTypeName()%>
+                                                        </td>
+                                                        <td>
+                                                            <%= dto.getScale()%>
+                                                        </td>
+                                                        <td>
+                                                            <%= dto.getLastName()%> <%= dto.getFirstName()%>
+                                                        </td>
+                                                        <td>
+                                                            <%= dto.getCreateAt()%>
+                                                        </td>
+                                                        <td>
+                                                            <%= dto.getUpdateAt()%>
+                                                        </td>
+                                                        <td>
+                                                            <%= dto.getDescription()%>
+                                                        </td>
+                                                        <td>
+                                                            <%= dto.getStatus()%>
+                                                        </td>
+                                                        <td>
+                                                            <input type="submit" value="View Project" name="btnAction"/>
+                                                            <input type="hidden" name="projectID" value="<%= dto.getProjectID()%>" />
+                                                            <input type="hidden" name="txtsearchProjectName" value="<%= searchValue%>" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="submit" value="Edit Project" name="btnAction"/>
+                                                            <input type="hidden" name="projectID" value="<%= dto.getProjectID()%>" />
+                                                            <input type="hidden" name="txtsearchProjectName" value="<%= searchValue%>" />
+                                                        </td>
+                                                    </tr>
+                                                </form>
                                                 <%
                                                     }
                                                 %>
-                                            </form>
+
+
+                                                </tbody>
+                                            </table>
+                                            <%
+                                            } else {
+                                            %>
+                                            <h2 class="card-header">No Project found!</h2>
+                                            <%
+                                                    }
+                                                }
+                                            %>
 
 
                                         </div>
 
                                     </div>
-                                    <%
-                                        if (errors != null) {
-                                            if (errors.getMaterialNameExisted() != "") {
-                                    %>
-                                    <p class="text-center text-danger"><%= errors.getMaterialNameExisted()%></p>
-                                    <%
-                                            }
-                                        }
-                                    %>    
                                 </div>
                             </div>
 
@@ -531,7 +563,6 @@
                     </body>
 
                     </html>
-
 
 
 

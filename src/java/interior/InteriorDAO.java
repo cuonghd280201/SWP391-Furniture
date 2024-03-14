@@ -44,7 +44,7 @@ public class InteriorDAO {
                     Timestamp updateAt = rs.getTimestamp("updateAt");
                     int status = rs.getInt("status");
                     int marterialID = rs.getInt("marterialID");
-                    dto = new InteriorDTO(interiorID, interiorName, size, unit, mass, unitPrice, description, image, projectID, createAt, updateAt, status, marterialID);
+                    dto = new InteriorDTO(interiorID, interiorName, size, unit, mass, unitPrice, 0.0, description, image, projectID, createAt, updateAt, status, marterialID);
                 }
             }
         }catch(Exception e){
@@ -83,7 +83,7 @@ public class InteriorDAO {
                     Timestamp updateAt = rs.getTimestamp("updateAt");
                     int status = rs.getInt("status");
                     int marterialID = rs.getInt("materialID");
-                    InteriorDTO dto = new InteriorDTO(interiorID, interiorName, size, unit, mass, unitPrice, description, image, projectID, createAt, updateAt, status, marterialID);
+                    InteriorDTO dto = new InteriorDTO(interiorID, interiorName, size, unit, mass, unitPrice, 0.0, description, image, projectID, createAt, updateAt, status, marterialID);
                     list.add(dto);
                 }
             }
@@ -124,7 +124,7 @@ public class InteriorDAO {
                     Timestamp updateAt = rs.getTimestamp("updateAt");
                     int status = rs.getInt("status");
                     int marterialID = rs.getInt("marterialID");
-                    InteriorDTO dto = new InteriorDTO(interiorID, interiorName, size, unit, mass, unitPrice, description, image, projectID, createAt, updateAt, status, marterialID);
+                    InteriorDTO dto = new InteriorDTO(interiorID, interiorName, size, unit, mass, unitPrice, 0.0, description, image, projectID, createAt, updateAt, status, marterialID);
                     list.add(dto);
                 }
             }
@@ -136,5 +136,101 @@ public class InteriorDAO {
             if(con != null) con.close();
         }
         return list;
+    }
+    
+    public int getInteriorByName(String interiorName) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int checkStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "SELECT * FROM Interior WHERE interiorName = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, interiorName);
+                rs = stm.executeQuery();
+                if(rs.next()){
+                    checkStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(rs != null) rs.close();
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return checkStatus;
+    }
+    
+    public int createInterior(String interiorName, int size, double mass, double unitPrice, String desciprtion, String image, Timestamp createAt, int materialID) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int createStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "INSERT INTO Interior VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, interiorName);
+                stm.setInt(2, size);
+                stm.setInt(3, 0);
+                stm.setDouble(4, mass);
+                stm.setDouble(5, unitPrice);
+                stm.setDouble(6, 0.0);
+                stm.setString(7, desciprtion);
+                stm.setString(8, image);
+                stm.setInt(9, 0);
+                stm.setTimestamp(10, createAt);
+                stm.setTimestamp(11, null);
+                stm.setInt(12, 1);
+                stm.setInt(13, materialID);
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    createStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return createStatus;
+    }
+    
+    public int updateInterior(InteriorDTO interior) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int updateStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "UPDATE Interior SET interiorName = ?, size = ?, mass = ?, unitPrice = ?, description = ?, image = ?, updateAt = ?, status = ?, marterialID = ? WHERE interiorID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, interior.getInteriorName());
+                stm.setInt(2, interior.getSize());
+                stm.setDouble(3, interior.getMass());
+                stm.setDouble(4, interior.getUnitPrice());
+                stm.setString(5, interior.getDescription());
+                stm.setString(6, interior.getImage());
+                stm.setTimestamp(7, interior.getUpdateAt());
+                stm.setInt(8, interior.getStatus());
+                stm.setInt(9, interior.getMaterialID());
+                stm.setInt(10, interior.getInteriorID());
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    updateStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally{
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return updateStatus;
     }
 }

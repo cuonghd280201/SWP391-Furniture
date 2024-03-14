@@ -5,10 +5,14 @@
  */
 package controllers;
 
+import interior.InteriorDAO;
+import interior.InteriorDTO;
 import interriorDetails.InteriorDetailsDAO;
 import interriorDetails.InteriorDetailsDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cdkhu
  */
-@WebServlet(name = "SearchInteriorController", urlPatterns = {"/SearchInteriorController"})
-public class SearchInteriorController extends HttpServlet {
+@WebServlet(name = "DeactiveInteriorController", urlPatterns = {"/DeactiveInteriorController"})
+public class DeactiveInteriorController extends HttpServlet {
 
     private final String INTERIOR_MANAGE_PAGE = "searchInterior.jsp";
     
@@ -30,17 +34,39 @@ public class SearchInteriorController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             String searchInteriorName = request.getParameter("txtsearchInteriorName");
+            String interiorID_string = request.getParameter("interiorID");
+            String updateNoti = "";
             String url = INTERIOR_MANAGE_PAGE;
             try{
+                int interiorID = Integer.parseInt(interiorID_string);
+                InteriorDAO dao = new InteriorDAO();
+                InteriorDTO interior = dao.getInteriorByID(interiorID);
+                updateNoti = "Change "+interior.getInteriorName()+" Status failed!";
+                if(interior != null){
+                    int interiorStatus = interior.getStatus();
+                    if(interiorStatus == 0){
+                        interior.setStatus(1);
+                    }else if(interiorStatus == 1){
+                        interior.setStatus(0);
+                    }
+                    LocalDateTime localDateTime = LocalDateTime.now();
+                    Timestamp updateAt = Timestamp.valueOf(localDateTime);
+                    interior.setUpdateAt(updateAt);
+                    int updateStatus = dao.updateInterior(interior);
+                    if(updateStatus == 1){
+                        updateNoti = "Change "+interior.getInteriorName()+" Status succeed!";
+                    }
+                }
+                
                 if(searchInteriorName == null){
                     searchInteriorName = "";
                 }
-                InteriorDetailsDAO dao = new InteriorDetailsDAO();
-                List<InteriorDetailsDTO> list = dao.listInterior(searchInteriorName);
+                
+                InteriorDetailsDAO daoDetails = new InteriorDetailsDAO();
+                List<InteriorDetailsDTO> list = daoDetails.listInterior(searchInteriorName);
+                request.setAttribute("INTERIOR_STATUS_UPDATE_NOTI", updateNoti);
                 request.setAttribute("INTERIOR_LIST_SEARCH", list);
-                url = INTERIOR_MANAGE_PAGE;
             }catch(Exception e){
                 
             }finally{

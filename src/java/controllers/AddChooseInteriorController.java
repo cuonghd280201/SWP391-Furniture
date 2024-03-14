@@ -7,6 +7,8 @@ package controllers;
 
 import interior.InteriorDAO;
 import interior.InteriorDTO;
+import interriorDetails.InteriorDetailsDAO;
+import interriorDetails.InteriorDetailsDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AddChooseInteriorController", urlPatterns = {"/AddChooseInteriorController"})
 public class AddChooseInteriorController extends HttpServlet {
 
-    private final String SEARCH_INTERIOR_PAGE = "searchInterior.jsp";
+    private final String SEARCH_INTERIOR_PAGE = "searchChooseInterior.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,22 +37,44 @@ public class AddChooseInteriorController extends HttpServlet {
             String url = SEARCH_INTERIOR_PAGE;
             try{
                 int interiorID = Integer.parseInt(request.getParameter("interiorID"));
+                InteriorDetailsDAO dao = new InteriorDetailsDAO();
+                InteriorDetailsDTO interiorDetails = dao.getInteriorByID(interiorID);
+                int flag = 0;
                 
                 HttpSession session = request.getSession();
-                List<InteriorDTO> interior_choose = (List<InteriorDTO>) session.getAttribute("INTERIOR_CHOOSE_LIST");
+                List<InteriorDetailsDTO> interior_choose = (List<InteriorDetailsDTO>) session.getAttribute("INTERIOR_CHOOSE_LIST");
                 if(interior_choose == null){
                     interior_choose = new ArrayList<>();
+                }else{
+                    for(int i=0; i<= interior_choose.size()-1; i++){
+                        int interiorID_ed = interior_choose.get(i).getInteriorID();
+                        int quantity_ed = interior_choose.get(i).getInteriorQuantity();
+                        if(interiorID_ed == interiorDetails.getInteriorID()){
+                            interior_choose.get(i).setInteriorQuantity(quantity_ed + 1);
+                            flag++;
+                        }
+                    }
+//                    if(flag == 0 ){
+//                        interior_choose.add(interiorDetails);
+//                    }
                 }
-                InteriorDAO dao = new InteriorDAO();
-                InteriorDTO interior = dao.getInteriorByID(interiorID);
-                interior_choose.add(interior);
+                
+                if(flag == 0 ){
+                        interior_choose.add(interiorDetails);
+                    }
+//                interior_choose.add(interiorDetails);
+                
+//                for(int i=0; i<= interior_choose.size()-1; i++){
+//                    int a = interior_choose.get(i).getInteriorID();
+//                }
+                
                 session.setAttribute("INTERIOR_CHOOSE_LIST", interior_choose);
                 
                 String searchinteriorName = request.getParameter("txtsearchinteriorName");
                 if(searchinteriorName == null){
                     searchinteriorName = "";
                 }
-                List<InteriorDTO> list = dao.getListInteriorByName(searchinteriorName);
+                List<InteriorDetailsDTO> list = dao.listInterior(searchinteriorName);
                 request.setAttribute("INTERIOR_LIST_SEARCH", list);
                 url = SEARCH_INTERIOR_PAGE;
             }catch(Exception e){

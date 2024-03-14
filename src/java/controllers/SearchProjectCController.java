@@ -21,8 +21,8 @@ import projectDetails.ProjectDetailsDTO;
  *
  * @author cdkhu
  */
-@WebServlet(name = "ProjectDetailsController", urlPatterns = {"/ProjectDetailsController"})
-public class ProjectDetailsController extends HttpServlet {
+@WebServlet(name = "SearchProjectCController", urlPatterns = {"/SearchProjectCController"})
+public class SearchProjectCController extends HttpServlet {
 
     private final String MAIN_PAGE = "project-list.jsp";
     
