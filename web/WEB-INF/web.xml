@@ -8,6 +8,22 @@
         <param-name>AUTHENTICATION_FILE_PATH</param-name>
         <param-value>/WEB-INF/authentication.properties</param-value>
     </context-param>
+    <context-param>
+        <param-name>authtoken</param-name>
+        <param-value>YOUR_AUTH_TOKEN_VALUE_HERE</param-value>
+    </context-param>
+    <context-param>
+        <param-name>posturl</param-name>
+        <param-value>https://www.sandbox.paypal.com/cgi-bin/webscr</param-value>
+    </context-param>
+    <context-param>
+        <param-name>business</param-name>
+        <param-value>sb-ujfne29129755@business.example.com</param-value>
+    </context-param>
+    <context-param>
+        <param-name>returnurl</param-name>
+        <param-value>http://localhost:8084/FunitureQoute/</param-value>
+    </context-param>
     <filter>
         <filter-name>AuthFilterr</filter-name>
         <filter-class>filter.AuthFilterr</filter-class>
@@ -33,4 +49,6 @@
             30
         </session-timeout>
     </session-config>
+    
+
 </web-app>

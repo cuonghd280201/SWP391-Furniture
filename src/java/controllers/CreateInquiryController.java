@@ -69,7 +69,7 @@ public class CreateInquiryController extends HttpServlet {
                 boolean resultInsertInquiry = inquiryDAO.insertInquiry(inquiry);
                 if (resultInsertInquiry) {
                     NotificationDAO notificationDAO = new NotificationDAO();
-                    notificationDAO.insertNotification(userID, "Your inquiry titled has been successfully created.");
+                    notificationDAO.insertNotification(userID, "There was a quote request just arrived,please check it!!.");
                     // Set success notification
                     request.getSession().setAttribute("SAVE_NOTI", "success");
                     url = siteMaps.getProperty(AppContants.DisplayInquiryFeartures.DISPLAY_INQUIRY_CUS_CONTROLLER);

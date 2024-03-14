@@ -178,12 +178,19 @@
                     <div class="modal-content">
                         <span class="close" onclick="closeRejectModal()">&times;</span>
                         <p>Do you want to reject this inquiry?</p>
-                        <div class="button-group">
-                            <button class="yes-button" onclick="reject()">Yes</button>
-                            <button class="no-button" onclick="closeRejectModal()">No</button>
-                        </div>
+                        <form id="rejectionForm" action="rejectInquiryController" method="post">
+                            <h1>Please reason reject this inquiry</h1>
+                            <textarea placeholder="" class="textarea form-control" name="txtRejectionReason" rows="5" cols="20" data-error="Message field is required" required></textarea>
+                            <div class="help-block with-errors"></div>
+                            <div class="button-group">
+                                <button class="yes-button" type="submit">Yes</button>
+                                <button class="no-button" type="button" onclick="closeRejectModal()">No</button>
+                            </div>
+                            <input type="hidden" name="inquiryID" value="${param.inquiryID}"/>
+                        </form>
                     </div>
                 </div>
+
 
 
 
@@ -301,53 +308,53 @@
                 <script src="js/main.js"></script>
 
                 <script>
-                                // Get the modal
-                                var approvalModal = document.getElementById("approvalModal");
-                                var rejectionModal = document.getElementById("rejectionModal");
+                            // Get the modal
+                            var approvalModal = document.getElementById("approvalModal");
+                            var rejectionModal = document.getElementById("rejectionModal");
 
-                                // Get the button that opens the modal
-                                var approveBtn = document.getElementById("approveButton");
-                                var rejectBtn = document.getElementById("rejectButton");
+                            // Get the button that opens the modal
+                            var approveBtn = document.getElementById("approveButton");
+                            var rejectBtn = document.getElementById("rejectButton");
 
-                                // When the user clicks on the button, open the modal
-                                approveBtn.onclick = function () {
-                                    approvalModal.style.display = "block";
-                                }
-                                rejectBtn.onclick = function () {
-                                    rejectionModal.style.display = "block";
-                                }
+                            // When the user clicks on the button, open the modal
+                            approveBtn.onclick = function () {
+                                approvalModal.style.display = "block";
+                            }
+                            rejectBtn.onclick = function () {
+                                rejectionModal.style.display = "block";
+                            }
 
-                                // When the user clicks on <span> (x), close the modal
-                                function closeModal() {
-                                    approvalModal.style.display = "none";
-                                }
-                                function closeRejectModal() {
-                                    rejectionModal.style.display = "none";
-                                }
+                            // When the user clicks on <span> (x), close the modal
+                            function closeModal() {
+                                approvalModal.style.display = "none";
+                            }
+                            function closeRejectModal() {
+                                rejectionModal.style.display = "none";
+                            }
 
-                                // Function to approve the inquiry
-                                function approve() {
-                                    // Construct the URL
-                                    var url = "${approved_inquiry_url}";
+                            // Function to approve the inquiry
+                            function approve() {
+                                // Construct the URL
+                                var url = "${approved_inquiry_url}";
 
-                                    // Redirect to the URL
-                                    window.location.href = url;
+                                // Redirect to the URL
+                                window.location.href = url;
 
-                                    // Close the modal
-                                    closeModal();
-                                }
+                                // Close the modal
+                                closeModal();
+                            }
 
-                                // Function to reject the inquiry
-                                function reject() {
-                                    // Construct the URL
-                                    var url = "${reject_inquiry_url}";
+                            // Function to reject the inquiry
+                            function reject() {
+                                // Construct the URL
+                                var url = "${reject_inquiry_url}";
 
-                                    // Redirect to the URL
-                                    window.location.href = url;
+                                // Redirect to the URL
+                                window.location.href = url;
 
-                                    // Close the modal
-                                    closeRejectModal();
-                                }
+                                // Close the modal
+                                closeRejectModal();
+                            }
                 </script>
 
 

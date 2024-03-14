@@ -10,8 +10,15 @@ package utils;
  * @author Admin
  */
 public class AppContants {
-    
-       public class ForgotPaswordFeartures {
+
+    public class AddNewCommentFeature {
+
+        public static final String DISPLAY_SINGLE_RECIPE_CONTROLLER = "displayDetailProject";
+        public static final String ERROR_PAGE = "addCommentErrorPage";
+        public static final String LOGIN_PAGE = "loginPage";
+    }
+
+    public class ForgotPaswordFeartures {
 
         public static final String FORGOT_PASSWORD_PAGE = "forgotPasswordPage";
         public static final String LOGIN_PAGE = "loginPage";
@@ -101,6 +108,10 @@ public class AppContants {
     }
 
     public class UpdateUserProfile {
+
+        public static final String SEARCH_PAGE = "homePage";
+        public static final String DASHBOARD_PAGE = "dashPage";
+        public static final String STAFF_PAGE = "listInquiryStaffPage";
 
         public static final String USER_PROFILE_PAGE = "userProfilePage";
         public static final String DISPLAY_USER_PROFILE_CONTROLLER = "displayUserProfileController";

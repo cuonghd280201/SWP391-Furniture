@@ -245,8 +245,8 @@
                                 </li>
                                 <!-- Manager Menu -->
                                 <li>
-                                    <a href="listInquiryS.jsp" class="nav-link" aria-expanded="false" aria-controls="submenu">
-                                        <i class="fas fa-fw fa-user"></i> List Inquiry
+                                    <a href="MainController?btnAction=Search Interior" class="nav-link" aria-expanded="false" aria-controls="submenu">
+                                        <i class="fas fa-fw fa-user"></i> List Quotation
                                     </a>               
                                 </li>
 

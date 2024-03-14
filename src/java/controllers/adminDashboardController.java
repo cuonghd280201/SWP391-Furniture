@@ -23,7 +23,7 @@ import projects.ProjectFacade;
 import users.UserDAO;
 import users.UserDTO;
 import utils.AppContants;
-
+import orderDetail.OrderDetailDAO;
 /**
  *
  * @author Admin
@@ -65,6 +65,10 @@ public class adminDashboardController extends HttpServlet {
         InquiryDAO inquiryDAO = new InquiryDAO();
         int numberOfInquirys = inquiryDAO.countAllInquirys();
         session.setAttribute("numberOfInquirys", numberOfInquirys);
+        
+        OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+        int numberOfOrders = orderDetailDAO.countAllProjects();
+        session.setAttribute("numberOfOrders", numberOfOrders);
 
         List<UserDTO> userList = userFacade.selectAllUsersAdmin();
         session.setAttribute("listUser", userList);

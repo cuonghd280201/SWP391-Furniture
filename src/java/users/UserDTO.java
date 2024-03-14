@@ -25,6 +25,7 @@ public class UserDTO implements Serializable {
     private String roleId;
     private boolean isActived;
     private Date create_At;
+    private boolean status;
 
     public UserDTO() {
     }
@@ -34,12 +35,10 @@ public class UserDTO implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.image= image;
+        this.image = image;
     }
-    
-    
 
-    public UserDTO(int userId, String firstName, String lastName, String email, String password, String phoneNumber, Date dataOfBirth, String image, String roleId, boolean isActived, Date create_At) {
+    public UserDTO(int userId, String firstName, String lastName, String email, String password, String phoneNumber, Date dataOfBirth, String image, String roleId, boolean isActived, Date create_At, boolean status) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -51,6 +50,8 @@ public class UserDTO implements Serializable {
         this.roleId = roleId;
         this.isActived = isActived;
         this.create_At = create_At;
+        this.status = status;
+
     }
 
     public UserDTO(String firstName, String lastName, String email, String password, String phoneNumber, Date dataOfBirth, String image, String roleId, boolean isActived) {
@@ -83,9 +84,6 @@ public class UserDTO implements Serializable {
         this.phoneNumber = phoneNumber;
         this.dataOfBirth = dataOfBirth;
     }
-    
-    
-    
 
     public UserDTO(int userId, String firstName, String lastName, String email, String password, String phoneNumber, Date dataOfBirth, String image, String roleId, boolean isActived) {
         this.userId = userId;
@@ -98,6 +96,22 @@ public class UserDTO implements Serializable {
         this.image = image;
         this.roleId = roleId;
         this.isActived = isActived;
+    }
+
+    public Date getCreate_At() {
+        return create_At;
+    }
+
+    public void setCreate_At(Date create_At) {
+        this.create_At = create_At;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public int getUserId() {

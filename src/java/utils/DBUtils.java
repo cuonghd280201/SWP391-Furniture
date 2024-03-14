@@ -19,8 +19,8 @@ public class DBUtils {
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String url = "jdbc:sqlserver://localhost:1433;databaseName=Furniture";
-//            Connection con = DriverManager.getConnection(url,"sa","12345");
-            Connection con = DriverManager.getConnection(url,"sa","1234567890");
+        Connection con = DriverManager.getConnection(url,"sa","12345");
+//            Connection con = DriverManager.getConnection(url,"sa","1234567890");
             return con;
         }catch(ClassNotFoundException e){
             e.printStackTrace();
@@ -30,12 +30,11 @@ public class DBUtils {
         return null;
     }
       
-      public static Connection makeConnection(){
+       public static Connection makeConnection(){
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String url = "jdbc:sqlserver://localhost:1433;databaseName=Furniture";
-//            Connection con = DriverManager.getConnection(url,"sa","12345");
-            Connection con = DriverManager.getConnection(url,"sa","1234567890");
+            Connection con = DriverManager.getConnection(url,"sa","12345");
             return con;
         }catch(ClassNotFoundException e){
             e.printStackTrace();
@@ -44,6 +43,7 @@ public class DBUtils {
         }
         return null;
     }
+    
     
 
 }

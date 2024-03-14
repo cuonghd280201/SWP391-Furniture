@@ -56,6 +56,7 @@ public class GetNotification extends HttpServlet {
                 NotificationDAO dao = new NotificationDAO();
                 //process result 
                 List<NotificationDTO> result = dao.getListNoti(user.getUserId());
+                
                 if(result == null ) {
                    result = new ArrayList<NotificationDTO>();
                    NotificationDTO newDto = new NotificationDTO();

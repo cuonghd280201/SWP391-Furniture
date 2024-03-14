@@ -20,9 +20,8 @@ import utils.DBUtils;
  * @author Admin
  */
 public class NotificationDAO {
-    
-    
-     public List<NotificationDTO> getListNotiStaff() throws SQLException {
+
+    public List<NotificationDTO> getListNotiStaff() throws SQLException {
         List<NotificationDTO> notifiLists = null;
         Connection connection = null;
         PreparedStatement stm = null;
@@ -66,6 +65,50 @@ public class NotificationDAO {
         return notifiLists;
     }
 
+    public List<NotificationDTO> getListNotiCustomer() throws SQLException {
+        List<NotificationDTO> notifiLists = null;
+        Connection connection = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            connection = DBUtils.makeConnection();
+            if (connection != null) {
+                String sql = "Select notificationID, userID, notificationContent, createAt, status From Notification AND status = 2 ORDER BY createAt DESC";
+                stm = connection.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int notificationID = rs.getInt("NotificationID");
+                    String notificationContent = rs.getString("NotificationContent");
+                    Date createAt = rs.getDate("createAt");
+                    int userID = rs.getInt("userID");
+
+                    int status = rs.getInt("Status");
+                    NotificationDTO notificationDTO = new NotificationDTO(notificationID, userID, notificationContent, createAt, status);
+
+                    if (notifiLists == null) {
+                        notifiLists = new ArrayList<>();
+                    }
+                    notifiLists.add(notificationDTO);
+                }
+            }
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return notifiLists;
+    }
 
     public List<NotificationDTO> getListNoti(int userID) throws SQLException {
         List<NotificationDTO> notifiLists = null;
@@ -146,9 +189,8 @@ public class NotificationDAO {
         }
         return rslt;
     }
-    
-    
-     public int insertNotificationStaff(int userID, String notificationContent) throws SQLException {
+
+    public int insertNotificationStaff(int userID, String notificationContent) throws SQLException {
         int rslt = 0;
         Connection connection = null;
         PreparedStatement stm = null;

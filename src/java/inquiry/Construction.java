@@ -13,6 +13,7 @@ public class Construction {
         public int constructionID;
         public String constructionName;
         public String constructionDescription;
+        public boolean constructionStatus;
 
     public Construction() {
     }
@@ -27,12 +28,16 @@ public class Construction {
         this.constructionDescription = constructionDescription;
     }
 
-    
-    public Construction(int constructionID, String constructionName, String constructionDescription) {
+    public Construction(int constructionID, String constructionName, String constructionDescription, boolean constructionStatus) {
         this.constructionID = constructionID;
         this.constructionName = constructionName;
         this.constructionDescription = constructionDescription;
+        this.constructionStatus = constructionStatus;
     }
+
+  
+
+
 
     public int getConstructionID() {
         return constructionID;
@@ -57,6 +62,15 @@ public class Construction {
     public void setConstructionDescription(String constructionDescription) {
         this.constructionDescription = constructionDescription;
     }
+
+    public boolean getConstructionStatus() {
+        return constructionStatus;
+    }
+
+    public void setConstructionStatus(boolean constructionStatus) {
+        this.constructionStatus = constructionStatus;
+    }
+    
         
     
 }

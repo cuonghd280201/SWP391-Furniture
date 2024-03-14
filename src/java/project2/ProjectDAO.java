@@ -124,7 +124,40 @@ public class ProjectDAO {
         return projectID;
     }
     
-    public int createProject(String projectName, String scale, String description, String image, Timestamp createAt, double price, int userID, int projectTypeID) throws SQLException{
+    
+    public boolean paymentStatus(int projectID)
+            throws SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            //1. make connection
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                //2. create sql string
+                String sql = "update Project set status = 2 where projectID = ?";
+                //3. create statement obj
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, projectID);
+                //4. execute query
+                int affectedRows = stm.executeUpdate();
+                //5 process result
+                if (affectedRows > 0) {
+                    result = true;
+                }// end process rs
+            }// end check con not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+    
+    public int createProject(String projectName, String scale, String description, Timestamp createAt, double price, int userID, int projectTypeID) throws SQLException{
         Connection con = null;
         PreparedStatement stm = null;
         int createStatus = 0;
@@ -132,18 +165,17 @@ public class ProjectDAO {
             con = DBUtils.getConnection();
             if(con != null){
                 
-                String sql = "INSERT INTO Project VALUES (?,?,?,?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO Project VALUES (?,?,?,?,?,?,?,?,?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, projectName);
                 stm.setString(2, scale);
                 stm.setString(3, description);
-                stm.setString(4, image);
-                stm.setTimestamp(5, createAt);
-                stm.setTimestamp(6, null);
-                stm.setInt(7, 1);
-                stm.setDouble(8, price);
-                stm.setInt(9, userID);
-                stm.setInt(10, projectTypeID);
+                stm.setTimestamp(4, createAt);
+                stm.setTimestamp(5, null);
+                stm.setInt(6, 1);
+                stm.setDouble(7, price);
+                stm.setInt(8, userID);
+                stm.setInt(9, projectTypeID);
                 int row = stm.executeUpdate();
                 if(row > 0){
                     createStatus = 1;

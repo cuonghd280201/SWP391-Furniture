@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import notifications.NotificationDAO;
 import users.UserDTO;
+import inquiry.Inquiry;
 import utils.AppContants;
 
 /**
@@ -53,7 +54,8 @@ public class RejectInquiryController extends HttpServlet {
         try {
             //1. call DAO
             InquiryDAO inquiryDAO = new InquiryDAO();
-            boolean result = inquiryDAO.rejectInquiry(inquiryID);
+            String rejectionReason = request.getParameter("txtRejectionReason");
+            boolean result = inquiryDAO.rejectInquiry(inquiryID, rejectionReason);
             if (result) {
                 NotificationDAO notificationDAO = new NotificationDAO();
                 notificationDAO.insertNotificationStaff(userID, "This inquiry are rejected by web furniture");

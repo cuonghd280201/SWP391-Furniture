@@ -25,8 +25,46 @@ import users.UserDTO;
  * @author Admin
  */
 public class UserDAO {
-    
-    
+
+    public boolean checkAccountIsActive(String email, String password) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        boolean set = false;
+        try {
+            //1. make connection
+            connection = DBUtils.makeConnection();
+            if (connection != null) {
+                //2. create sql string
+                String sql = "select is_actived from tblUser where email=? and password=? and is_actived=1";
+                //3. create statement obj
+                stm = connection.prepareStatement(sql); // tao ra obj rong
+                stm.setString(1, email);
+                stm.setString(2, password);
+                //4. execute query
+                rs = stm.executeQuery();
+                //5 process result
+                if (rs.next()) {
+                    set = true;
+                } else {
+                    set = false;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return set;
+
+    }
+
     public boolean uploadPasswordEP(String email, String phonenumber, String newPassword)
             throws SQLException {
         Connection con = null;
@@ -62,8 +100,6 @@ public class UserDAO {
         return result;
     }
 
-    
-    
     public boolean checkEmailAndPhonenumber(String email, String phonenumber) throws SQLException {
         Connection connection = null;
         PreparedStatement stm = null;
@@ -102,7 +138,7 @@ public class UserDAO {
         return set;
 
     }
-    
+
     public boolean checkPasswordEP(String email, String phonenumber, String newPassword) throws SQLException {
         Connection connection = null;
         PreparedStatement stm = null;
@@ -143,7 +179,6 @@ public class UserDAO {
 
     }
 
-    
     public List<Integer> getUsers(int loginValue)
             throws SQLException, NamingException {
         Connection connection = null;
@@ -167,7 +202,7 @@ public class UserDAO {
                 //5. Process result 
                 while (rs.next()) {
                     followerId = rs.getInt("user_id");
-                    if (result == null){
+                    if (result == null) {
                         result = new ArrayList<>();
                     }
                     result.add(followerId);
@@ -188,7 +223,6 @@ public class UserDAO {
         return result;
     }
 
-    
     public boolean deleteUser(int userID)
             throws SQLException {
         Connection con = null;
@@ -263,9 +297,8 @@ public class UserDAO {
         }
         return result;
     }
-    
-    
-     public boolean createCustomer(UserDTO userDTO)
+
+    public boolean createCustomer(UserDTO userDTO)
             throws SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -507,7 +540,7 @@ public class UserDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            con = DBUtils.getConnection();
+            con = DBUtils.makeConnection();
             if (con != null) {
                 String sql = "select * from tblUser where email = ? and password = ?";
                 stm = con.prepareStatement(sql);
@@ -716,8 +749,8 @@ public class UserDAO {
                     String roleID = rs.getString("RoleID");
                     Date create_At = rs.getDate("Create_At");
                     boolean is_actived = rs.getBoolean("Is_actived");
-
-                    UserDTO userDTO = new UserDTO(userID, firstName, lastName, email, password, phoneNumber, dataOfBirth, image, roleID, is_actived, create_At);
+                    boolean status = rs.getBoolean("Status");
+                    UserDTO userDTO = new UserDTO(userID, firstName, lastName, email, password, phoneNumber, dataOfBirth, image, roleID, is_actived, create_At, status);
                     if (inquiriesList == null) {
                         inquiriesList = new ArrayList<>();
                     }
@@ -740,7 +773,7 @@ public class UserDAO {
             }
         }
         return inquiriesList;
-    
+
     }
 
     public List<UserDTO> selectAllStaffs() throws SQLException {
@@ -766,8 +799,9 @@ public class UserDAO {
                     String roleID = rs.getString("RoleID");
                     Date create_At = rs.getDate("Create_At");
                     boolean is_actived = rs.getBoolean("Is_actived");
+                    boolean status = rs.getBoolean("Status");
 
-                    UserDTO userDTO = new UserDTO(userID, firstName, lastName, email, password, phoneNumber, dataOfBirth, image, roleID, is_actived, create_At);
+                    UserDTO userDTO = new UserDTO(userID, firstName, lastName, email, password, phoneNumber, dataOfBirth, image, roleID, is_actived, create_At, status);
                     if (inquiriesList == null) {
                         inquiriesList = new ArrayList<>();
                     }
@@ -1066,6 +1100,38 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;  // Return false if there's an exception.
         }
+    }
+    
+    public boolean removeAccount(int userID)
+            throws SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            //1. make connection
+            con = DBUtils.getConnection();
+            if (con != null) {
+                //2. create sql string
+                String sql = "UPDATE tblUser SET status = 0 WHERE userID = ?";
+                //3. create statement obj
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, userID);
+                //4. execute query
+                int affectedRows = stm.executeUpdate();
+                //5 process result
+                if (affectedRows > 0) {
+                    result = true;
+                }// end process rs
+            }// end check con not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
     }
 
 }

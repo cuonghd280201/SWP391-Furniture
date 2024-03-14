@@ -44,11 +44,16 @@ public class DeleteConstructionController extends HttpServlet {
         // Mapping url        
         String urlRewriting = AppContants.CreateInquiryFeature.ERROR_PAGE;
         int constructionID = Integer.parseInt(request.getParameter("constructionID"));
+        String toggleValue = request.getParameter("toggleValue");
+
+        boolean status = toggleValue.equals("on");
         try {
             //1. call DAO
             ConstructionDAO constructionDAO = new ConstructionDAO();
             boolean result = constructionDAO.removeContruction(constructionID);
             if (result) {
+                request.getSession().setAttribute("SAVE_NOTI", "success");
+
                 // call search function again by using url rewriting
                 urlRewriting = AppContants.Admin.LIST_CONTRUCTION_PAGE;
             }
@@ -61,7 +66,6 @@ public class DeleteConstructionController extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *

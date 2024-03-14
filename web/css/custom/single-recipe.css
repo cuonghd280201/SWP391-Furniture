@@ -6,7 +6,7 @@
     background-color: white;
     border: solid 1px;
     border-radius: 10px !important;
-    color: #ff4a52;
+    color: #00B98E;
     position: relative;
     z-index: 1;
 }
@@ -18,7 +18,7 @@
     width: 0;
     height: 100%;
     position: absolute;
-    background-color: #ff4a52;
+    background-color: #00B98E;
     border-radius: 10px !important;
     color: white;
     transition: 0.4s;

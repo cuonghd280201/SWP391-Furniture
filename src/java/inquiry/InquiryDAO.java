@@ -25,7 +25,7 @@ import users.UserDTO;
  */
 public class InquiryDAO {
 
-    public boolean rejectInquiry(int inquiryID)
+    public boolean rejectInquiry(int inquiryID, String rejectionReason)
             throws SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -35,10 +35,11 @@ public class InquiryDAO {
             con = DBUtils.makeConnection();
             if (con != null) {
                 //2. create sql string
-                String sql = "update Inquiry set statusInquiry = 3 where inquiryID = ?";
+                String sql = "update Inquiry set statusInquiry = 3 , rejectionReason = ? where inquiryID = ?";
                 //3. create statement obj
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, inquiryID);
+                stm.setString(1, rejectionReason);
+                stm.setInt(2, inquiryID);
                 //4. execute query
                 int affectedRows = stm.executeUpdate();
                 //5 process result
