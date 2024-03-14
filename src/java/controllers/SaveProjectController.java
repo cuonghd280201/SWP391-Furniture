@@ -7,6 +7,7 @@ package controllers;
 
 import email.SendProject;
 import interior.InteriorDTO;
+import interriorDetails.InteriorDetailsDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -28,6 +29,7 @@ import project2.ProjectDAO;
 import project2.ProjectErrorDTO;
 import projectType.ProjectTypeDAO;
 import projectType.ProjectTypeDTO;
+import users.UserDTO;
 
 /**
  *
@@ -37,7 +39,7 @@ import projectType.ProjectTypeDTO;
 public class SaveProjectController extends HttpServlet {
 
     private final String SAVE_PROJECT_INFOR_PAGE = "saveProject.jsp";
-    private final String MAIN_PAGE = "ProjectDetailsController";
+    private final String SEARCH_PROJECT_PAGE = "SearchProjectController";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -54,7 +56,7 @@ public class SaveProjectController extends HttpServlet {
             boolean errCheck = false;
             
             HttpSession session = request.getSession();
-            List<InteriorDTO> interior_choose = (List<InteriorDTO>) session.getAttribute("INTERIOR_CHOOSE_LIST");
+            List<InteriorDetailsDTO> interior_choose = (List<InteriorDetailsDTO>) session.getAttribute("INTERIOR_CHOOSE_LIST");
             if(interior_choose == null){
                 errCheck = true;
                 projectErr.setSessionRunOut("Time has run out, Please Add again!");
@@ -77,6 +79,8 @@ public class SaveProjectController extends HttpServlet {
                 if(errCheck){
                     request.setAttribute("SAVE_PROJECT_ERROR", projectErr);
                 }else{
+//                    UserDTO user = (UserDTO) session.getAttribute("USER");
+//                    int userID = user.getUserId();
                     int userID = 4;
                     ProjectDAO dao = new ProjectDAO();
                     int duplicatedStatus = dao.getProjectByName(projectName);
@@ -88,15 +92,15 @@ public class SaveProjectController extends HttpServlet {
                         if(projectID != 0){
                             OrderDetailDAO orderDetailDao = new OrderDetailDAO();
                             List<String> checkAddListOrderDetail = new ArrayList<>();
-                            for(InteriorDTO dto : interior_choose){
-                                int checkAddSingle = orderDetailDao.createOrderDetail(dto.getInteriorID(), projectID, 1, dto.getUnitPrice(), 1);
+                            for(InteriorDetailsDTO dto : interior_choose){
+                                int checkAddSingle = orderDetailDao.createOrderDetail(dto.getInteriorID(), projectID, dto.getInteriorQuantity(), dto.getUnitPrice(), 1);
                                 if(checkAddSingle == 1){
                                     checkAddListOrderDetail.add("Success");
                                 }
                             }
                         }
                         if(saveStatus == 1){
-                            url = MAIN_PAGE;
+                            url = SEARCH_PROJECT_PAGE;
                             request.setAttribute("SAVE_NOTI", "1");
                             session.setAttribute("INTERIOR_CHOOSE_LIST", "");
                             SendProject sp = new SendProject();

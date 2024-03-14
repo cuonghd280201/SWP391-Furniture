@@ -9,6 +9,8 @@ import interriorDetails.InteriorDetailsDAO;
 import interriorDetails.InteriorDetailsDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,31 +18,45 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import orderDetail.OrderDetailDAO;
+import project2.ProjectDAO;
 
 /**
  *
  * @author cdkhu
  */
-@WebServlet(name = "SearchInteriorController", urlPatterns = {"/SearchInteriorController"})
-public class SearchInteriorController extends HttpServlet {
+@WebServlet(name = "EditProjectInteriorRemoveController", urlPatterns = {"/EditProjectInteriorRemoveController"})
+public class EditProjectInteriorRemoveController extends HttpServlet {
 
-    private final String INTERIOR_MANAGE_PAGE = "searchInterior.jsp";
+    private final String PROJECT_DETAIL_PAGE = "detailProjectStaff.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String searchInteriorName = request.getParameter("txtsearchInteriorName");
-            String url = INTERIOR_MANAGE_PAGE;
+            String url = PROJECT_DETAIL_PAGE;
+            String projectID_string = request.getParameter("projectID");
+            String interiorID_string = request.getParameter("interiorID");
+            String updateNoti = "Remove interior failed!";
             try{
-                if(searchInteriorName == null){
-                    searchInteriorName = "";
+                int projectID = Integer.parseInt(projectID_string);
+                int interiorID = Integer.parseInt(interiorID_string);
+                
+                OrderDetailDAO OrderDao = new OrderDetailDAO();
+                LocalDateTime localDateTime = LocalDateTime.now();
+                Timestamp updateAt = Timestamp.valueOf(localDateTime);
+                int updateStatus = OrderDao.removeOrderDetailInterior(projectID, interiorID);
+                ProjectDAO ProjectDao = new ProjectDAO();
+                int updateTime = ProjectDao.updateProjectUpdateAt(projectID, updateAt);
+                if(updateStatus == 1){
+                    updateNoti = "Remove interior succeed!";
                 }
+                
+                request.setAttribute("INTERIOR_STATUS_UPDATE_NOTI", updateNoti);
+                
                 InteriorDetailsDAO dao = new InteriorDetailsDAO();
-                List<InteriorDetailsDTO> list = dao.listInterior(searchInteriorName);
-                request.setAttribute("INTERIOR_LIST_SEARCH", list);
-                url = INTERIOR_MANAGE_PAGE;
+                List<InteriorDetailsDTO> list = dao.listInteriorDetailsByProjectID(projectID);
+                request.setAttribute("PROJECT_INTERIOR_LIST", list);
             }catch(Exception e){
                 
             }finally{

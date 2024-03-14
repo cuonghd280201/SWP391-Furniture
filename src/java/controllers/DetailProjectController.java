@@ -21,26 +21,21 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cdkhu
  */
-@WebServlet(name = "SearchInteriorController", urlPatterns = {"/SearchInteriorController"})
-public class SearchInteriorController extends HttpServlet {
+@WebServlet(name = "DetailProjectController", urlPatterns = {"/DetailProjectController"})
+public class DetailProjectController extends HttpServlet {
 
-    private final String INTERIOR_MANAGE_PAGE = "searchInterior.jsp";
+    private final String PROJECT_DETAIL_PAGE = "detailProjectStaff.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String searchInteriorName = request.getParameter("txtsearchInteriorName");
-            String url = INTERIOR_MANAGE_PAGE;
+            String url = PROJECT_DETAIL_PAGE;
             try{
-                if(searchInteriorName == null){
-                    searchInteriorName = "";
-                }
+                int projectID = Integer.parseInt(request.getParameter("projectID"));
                 InteriorDetailsDAO dao = new InteriorDetailsDAO();
-                List<InteriorDetailsDTO> list = dao.listInterior(searchInteriorName);
-                request.setAttribute("INTERIOR_LIST_SEARCH", list);
-                url = INTERIOR_MANAGE_PAGE;
+                List<InteriorDetailsDTO> list = dao.listInteriorDetailsByProjectID(projectID);
+                request.setAttribute("PROJECT_INTERIOR_LIST", list);
             }catch(Exception e){
                 
             }finally{

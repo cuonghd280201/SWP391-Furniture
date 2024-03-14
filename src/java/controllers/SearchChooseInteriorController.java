@@ -5,6 +5,8 @@
  */
 package controllers;
 
+import interior.InteriorDAO;
+import interior.InteriorDTO;
 import interriorDetails.InteriorDetailsDAO;
 import interriorDetails.InteriorDetailsDTO;
 import java.io.IOException;
@@ -21,26 +23,31 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cdkhu
  */
-@WebServlet(name = "SearchInteriorController", urlPatterns = {"/SearchInteriorController"})
-public class SearchInteriorController extends HttpServlet {
+@WebServlet(name = "SearchChooseInteriorController", urlPatterns = {"/SearchChooseInteriorController"})
+public class SearchChooseInteriorController extends HttpServlet {
 
-    private final String INTERIOR_MANAGE_PAGE = "searchInterior.jsp";
+    private final String CHOOSE_INTERIOR_PAGE = "searchChooseInterior.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String searchInteriorName = request.getParameter("txtsearchInteriorName");
-            String url = INTERIOR_MANAGE_PAGE;
+            String searchinteriorName = request.getParameter("txtsearchinteriorName");
+            String url = CHOOSE_INTERIOR_PAGE;
             try{
-                if(searchInteriorName == null){
-                    searchInteriorName = "";
+                if(searchinteriorName == null){
+                    searchinteriorName = "";
                 }
-                InteriorDetailsDAO dao = new InteriorDetailsDAO();
-                List<InteriorDetailsDTO> list = dao.listInterior(searchInteriorName);
-                request.setAttribute("INTERIOR_LIST_SEARCH", list);
-                url = INTERIOR_MANAGE_PAGE;
+//                    InteriorDAO dao = new InteriorDAO();
+//                    List<InteriorDTO> list = dao.getListInteriorByName(searchinteriorName);
+//                    request.setAttribute("INTERIOR_LIST_SEARCH", list);
+                    
+                    InteriorDetailsDAO dao = new InteriorDetailsDAO();
+                    List<InteriorDetailsDTO> list = dao.listInterior(searchinteriorName);
+                    request.setAttribute("INTERIOR_LIST_SEARCH", list);
+                    
+                    url = CHOOSE_INTERIOR_PAGE;
+                
             }catch(Exception e){
                 
             }finally{

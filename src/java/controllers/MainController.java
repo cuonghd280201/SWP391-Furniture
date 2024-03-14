@@ -19,10 +19,11 @@ public class MainController extends HttpServlet {
     private final String SIGUP_CONTROLLER = "SigUpController";
     private final String LIST_STAFF_CONTROLLER = "ListStaffController";
     
-    private final String PROJECT_DETAILS_CONTROLLER = "ProjectDetailsController";
+    private final String SEARCH_PROJECT_CUSTOMER_CONTROLLER = "SearchProjectCController";
     private final String VIEW_PROJECT_INTERIOR_CONTROLLER = "ProjectInteriorDetailController";
+    
     private final String ADD_CHOOSE_INTERIOR_CONTROLLER = "AddChooseInteriorController";
-    private final String SEARCH_CHOOSE_INTERIOR_CONTROLLER = "SearchInteriorController";
+    private final String SEARCH_CHOOSE_INTERIOR_CONTROLLER = "SearchChooseInteriorController";
     private final String SAVE_PROJECT_CONTROLLER = "SaveProjectController";
     
     private final String SEARCH_MATERIAL_CONTROLLER = "SearchMaterialController";
@@ -36,6 +37,14 @@ public class MainController extends HttpServlet {
     private final String EDIT_INTERIOR_CONTROLLER = "EditInteriorController";
     private final String DEACTIVE_INTERIOR_CONTROLLER = "DeactiveInteriorController";
     private final String DETAIL_INTERIOR_CONTROLLER = "DetailInteriorController";
+    
+    private final String SEARCH_PROJECT_CONTROLLER = "SearchProjectController";
+    private final String CREATE_PROJECT_CONTROLLER = "CreateProjectController";
+    private final String EDIT_PROJECT_CONTROLLER = "EditProjectController";
+    private final String EDIT_PROJECT_INTERIOR_QUANTITY_CONTROLLER = "EditProjectInteriorQuantityController";
+    private final String EDIT_PROJECT_INTERIOR_REMOVE_CONTROLLER = "EditProjectInteriorRemoveController";
+    private final String DEACTIVE_PROJECT_CONTROLLER = "DeactiveProjectController";
+    private final String DETAIL_PROJECT_CONTROLLER = "DetailProjectController";
 
     private final String CONSTRUCTION_CONTROLLER = "ContructionController";
     private final String CREATE_INQUIRY_CONTROLLER = "CreateInquiryController";
@@ -84,7 +93,7 @@ public class MainController extends HttpServlet {
                     url = SIGUP_CONTROLLER;
                     break;
                 case "Show":
-                    url = PROJECT_DETAILS_CONTROLLER;
+                    url = SEARCH_PROJECT_CUSTOMER_CONTROLLER;
                     break;
                 case "ViewProject":
                     url = VIEW_PROJECT_INTERIOR_CONTROLLER;
@@ -92,12 +101,13 @@ public class MainController extends HttpServlet {
                 case "Add Interior":
                     url = ADD_CHOOSE_INTERIOR_CONTROLLER;
                     break;
-                case "Search Interior":
+                case "Search Choose Interior":
                     url = SEARCH_CHOOSE_INTERIOR_CONTROLLER;
                     break;
                 case "Save Project":
                     url = SAVE_PROJECT_CONTROLLER;
                     break;
+                    
                 case "Search Material":
                     url = SEARCH_MATERIAL_CONTROLLER;
                     break;
@@ -109,7 +119,36 @@ public class MainController extends HttpServlet {
                     break;
                 case "Deactivate Material":
                     url = DEACTIVE_MATERIAL_CONTROLLER;
-                    break;    
+                    break; 
+                
+                case "Search Interior":
+                    url = SEARCH_INTERIOR_CONTROLLER;
+                    break;
+                case "Create Interior":
+                    url = CREATE_INTERIOR_CONTROLLER;
+                    break;
+                case "Edit Interior":
+                    url = EDIT_INTERIOR_CONTROLLER;
+                    break;
+                case "Deactivate Interior":
+                    url = DEACTIVE_INTERIOR_CONTROLLER;
+                    break;
+                    
+                case "Search Project":
+                    url = SEARCH_PROJECT_CONTROLLER;
+                    break;
+                case "Edit Project":
+                    url = EDIT_PROJECT_CONTROLLER;
+                    break;
+                case "Edit Quantity":
+                    url = EDIT_PROJECT_INTERIOR_QUANTITY_CONTROLLER;
+                    break;
+                case "Remove Interior":
+                    url = EDIT_PROJECT_INTERIOR_REMOVE_CONTROLLER;
+                    break;
+                case "View Project":
+                    url = DETAIL_PROJECT_CONTROLLER;
+                    break;
                 default:
                     break;
             }

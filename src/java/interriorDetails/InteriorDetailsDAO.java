@@ -33,9 +33,10 @@ public class InteriorDetailsDAO {
                 "FROM Interior " +
                 "INNER JOIN Material ON Interior.marterialID = Material.materialID " +
                 "INNER JOIN OrderDetail ON Interior.interiorID = OrderDetail.interiorID " +
-                "WHERE OrderDetail.projectID = ?";
+                "WHERE OrderDetail.projectID = ? AND OrderDetail.Status = ? ";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, projectID);
+                stm.setInt(2, 1);
                 rs = stm.executeQuery();
                 list = new ArrayList<>();
                 while(rs.next()){
@@ -76,5 +77,93 @@ public class InteriorDetailsDAO {
         }
       
       return list;
+    }
+    
+    public List<InteriorDetailsDTO> listInterior(String searchinteriorName) throws SQLException{
+        List<InteriorDetailsDTO> list = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try{
+            con = DBUtils.makeConnection();
+            if(con != null){
+                String sql = "SELECT Interior.interiorID, Interior.interiorName, Interior.size, Interior.mass, Interior.unitPrice, Interior.description, Interior.image, " +
+                             "Interior.createAt, Interior.updateAt, Interior.status, Interior.marterialID, Material.materialName, Material.valueLevel " +
+                             "FROM Interior " +
+                             "INNER JOIN Material ON Interior.marterialID = Material.materialID " +
+                             "WHERE Interior.interiorName like ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%"+searchinteriorName+"%");
+                rs = stm.executeQuery();
+                list = new ArrayList<>();
+                while(rs.next()){
+                    int interiorID = rs.getInt("interiorID");
+                    String interiorName = rs.getString("interiorName");
+                    int size = rs.getInt("size");
+                    double mass = rs.getDouble("mass");
+                    double unitPrice = rs.getDouble("unitPrice");
+                    String description = rs.getString("description");
+                    String image = rs.getString("image");
+                    Timestamp createAt = rs.getTimestamp("createAt");
+                    Timestamp updateAt = rs.getTimestamp("updateAt");
+                    int status = rs.getInt("status");
+                    int marterialD = rs.getInt("marterialID");
+                    String materialName = rs.getString("materialName");
+                    double valueLevel = rs.getDouble("valueLevel");
+                    
+                    InteriorDetailsDTO dto = new InteriorDetailsDTO(interiorID, interiorName, size, 0, mass, unitPrice, description, image, 0, createAt, updateAt, status, marterialD, materialName, valueLevel, 0, 0.0);
+                    list.add(dto);
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(rs != null) rs.close();
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return list;
+    }
+    
+    public InteriorDetailsDTO getInteriorByID(int interiorID) throws SQLException{
+        InteriorDetailsDTO dto = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try{
+            con = DBUtils.makeConnection();
+            if(con != null){
+                String sql = "SELECT Interior.interiorID, Interior.interiorName, Interior.size, Interior.mass, Interior.unitPrice, Interior.description, Interior.image, " +
+                             "Interior.createAt, Interior.updateAt, Interior.status, Interior.marterialID, Material.materialName, Material.valueLevel " +
+                             "FROM Interior " +
+                             "INNER JOIN Material ON Interior.marterialID = Material.materialID " +
+                             "WHERE Interior.interiorID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, interiorID);
+                rs = stm.executeQuery();
+                if(rs.next()){
+                    String interiorName = rs.getString("interiorName");
+                    int size = rs.getInt("size");
+                    double mass = rs.getDouble("mass");
+                    double unitPrice = rs.getDouble("unitPrice");
+                    String description = rs.getString("description");
+                    String image = rs.getString("image");
+                    Timestamp createAt = rs.getTimestamp("createAt");
+                    Timestamp updateAt = rs.getTimestamp("updateAt");
+                    int status = rs.getInt("status");
+                    int marterialD = rs.getInt("marterialID");
+                    String materialName = rs.getString("materialName");
+                    double valueLevel = rs.getDouble("valueLevel");
+                    dto = new InteriorDetailsDTO(interiorID, interiorName, size, 0, mass, unitPrice, description, image, 0, createAt, updateAt, status, marterialD, materialName, valueLevel, 1, 0.0);
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(rs != null) rs.close();
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return dto;
     }
 }

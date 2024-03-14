@@ -4,6 +4,7 @@
     Author     : cdkhu
 --%>
 
+<%@page import="interior.InteriorErrorDTO"%>
 <%@page import="material.MaterialErrorDTO"%>
 <%@page import="material.MaterialDTO"%>
 <%@page import="java.util.List"%>
@@ -234,7 +235,7 @@
                                     <div class="page-breadcrumb">
                                         <nav aria-label="breadcrumb">
                                             <ol class="breadcrumb">
-                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Detail Material</a></li>
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Detail Interior</a></li>
                                             </ol>
                                         </nav>
                                     </div>
@@ -273,68 +274,140 @@
                                     <div class="card-body p-0">
                                         <div class="table-responsive">
                                             <%
-                                                MaterialDTO material = (MaterialDTO) request.getAttribute("MATERIAL_DETAIL");
+                                                InteriorDTO interior = (InteriorDTO) request.getAttribute("INTERIOR_DETAIL");
+                                                InteriorErrorDTO errors = (InteriorErrorDTO) request.getAttribute("DETAIL_INTERIOR_ERROR");
+                                                if (errors != null) {
+                                                    if (errors.getInteriorExisted() != "") {
                                             %>
+                                            <p class="text-center text-danger"><%= errors.getInteriorExisted()%></p>
+                                            <%
+                                                    }
+                                                }
+                                            %>  
                                             <form action="MainController" method="POST">
-                                                <h4 class="card-header">Material Name:</h4>
+
+                                                <h4 class="card-header">Interior Name:</h4>
                                                 <%
-                                                    if (material != null) {
+                                                    if (interior != null) {
                                                 %>
-                                                <input type="hidden" name="materialID" value="<%= material.getMaterialID()%>"/>
-                                                <input type="text" name="materialName" value="<%= material.getMaterialName()%>" class="form-control border-0" placeholder="Table"/><br>
+                                                <input type="hidden" name="interiorID" value="<%= interior.getInteriorID()%>"/>
+                                                <input type="text" name="interiorName" value="<%= interior.getInteriorName()%>" class="form-control border-0" placeholder="Table"/><br>
                                                 <%
                                                 } else {
                                                 %>
-                                                <input type="text" name="materialName" value="" class="form-control border-0" placeholder="Table"/><br>
+                                                <input type="text" name="interiorName" value="" class="form-control border-0" placeholder="Table"/><br>
                                                 <%
                                                     }
-                                                    MaterialErrorDTO errors = (MaterialErrorDTO) request.getAttribute("DETAIL_MATERIAL_ERROR");
                                                     if (errors != null) {
-                                                        if (errors.getMaterialNameErr() != "") {
+                                                        if (errors.getInteriorNameErr() != "") {
                                                 %>
-                                                <p class="text-center text-danger"><%= errors.getMaterialNameErr()%></p>
+                                                <p class="text-center text-danger"><%= errors.getInteriorNameErr()%></p>
                                                 <%
                                                         }
                                                     }
                                                 %>
-                                                <h4 class="card-header">Value Level:</h4>
+
+                                                <h4 class="card-header">Size:</h4>
                                                 <%
-                                                    if (material != null) {
+                                                    if (interior != null) {
                                                 %>
-                                                <input type="number" name="valueLevel" step="0.01" value="<%= material.getValueLevel()%>" class="form-control border-0" placeholder="1.5"/><br>
+                                                <input type="number" name="size" value="<%= interior.getSize()%>" class="form-control border-0" placeholder="1"/><br>
                                                 <%
                                                 } else {
                                                 %>
-                                                <input type="number" name="valueLevel" step="0.01" value="" class="form-control border-0" placeholder="1.5"/><br>
+                                                <input type="number" name="size" value="" class="form-control border-0" placeholder="1"/><br>
                                                 <%
                                                     }
                                                     if (errors != null) {
-                                                        if (errors.getValueLevelErr() != "") {
+                                                        if (errors.getSizeErr() != "") {
                                                 %>
-                                                <p class="text-center text-danger"><%= errors.getValueLevelErr()%></p>
+                                                <p class="text-center text-danger"><%= errors.getSizeErr()%></p>
                                                 <%
                                                         }
                                                     }
                                                 %>
+
+                                                <h4 class="card-header">Mass:</h4>
+                                                <%
+                                                    if (interior != null) {
+                                                %>
+                                                <input type="number" name="mass" step="0.01" value="<%= interior.getMass()%>" class="form-control border-0" placeholder="1.5"/><br>
+                                                <%
+                                                } else {
+                                                %>
+                                                <input type="number" name="mass" step="0.01" value="" class="form-control border-0" placeholder="1.5"/><br>
+                                                <%
+                                                    }
+                                                    if (errors != null) {
+                                                        if (errors.getMassErr() != "") {
+                                                %>
+                                                <p class="text-center text-danger"><%= errors.getMassErr()%></p>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
+
+                                                <h4 class="card-header">Unit Price:</h4>
+                                                <%
+                                                    if (interior != null) {
+                                                %>
+                                                <input type="number" name="unitPrice" step="0.01" value="<%= interior.getUnitPrice()%>" class="form-control border-0" placeholder="1.5"/><br>
+                                                <%
+                                                } else {
+                                                %>
+                                                <input type="number" name="unitPrice" step="0.01" value="" class="form-control border-0" placeholder="1.5"/><br>
+                                                <%
+                                                    }
+                                                    if (errors != null) {
+                                                        if (errors.getUnitPriceErr() != "") {
+                                                %>
+                                                <p class="text-center text-danger"><%= errors.getUnitPriceErr()%></p>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
+
                                                 <h4 class="card-header">Description:</h4>
                                                 <%
-                                                    if (material != null) {
+                                                    if (interior != null) {
                                                 %>
-                                                <input type="text" name="desciprtion" value="<%= material.getDesciprtion()%>" class="form-control border-0" placeholder="A table for multi purpose"/><br>
+                                                <input type="text" name="description" value="<%= interior.getDescription()%>" class="form-control border-0" placeholder="A table for multi purpose"/><br>
                                                 <%
                                                 } else {
                                                 %>
-                                                <input type="text" name="desciprtion" value="" class="form-control border-0" placeholder="A table for multi purpose"/><br>
+                                                <input type="text" name="description" value="" class="form-control border-0" placeholder="A table for multi purpose"/><br>
                                                 <%
                                                     }
-                                                    if (material != null && material.getMaterialID() != 0) {
+                                                    if (errors != null) {
+                                                        if (errors.getDescriptionErr() != "") {
+                                                %>
+                                                <p class="text-center text-danger"><%= errors.getDescriptionErr()%></p>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
 
+                                                <h4 class="card-header">Material Name:</h4>
+                                                <select name="materialID">
+                                                    <%
+                                                        List<MaterialDTO> listMaterial = (List<MaterialDTO>) request.getAttribute("MATERIAL_LIST");
+                                                        for (MaterialDTO dto : listMaterial) {
+                                                    %>
+                                                    <option value="<%= dto.getMaterialID()%>">
+                                                        <%= dto.getMaterialName()%>
+                                                    </option>
+                                                    <%
+                                                        }
+                                                    %>
+                                                </select><br>
+                                                <%
+                                                    if (interior != null && interior.getInteriorID() != 0) {
                                                 %>
-                                                <button type="submit" value="Edit Material" name="btnAction" class="btn btn-dark border-0">Update</button>
-                                                <%            
-                                                    } else {
+                                                <button type="submit" value="Edit Interior" name="btnAction" class="btn btn-dark border-0">Update</button>
+                                                <%
+                                                } else {
                                                 %>
-                                                <button type="submit" value="Create Material" name="btnAction" class="btn btn-dark border-0">Create</button>
+                                                <button type="submit" value="Create Interior" name="btnAction" class="btn btn-dark border-0">Create</button>
                                                 <%
                                                     }
                                                 %>
@@ -344,15 +417,7 @@
                                         </div>
 
                                     </div>
-                                    <%
-                                        if (errors != null) {
-                                            if (errors.getMaterialNameExisted() != "") {
-                                    %>
-                                    <p class="text-center text-danger"><%= errors.getMaterialNameExisted()%></p>
-                                    <%
-                                            }
-                                        }
-                                    %>    
+
                                 </div>
                             </div>
 

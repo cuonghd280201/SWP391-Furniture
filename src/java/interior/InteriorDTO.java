@@ -18,6 +18,7 @@ public class InteriorDTO {
     private int unit;
     private double mass;
     private double unitPrice;
+    private double money;
     private String description;
     private String image;
     private int projectID;
@@ -29,13 +30,14 @@ public class InteriorDTO {
     public InteriorDTO() {
     }
 
-    public InteriorDTO(int interiorID, String interiorName, int size, int unit, double mass, double unitPrice, String description, String image, int projectID, Timestamp createAt, Timestamp updateAt, int status, int materialID) {
+    public InteriorDTO(int interiorID, String interiorName, int size, int unit, double mass, double unitPrice, double money, String description, String image, int projectID, Timestamp createAt, Timestamp updateAt, int status, int materialID) {
         this.interiorID = interiorID;
         this.interiorName = interiorName;
         this.size = size;
         this.unit = unit;
         this.mass = mass;
         this.unitPrice = unitPrice;
+        this.money = money;
         this.description = description;
         this.image = image;
         this.projectID = projectID;
@@ -93,6 +95,14 @@ public class InteriorDTO {
         this.unitPrice = unitPrice;
     }
 
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -148,5 +158,7 @@ public class InteriorDTO {
     public void setMaterialID(int materialID) {
         this.materialID = materialID;
     }
+
+    
 
 }

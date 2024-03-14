@@ -43,4 +43,81 @@ public class OrderDetailDAO {
         }
         return createStatus;
     }
+    
+    public int changeOrderDetailStatus(int projectID, int status) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int updateStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "UPDATE OrderDetail SET status = ? WHERE projectID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, status);
+                stm.setInt(2, projectID);
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    updateStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return updateStatus;
+    }
+    
+    public int changeOrderDetailQuantity(int projectID, int interiorID, int quantity) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int updateStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "UPDATE OrderDetail SET interiorQuantity = ? WHERE projectID = ? AND interiorID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, quantity);
+                stm.setInt(2, projectID);
+                stm.setInt(3, interiorID);
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    updateStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return updateStatus;
+    }
+    
+    public int removeOrderDetailInterior(int projectID, int interiorID) throws SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int updateStatus = 0;
+        try{
+            con = DBUtils.getConnection();
+            if(con != null){
+                String sql = "UPDATE OrderDetail SET status = ? WHERE projectID = ? AND interiorID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, 0);
+                stm.setInt(2, projectID);
+                stm.setInt(3, interiorID);
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    updateStatus = 1;
+                }
+            }
+        }catch(Exception e){
+            
+        }finally{
+            if(stm != null) stm.close();
+            if(con != null) con.close();
+        }
+        return updateStatus;
+    }
 }
