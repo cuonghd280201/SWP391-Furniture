@@ -40,7 +40,7 @@ public class ProjectDAO {
                     String projectName = rs.getString("projectName");
                     String scale = rs.getString("scale");
                     String description = rs.getString("description");
-                    String image = rs.getString("image");
+//                    String image = rs.getString("image");
                     Timestamp createAt = rs.getTimestamp("createAt");
 //                    Timestamp createAt = Timestamp.valueOf(localdatetime);
                     Timestamp updateAt = rs.getTimestamp("updateAt");
@@ -49,7 +49,7 @@ public class ProjectDAO {
                     int userID = rs.getInt("userID");
                     int projectTypeID = rs.getInt("projectTypeID");
                     
-                    ProjectDTO dto = new ProjectDTO(projectID, projectName, scale, description, image, createAt, updateAt, status, price/100, userID, projectTypeID);
+                    ProjectDTO dto = new ProjectDTO(projectID, projectName, scale, description, createAt, updateAt, status, price/100, userID, projectTypeID);
                     list.add(dto);
                 }
             }
