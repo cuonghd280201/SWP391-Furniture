@@ -46,7 +46,34 @@
 
         <body>
 
-            <div class="dashboard-main-wrapper">
+        <c:if test="${sessionScope.SAVE_NOTI != null}">
+            <%-- Script for displaying SweetAlert2 notification --%>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+            <script>
+                // Function to display SweetAlert2 notification
+                function showNotification(message, type) {
+                    Swal.fire({
+                        icon: type,
+                        title: message,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+
+                // Check if notification attribute is set and call the function
+                var saveNoti = "${sessionScope.SAVE_NOTI}";
+                if (saveNoti && saveNoti === "success") {
+                    showNotification("Inquiry approved Successfully", "success");
+                    // Remove the success notification attribute from the session
+                ${sessionScope.remove("SAVE_NOTI")};
+                } else if (saveNoti && saveNoti === "fail"){
+                    showNotification("Inquiry rejected Successfully", "fail");
+                }
+            </script>
+        </c:if>
+
+
+        <div class="dashboard-main-wrapper">
 
             <%@include file="siderBarStaff.jsp" %>
 

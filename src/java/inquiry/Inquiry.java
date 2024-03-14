@@ -28,6 +28,7 @@ public class Inquiry implements Serializable{
     public int scaleID;
     public int priceRangeID;
     public int projectTypeID;
+    public String rejectionReason;
     public Construction construction;
     public Scale scale;
     public ProjectType projectType;
@@ -52,6 +53,12 @@ public class Inquiry implements Serializable{
         this.inquiryTittle = inquiryTittle;
         this.userDTO = userDTO;
     }
+
+    public Inquiry(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
+    }
+    
+    
 
     public Inquiry() {
     }
@@ -242,5 +249,15 @@ public class Inquiry implements Serializable{
     public void setInquiryTittle(String inquiryTittle) {
         this.inquiryTittle = inquiryTittle;
     }
+
+    public String getRejectionReason() {
+        return rejectionReason;
+    }
+
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
+    }
+    
+    
     
 }

@@ -194,20 +194,45 @@
     <c:import url="adminListConstruction"></c:import>
     <c:import url="DisplayDetailConstruction"></c:import>
         <body>
-            <!-- ============================================================== -->
-            <!-- main wrapper -->
-            <!-- ============================================================== -->
-            <div class="dashboard-main-wrapper">
-                <!-- ============================================================== -->
-                <!-- navbar -->
-                <!-- ============================================================== -->
 
-                <!-- ============================================================== -->
-                <!-- end navbar -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- left sidebar -->
-                <!-- ============================================================== -->
+        <c:if test="${sessionScope.SAVE_NOTI != null}">
+            <%-- Script for displaying SweetAlert2 notification --%>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+            <script>
+                // Function to display SweetAlert2 notification
+                function showNotification(message, type) {
+                    Swal.fire({
+                        icon: type,
+                        title: message,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                }
+
+                // Check if notification attribute is set and call the function
+                var saveNoti = "${sessionScope.SAVE_NOTI}";
+                if (saveNoti && saveNoti === "success") {
+                    showNotification("ReActive Construction  Successfully", "success");
+                    // Remove the success notification attribute from the session
+                ${sessionScope.remove("SAVE_NOTI")};
+                }
+            </script>
+        </c:if>
+
+        <!-- ============================================================== -->
+        <!-- main wrapper -->
+        <!-- ============================================================== -->
+        <div class="dashboard-main-wrapper">
+            <!-- ============================================================== -->
+            <!-- navbar -->
+            <!-- ============================================================== -->
+
+            <!-- ============================================================== -->
+            <!-- end navbar -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- left sidebar -->
+            <!-- ============================================================== -->
             <%@include file="siderBar.jsp" %>
 
             <!-- ============================================================== -->
@@ -265,6 +290,8 @@
                                                         <th class="border-0">Construction ID</th>
                                                         <th class="border-0">Construction Name</th>
                                                         <th class="border-0">Construction Description</th>
+                                                        <th class="border-0">Construction Status</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -273,6 +300,7 @@
                                                             <td>${c.constructionID}</td>
                                                             <td>${c.constructionName}</td>
                                                             <td>${c.constructionDescription}</td>   
+                                                            <td>${c.constructionStatus}</td>   
                                                             <td>
                                                                 <c:url var="edit_construction_url" value="displayDetailConstruction">
                                                                     <c:param name="constructionID" value="${c.constructionID}"/>
@@ -281,11 +309,14 @@
                                                                 <button class="update-btn" onclick="openPopup()"><i class="fas fa-edit"></i></button>
 
 
-                                                                <c:url var="remove_recipe_url" value="deleteConstructionController">
-                                                                    <c:param name="constructionID" value="${c.constructionID}"/>
-                                                                </c:url>
-
-                                                                <button id="approveButton" class="btn btn-primary py-2 px-3 me-2"><i class="fas fa-trash-alt me-2"></i></button>
+                                                                <div class="switch">
+                                                                    <form id="switchForm_${c.constructionID}" action="deleteConstructionController" method="post">
+                                                                        <input type="hidden" name="constructionID" value="${c.constructionID}">
+                                                                        <input type="hidden" name="toggleValue" id="toggleValue_${c.constructionID}" value="${c.constructionStatus ? 'on' : 'off'}">
+                                                                        <input type="checkbox" id="toggle_${c.constructionID}" ${c.constructionStatus ? "checked" : ""} onclick="updateAction(${c.constructionID})">
+                                                                        <label for="toggle_${c.constructionID}"></label>
+                                                                    </form>
+                                                                </div>
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>
@@ -299,21 +330,6 @@
 
                         </div>
 
-                        <div id="deletePopup" class="popup">
-                            <div class="popup-content">
-                                <!-- Content of your popup goes here -->
-                                <h2>Delete Contruction</h2>
-                                <p>Are you sure you want to delete?</p>
-
-                                <div class="confirmation-buttons">
-                                    <button class="update-btn" onclick="confirmDelete()">Yes</button>
-                                    <button class="delete-btn" onclick="closePopup()">No</button>
-                                </div>
-
-                                <span class="close-btn" onclick="closeDeletePopup()">X</span>
-
-                            </div>
-                        </div>
 
                         <div id="updatePopup" class="popup">
                             <div class="popup-content">
@@ -403,17 +419,6 @@
                     </div>
 
 
-                    <div id="approvalModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeModal()">&times;</span>
-                            <p>Do You Want To Delete Construction?</p>
-                            <div class="button-group">
-                                <button class="yes-button" onclick="approve()">Yes</button>
-                                <button class="no-button" onclick="closeModal()">No</button>
-                            </div>
-                        </div>
-                    </div>
-
                     <style>
                         /* Modal styles */
                         .modal {
@@ -490,6 +495,54 @@
                             background-color: #c82333;
                         }
                     </style>
+
+                    <style>
+
+
+                        /* The switch (checkbox input) */
+                        .switch {
+                            position: relative;
+                            display: inline-block;
+                            width: 40px;
+                            height: 20px;
+                        }
+
+                        .switch input {
+                            display: none;
+                        }
+
+                        .switch label {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 40px;
+                            height: 20px;
+                            background-color: #ccc;
+                            border-radius: 20px;
+                            cursor: pointer;
+                        }
+
+                        .switch label:after {
+                            content: '';
+                            position: absolute;
+                            top: 2px;
+                            left: 2px;
+                            width: 16px;
+                            height: 16px;
+                            background-color: #fff;
+                            border-radius: 50%;
+                            transition: 0.3s;
+                        }
+
+                        .switch input:checked + label {
+                            background-color: #4CAF50;
+                        }
+
+                        .switch input:checked + label:after {
+                            transform: translateX(20px);
+                        }
+
+                    </style>
                     <script>
                         // Get the modal
                         var modal = document.getElementById("approvalModal");
@@ -522,6 +575,22 @@
                         // Function to close the modal
                         function closeModal() {
                             modal.style.display = "none";
+                        }
+                    </script>
+
+                    <script>
+                        function updateAction(constructionID) {
+                            var confirmation = confirm("Are you sure you want to remove this construction?");
+                            if (confirmation) {
+                                var form = document.getElementById("switchForm_" + constructionID);
+                                var toggleValue = document.getElementById("toggleValue_" + constructionID);
+                                toggleValue.value = toggleValue.value === "on" ? "off" : "on";
+                                form.submit();
+                            }
+                        }
+                        function showSuccessPopup() {
+                            alert("Account has been successfully deleted.");
+                            // You can customize this to show a more visually appealing popup using libraries like Bootstrap modal
                         }
                     </script>
                     <!-- ============================================================== -->

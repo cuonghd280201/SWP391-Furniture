@@ -9,7 +9,7 @@ document.querySelector('#commentList').addEventListener("click", event => {
         if (isConfirm) {
             //remove comment item on UI
             let item = event.target.parentElement;
-            let commentId = event.target.previousElementSibling.innerHTML;
+            let commentID = event.target.previousElementSibling.innerHTML;
             while (!item.classList.contains("comment-element")) {
                 item = item.parentElement;
             }
@@ -19,7 +19,7 @@ document.querySelector('#commentList').addEventListener("click", event => {
             let total = document.querySelector('.review-number');
             total.innerHTML = parseInt(total.innerHTML) - 1;
             //remove comment item on Database by Ajax
-            deleteComment(commentId);
+            deleteComment(commentID);
         };
     };
 
@@ -28,7 +28,7 @@ document.querySelector('#commentList').addEventListener("click", event => {
         let commentDetail = event.target.previousElementSibling.innerHTML;
         let commentId = event.target.nextElementSibling.innerHTML;
         console.log('commentDetail: ', commentDetail);
-        console.log('commentId: ', commentId);
+        console.log('commentID: ', commentID);
 
         //display popup
         let form = document.querySelector(`.comment-edit-form-${commentId}`);
@@ -55,12 +55,12 @@ document.querySelector('#commentList').addEventListener("click", event => {
 });
 
 //This function to remove comments item on Database by Ajax                            
-function deleteComment(commentId) {
+function deleteComment(commentID) {
     $.ajax({
-        url: "/BakeryRecipe/DeleteCommentController",
+        url: "/FunitureQoute/DeleteCommentController",
         type: "get", //send it through get method
         data: {
-            commentId: commentId
+            commentID: commentID
         },
         success: (response) => {
             console.log(response);

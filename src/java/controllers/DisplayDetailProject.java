@@ -22,6 +22,8 @@ import projects.Project;
 import projects.ProjectFacade;
 import users.UserDTO;
 import utils.AppContants;
+import comments.CommentDAO;
+import comments.CommentDTO;
 
 /**
  *
@@ -57,6 +59,10 @@ public class DisplayDetailProject extends HttpServlet {
             ProjectFacade projectFacade = new ProjectFacade();
             Project projectDTO = projectFacade.getProjectById(projectID);
             request.setAttribute("DETAIL_PROJECT", projectDTO);
+
+            CommentDAO commentDao = new CommentDAO();
+            List<CommentDTO> commentsList = commentDao.getCommentByRecipeId(projectID);
+            request.setAttribute("COMMENTS_LIST", commentsList);
         } catch (SQLException ex) {
             log("DisplayOwnRecipes Controller _ SQL " + ex.getMessage());
         } finally {

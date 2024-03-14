@@ -67,7 +67,9 @@
                 // Check if notification attribute is set and call the function
                 var saveNoti = "${sessionScope.SAVE_NOTI}";
                 if (saveNoti && saveNoti === "success") {
-                    showNotification("Inquiry created successfully", "success");
+                    showNotification("Inquiry Created Successfully", "success");
+                    // Remove the success notification attribute from the session
+                ${sessionScope.remove("SAVE_NOTI")};
                 }
             </script>
         </c:if>

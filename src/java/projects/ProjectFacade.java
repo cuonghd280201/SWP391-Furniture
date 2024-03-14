@@ -14,6 +14,38 @@ import java.util.logging.Logger;
 import images.ImageDTO;
 
 public class ProjectFacade {
+    
+    
+    public boolean addNewView(int recipeId) throws SQLException {
+        boolean result = false;
+        Connection connection = null;
+        PreparedStatement stm = null;
+        try {
+            //1. Get connection
+            connection = DBUtils.getConnection();
+            if (connection != null) {
+                //2. Write SQL String
+                String sql = "UPDATE `bakery_recipe`.`recipe_tbl` SET `view_count` = `view_count` + 1 WHERE (`recipe_id` = ?);";
+                //3. Create statement
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, recipeId);
+                //4. Execute statement
+                int tmp = stm.executeUpdate();
+                //5. Process result
+                if (tmp != 0) {
+                    result = true;
+                }
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return result;
+    }//end addNewView function
 
 
     public Project getProjectById(int projectID) throws SQLException {

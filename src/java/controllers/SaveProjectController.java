@@ -49,7 +49,6 @@ public class SaveProjectController extends HttpServlet {
             String projectName = request.getParameter("projectName");
             String scale = request.getParameter("scale");
             String description = request.getParameter("description");
-            String image = request.getParameter("image");
             String projectTypeID_string = request.getParameter("projectTypeID");
             
             ProjectErrorDTO projectErr = new ProjectErrorDTO();
@@ -87,7 +86,7 @@ public class SaveProjectController extends HttpServlet {
                     if(duplicatedStatus == 0){
                         LocalDateTime localDateTime = LocalDateTime.now();
                         Timestamp createAt = Timestamp.valueOf(localDateTime);
-                        int saveStatus = dao.createProject(projectName, scale, description, image, createAt, 0, userID, projectTypeID);
+                        int saveStatus = dao.createProject(projectName, scale, description, createAt, 0, userID, projectTypeID);
                         int projectID = dao.getCurrentCreatProjectByUserID(userID, projectName);
                         if(projectID != 0){
                             OrderDetailDAO orderDetailDao = new OrderDetailDAO();

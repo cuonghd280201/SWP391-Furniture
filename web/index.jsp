@@ -7,6 +7,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,7 +79,6 @@
         </style>
     </head>
     <c:import url="LoadHomePageController"></c:import>
-s
         <body>
             <div class="container-xxl bg-white p-0">
                 <!-- Spinner Start -->
@@ -570,7 +570,7 @@ s
                 <label>Login connect with your Social Network</label>
                 <div class="login-box-social">
                     <ul>
-                        <li><a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/BakeryRecipe/login-google&response_type=code&client_id=220347070456-brh7fuqartnn99t6prha0o1kcc6rmajr.apps.googleusercontent.com&approval_prompt=force"
+                        <li><a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8084/FunitureQoute/login-google&response_type=code&client_id=771105960880-vmbpn5j0mj84hertafvbdcgdra7qlb0f.apps.googleusercontent.com&approval_prompt=force"
                                class="google"><i class="fab fa-google-plus-g"></i></a></li>
                     </ul>
                 </div>
